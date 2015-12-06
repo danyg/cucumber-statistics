@@ -1,0 +1,28 @@
+{
+  "name": "cucumber-statistics",
+  "version": "0.0.0",
+  "description": "A cucumber standalone tests based statistics server.",
+  "main": "main.js",
+  "scripts": {
+    "test": "grunt test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/danyg/cucumber-statistics.git"
+  },
+  "keywords": [
+    "cucmber",
+    "statistics",
+    "test",
+    "statistics"
+  ],
+  "author": "danyg",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/danyg/cucumber-statistics/issues"
+  },
+  "dependencies": {
+    "express": "~4.13.3",
+    "nedb": "~1.5.0"
+  }
+}
