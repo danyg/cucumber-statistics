@@ -19,7 +19,7 @@ function getScore(doc) {
 function getAvg(doc) {
 	doc.results.reduce(function(score, item, index) {
 		score += item.duration;
-		doc.timeAvg = score / (index+1);
+		doc.timeAvg = Math.round(score / (index+1));
 
 		return score;
 	}, 0);
@@ -64,6 +64,20 @@ Searchable.prototype.getMostTimeConsuming = function(cbk) {
 			}
 		}
 	);
+};
+
+Searchable.prototype.getById = function(id, cbk) {
+	this.model.findOne({
+		_id: id
+	},function(err, doc) {
+		if(err) {
+			cbk(new Error(err));
+		} else {
+			getScore(doc);
+			getAvg(doc);
+			cbk(doc);
+		}
+	});
 };
 
 module.exports = {

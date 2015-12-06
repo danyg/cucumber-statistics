@@ -38,7 +38,7 @@ function send201(res){
 	res.status(201).end();
 }
 
-app.use(bodyParser.json());
+app.use(bodyParser.json({limit: '50mb'}));
 
 app.put('/set/:buildName/:buildId', function(req, res, next) {
 

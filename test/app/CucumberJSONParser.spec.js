@@ -22,6 +22,17 @@ function assertUpdate(actualArgs) {
 	}
 }
 
+function assertUpdateLazy(actualArgs) {
+	var args = Array.prototype.slice.call(arguments, 1);
+
+	for(var i = 0; i < args.length; i++) {
+		if(i === 1) {
+			args[i].$set.steps = actualArgs[i].$set.steps;
+		}
+		expect(actualArgs[i]).toEqual(args[i], 'args[' + i + '] doesn\'t match');
+	}
+}
+
 describe('CucumberJSONParser', function() {
 
 	beforeEach(function() {
@@ -59,7 +70,39 @@ describe('CucumberJSONParser', function() {
 			},
 			{
 				$set: {
-					name: 'Scenario 1'
+					name: 'Scenario 1',
+					steps: [
+						{
+							name: 'Setup.setup()',
+							id: 'Setup.setup()',
+							keyword: '',
+							status: 'passed'
+						},
+						{
+							name: 'the user is logged in the application',
+							id: 'LoginSteps.login()',
+							keyword: 'Given ',
+							status: 'passed'
+						},
+						{
+							name: 'the user interact with the application',
+							id: 'Interaction.play()',
+							keyword: 'When ',
+							status: 'passed'
+						},
+						{
+							name: 'the user is amazed with the application',
+							id: 'Interaction.amazed()',
+							keyword: 'Then ',
+							status: 'passed'
+						},
+						{
+							name: 'Setup.tearDown()',
+							id: 'Setup.tearDown()',
+							keyword: '',
+							status: 'passed'
+						}
+					]
 				},
 				$push: {
 					results: {
@@ -84,7 +127,7 @@ describe('CucumberJSONParser', function() {
 			},
 			{
 				$addToSet: {
-					name: ''
+					name: 'Setup.setup()'
 				},
 				$push: {
 					results: {
@@ -172,7 +215,7 @@ describe('CucumberJSONParser', function() {
 			},
 			{
 				$addToSet: {
-					name: ''
+					name: 'Setup.tearDown()'
 				},
 				$push: {
 					results: {
@@ -187,7 +230,7 @@ describe('CucumberJSONParser', function() {
 		);
 
 		// SCENARIO 2 UPSERT
-		assertUpdate(
+		assertUpdateLazy(
 			this.scenarioUpdateStub.getCall(1).args,
 			{
 				_id: 'scenario-2'
@@ -195,6 +238,7 @@ describe('CucumberJSONParser', function() {
 			{
 				$set: {
 					name: 'Scenario 2',
+
 				},
 				$push: {
 					results: {
@@ -212,7 +256,7 @@ describe('CucumberJSONParser', function() {
 		);
 
 		// SCENARIO 3 UPSERT
-		assertUpdate(
+		assertUpdateLazy(
 			this.scenarioUpdateStub.getCall(2).args,
 			{
 				_id: 'scenario-3'
