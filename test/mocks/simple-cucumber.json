@@ -1,0 +1,181 @@
+[
+	{
+		"id": "feature",
+		"elements": [
+			{
+				"id": "scenario-1",
+				"name": "Scenario 1",
+				"before": [
+					{
+						"result": {
+							"duration": 1000000000,
+							"status": "passed"
+						},
+						"match": {
+							"location": "Setup.setup()"
+						}
+					}
+				],
+				"steps": [
+					{
+						"result": {
+							"duration": 5000000000,
+							"status": "passed"
+						},
+						"name": "the user is logged in the application",
+						"match": {
+							"location": "LoginSteps.login()"
+						}
+					},
+					{
+						"result": {
+							"duration": 1000000000,
+							"status": "passed"
+						},
+						"name": "the user interact with the application",
+						"match": {
+							"location": "Interaction.play()"
+						}
+					},
+					{
+						"result": {
+							"duration": 2000000000,
+							"status": "passed"
+						},
+						"name": "the user is amazed with the application",
+						"match": {
+							"location": "Interaction.amazed()"
+						}
+					}
+				],
+				"after": [
+					{
+						"result": {
+							"duration": 1000000000,
+							"status": "passed"
+						},
+						"match": {
+							"location": "Setup.tearDown()"
+						}
+					}
+				]
+			},
+			{
+				"id": "scenario-2",
+				"name": "Scenario 2",
+				"before": [
+					{
+						"result": {
+							"duration": 1000000000,
+							"status": "passed"
+						},
+						"match": {
+							"location": "Setup.setup()"
+						}
+					}
+				],
+				"steps": [
+					{
+						"result": {
+							"duration": 5000000000,
+							"status": "passed"
+						},
+						"name": "the user is logged in the application",
+						"match": {
+							"location": "LoginSteps.login()"
+						}
+					},
+					{
+						"result": {
+							"duration": 1000000000,
+							"status": "passed"
+						},
+						"name": "the user interact with the application",
+						"match": {
+							"location": "Interaction.play()"
+						}
+					},
+					{
+						"result": {
+							"duration": 4000000000,
+							"status": "failed"
+						},
+						"name": "the user send the proper information",
+						"match": {
+							"location": "Interaction.sendinfo()"
+						}
+					}
+				],
+				"after": [
+					{
+						"result": {
+							"duration": 1000000000,
+							"status": "passed"
+						},
+						"match": {
+							"location": "Setup.tearDown()"
+						}
+					}
+				]
+			},
+			{
+				"id": "scenario-3",
+				"name": "Scenario 3",
+				"before": [
+					{
+						"result": {
+							"duration": 1000000000,
+							"status": "passed"
+						},
+						"match": {
+							"location": "Setup.setup()"
+						}
+					}
+				],
+				"steps": [
+					{
+						"result": {
+							"duration": 2000000000,
+							"status": "passed"
+						},
+						"name": "the user is logged in the application",
+						"match": {
+							"location": "LoginSteps.login()"
+						}
+					},
+					{
+						"result": {
+							"duration": 1000000000,
+							"status": "failed"
+						},
+						"name": "the user interact with the application",
+						"match": {
+							"location": "Interaction.play()"
+						}
+					},
+					{
+						"result": {
+							"duration": 4000000000,
+							"status": "skipped"
+						},
+						"name": "the user send the proper information",
+						"match": {
+							"location": "Interaction.sendinfo()"
+						}
+					}
+				],
+				"after": [
+					{
+						"result": {
+							"duration": 1000000000,
+							"status": "passed"
+						},
+						"match": {
+							"location": "Setup.tearDown()"
+						}
+					}
+				]
+			}
+		]
+	}
+]
