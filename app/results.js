@@ -64,7 +64,7 @@ Searchable.prototype.getMostTimeConsuming = function(cbk) {
 				cbk(new Error(err));
 			} else {
 				processDocs(docs);
-				cbk(docs.sort(sortByTime));
+				cbk(docs.sort(sortByTime).splice(0,10));
 			}
 		}
 	);
