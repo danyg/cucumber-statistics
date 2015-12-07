@@ -1,0 +1,11 @@
+<div class="panel full">
+	<h2 data-bind="text: title()"></h2>
+
+	<!-- ko widget: { kind:'loading', enable: _isLoading(), hover: true } --><!-- /ko -->
+
+	<ul class="itemised-list scenarios-container" data-bind="foreach: { data: scenarios, as: 'scenario' }">
+		<!-- ko widget: { kind: 'scenario', scenario: scenario, sideValue: $widget._settings.method } -->
+		<!-- /ko -->
+	</ul>
+
+</div>

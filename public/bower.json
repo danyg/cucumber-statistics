@@ -1,0 +1,33 @@
+{
+  "name": "cucumber-statistics-frontend",
+  "homepage": "https://github.com/danyg/cucumber-statistics",
+  "authors": [
+    "danyg <dalgo86@gmail.com>"
+  ],
+  "description": "A cucumber standalone tests based statistics SPA.",
+  "main": "index.html",
+  "moduleType": [],
+  "keywords": [
+    "cucumber",
+    "statistics"
+  ],
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "Durandal": "durandal#~2.1.0",
+    "requirejs": "2.1.11",
+    "jquery": "1.9.1",
+    "knockout.js":"3.1.0"
+  },
+  "resolutions": {
+    "requirejs": "2.1.11",
+    "jquery": "1.9.1"
+  }
+}

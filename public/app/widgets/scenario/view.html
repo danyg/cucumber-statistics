@@ -1,0 +1,30 @@
+<li class="item scenario expandable" data-bind="attr: {id: id}, css: {expanded: expanded()}">
+	<div class="title clearfix" data-bind="click: toggleExpand.bind($widget)">
+		<div class="name" data-bind="text: name()"></div>
+		<!-- ko if: sideValue() === 'stability' -->
+		<div class="stability right" data-bind="text: stabilityLabel()"></div>
+		<!-- /ko -->
+		<!-- ko if: sideValue() === 'time' -->
+		<div class="time right" data-bind="text: timeAvg()"></div>
+		<!-- /ko -->
+	</div>
+	<!-- ko widget: { kind:'loading', enable: _isLoading(), hover: true } --><!-- /ko -->
+
+	<div class="panel" data-bind="css: {hidden: !expanded() }">
+
+		<ul class="description clearfix">
+			<li><strong>Executed: </strong><span data-bind="text: results().length"></span> times</li>
+			<li><strong>Passed: </strong><span data-bind="text: scenario().passed"></span> times</li>
+			<li><strong>Stability: </strong><span data-bind="text: stability()"></span></li>
+			<li><strong>Failed: </strong><span data-bind="text: scenario().failed"></span> times</li>
+			<li><strong>Average Time: </strong><span data-bind="text: timeAvg()"></span></li>
+			<li><strong>Skipped: </strong><span data-bind="text: scenario().skipped"></span> times</li>
+		</ul>
+
+		<ul class="itemised-list steps-container" data-bind="foreach: { data: steps, as: 'step' }">
+			<!-- ko widget: { kind: 'scenarioStep', step: step } -->
+			<!-- /ko -->
+		</ul>
+
+	</div>
+</li>
