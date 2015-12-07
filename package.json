@@ -4,6 +4,7 @@
   "description": "A cucumber standalone tests based statistics server.",
   "main": "main.js",
   "scripts": {
+    "install": "cd public && bower install && cd ..",
     "test": "./node_modules/.bin/jasmine-node --color ./test",
     "autotest": "./node_modules/.bin/jasmine-node --autotest --color ./test"
   },
@@ -12,9 +13,7 @@
     "url": "https://github.com/danyg/cucumber-statistics.git"
   },
   "keywords": [
-    "cucmber",
-    "statistics",
-    "test",
+    "cucumber",
     "statistics"
   ],
   "author": "danyg",

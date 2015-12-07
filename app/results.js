@@ -4,34 +4,36 @@ var scenariosModel = require('./models/scenariosModel'),
 	stepsModel = require('./models/stepsModel')
 ;
 
-function getScore(doc) {
-	doc.results.reduce(function(passed, item, index) {
-		var total = (index+1);
-		passed += (item.status === 'passed' ? 1 : 0);
-		doc.stability = passed / total;
+function processDoc(doc) {
+	var total = doc.results.length;
+	var timeSum = 0;
 
-		return passed;
-	}, 0);
+	doc.passed = 0;
+	doc.failed = 0;
+	doc.skipped = 0;
 
-	return doc.stability;
+	doc.results.forEach(function(item, index) {
+		doc.passed += (item.status === 'passed' ? 1 : 0);
+		doc.failed += (item.status === 'failed' ? 1 : 0);
+		doc.skipped += (item.status === 'skipped' ? 1 : 0);
+
+		timeSum += item.duration;
+		doc.timeAvg = Math.round(timeSum / (index+1));
+
+		doc.stability = doc.passed / total;
+	});
 }
 
-function getAvg(doc) {
-	doc.results.reduce(function(score, item, index) {
-		score += item.duration;
-		doc.timeAvg = Math.round(score / (index+1));
-
-		return score;
-	}, 0);
-	return doc.timeAvg;
+function processDocs(docs) {
+	docs.forEach(processDoc.bind(null));
 }
 
 function sortByMoreFailed(a, b) {
-	return getScore(a) - getScore(b);
+	return a.stability - b.stability;
 }
 
 function sortByTime(a, b) {
-	return getAvg(b) - getAvg(a);
+	return b.timeAvg - a.timeAvg;
 }
 
 function Searchable(model) {
@@ -47,6 +49,7 @@ Searchable.prototype.getMostUnstables = function(cbk) {
 			if(err) {
 				cbk(new Error(err));
 			} else {
+				processDocs(docs);
 				cbk(docs.sort(sortByMoreFailed));
 			}
 		}
@@ -60,6 +63,7 @@ Searchable.prototype.getMostTimeConsuming = function(cbk) {
 			if(err) {
 				cbk(new Error(err));
 			} else {
+				processDocs(docs);
 				cbk(docs.sort(sortByTime));
 			}
 		}
@@ -73,8 +77,7 @@ Searchable.prototype.getById = function(id, cbk) {
 		if(err) {
 			cbk(new Error(err));
 		} else {
-			getScore(doc);
-			getAvg(doc);
+			processDoc(doc);
 			cbk(doc);
 		}
 	});
