@@ -5,6 +5,7 @@
 	transition: opacity 150ms,
 		height 400ms,
 		background-color 150ms,
+		margin 300ms,
 		padding 300ms,
 		width 300ms,
 		height 300ms
@@ -274,7 +275,8 @@ ul.description li {
 }
 
 .main-container >.menu.alone {
-	width: 100%;
+	margin-left: 20%;
+	width: 60%;
 	float: initial;
 }
 
