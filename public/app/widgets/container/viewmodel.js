@@ -2,12 +2,16 @@ define([
 	'knockout',
 	'durandal/system',
 	'jquery',
-	'plugins/http'
+	'plugins/http',
+
+	'nightly/nightly'
 ], function(
 	ko,
 	system,
 	$,
-	http
+	http,
+
+	nightlyController
 ) {
 
 	'use strict';
@@ -35,7 +39,7 @@ define([
 
 	ContainerWidget.prototype._call = function(type, method) {
 		this._isLoading(true);
-		return http.get('/results/' + type + '/' + method)
+		return http.get('/results/' + nightlyController.nightlyId() + '/' + type + '/' + method)
 			.then(
 				this._onData.bind(this),
 				this._onError.bind(this)

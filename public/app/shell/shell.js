@@ -1,12 +1,26 @@
 define([
+	'knockout',
 	'plugins/router',
 	'config/config'
-], function(router, config) {
+], function(
+	ko,
+	router,
+	config
+) {
 
 	'use strict';
 
 	function Shell() {
 		this.router = router;
+		this.isWorkareaHidden = ko.computed(function() {
+			if(!router.activeInstruction()/* || router.isNavigating()*/) {
+				return true;
+			} else {
+				return !!router.activeInstruction().config.home;
+			}
+		});
+
+		// this.isWorkareaHidden = ko.observable(true);
 	}
 
 	Shell.prototype.activate = function() {

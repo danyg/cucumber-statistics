@@ -18,11 +18,11 @@ module.exports = function createDataStore(modelFileName, nightlyId) {
 	assert(nightlyId, 'Trying to create a model for an undefined nightlyId');
 	assert(modelFileName, 'Trying to create a model for an undefined modelFileName');
 
-	if( !modelsByNightlyId.hasOwnProperty(nightlyId) ) {
+	if( !modelsByNightlyId.hasOwnProperty(modelFileName) ) {
 		modelsByNightlyId[modelFileName] = {};
 	}
 
-	if( !modelsByNightlyId.hasOwnProperty(nightlyId) ) {
+	if( !modelsByNightlyId[modelFileName].hasOwnProperty(nightlyId) ) {
 		var nIdPath = sanitize(nightlyId);
 		modelsByNightlyId[modelFileName][nightlyId] = new Datastore({
 			filename: process.cwd() + '/db/' + nIdPath + '/' + modelFileName + '.json',

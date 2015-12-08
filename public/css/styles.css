@@ -2,7 +2,13 @@
 	margin: 0;
 	padding: 0;
 
-	transition: opacity 150ms, height 400ms, background-color 150ms, padding 300ms;
+	transition: opacity 150ms,
+		height 400ms,
+		background-color 150ms,
+		padding 300ms,
+		width 300ms,
+		height 300ms
+	;
 }
 
 html, body {
@@ -33,6 +39,16 @@ h1, h2, h3, h4, h5, h6 {
 * html .clearfix { height: 1%; }
 .clearfix { display: block; }
 /* close commented backslash hack */
+
+.error-message {
+	padding: 12px 6px;
+	background-color: #D98B89;
+	color: #222;
+	font-size: 1.2em;
+	margin-bottom: 12px;
+	border-radius: 12px;
+	box-shadow: 0px 0px 10px rgba(0,0,0,.3);
+}
 
 .item {
 	background-color: #ddd;
@@ -83,6 +99,52 @@ h1, h2, h3, h4, h5, h6 {
 .item .itemised-list {
 	clear: both;
 	float: initial;
+}
+
+.item.nightly {
+	background: #00A818;
+	border-radius: 12px;
+	margin-bottom: 4px;
+
+	position: relative;
+	top: 0px;
+	left: 0px;
+	transition: font-size 300ms, box-shadow 600ms, top 300ms, left 300ms;
+}
+
+.item.nightly:hover {
+	position: relative;
+	top: -0.25em;
+	left: -0.25em;
+	box-shadow: 5px 5px 15px rgba(0,0,0,.6);
+	transition: box-shadow 300ms, top 300ms, left 300ms;
+}
+
+.item.nightly.active {
+	box-shadow: inset 0px 0px 15px #fff;
+}
+.item.nightly:hover.active {
+	box-shadow: inset 0px 0px 15px #fff;
+	top: 0px;
+	left: 0px;
+}
+
+.item.nightly a {
+	color: #fff;
+	line-height: 2em;
+	display: block;
+    text-decoration: none;
+}
+.item.nightly a:before {
+	content: " ";
+	background-image: url('cucumber-mark-white.svg');
+	width: 0.84em;
+	height: 1em;
+	display: inline-block;
+	float: left;
+	margin: 4px .25em 0px 5px;
+	background-size: 100% 100%;
+	font-size: 1.85em;
 }
 
 .item .right,
@@ -202,11 +264,33 @@ ul.description li {
 	}
 }
 
+.main-container >.menu {
+	float: left;
+	width: 15%;
+}
 
+.main-container >.menu .nightlies-container {
+	font-size: 1em;
+}
+
+.main-container >.menu.alone {
+	width: 100%;
+	float: initial;
+}
+
+.main-container >.menu.alone .nightlies-container {
+	font-size: 1.5em;
+}
+
+.main-container >.container {
+	float: right;
+	width: 84%;
+}
 
 .hidden {
 	opacity: 0 !important;
 	height: 0px !important;
+	width: 0px !important;
 	overflow: hidden !important;
 	padding: 0px !important;
 	margin: 0px !important;

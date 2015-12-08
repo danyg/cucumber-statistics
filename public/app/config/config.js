@@ -8,7 +8,14 @@ define([], function() {
 				route: '',
 				title: 'Home',
 				moduleId: 'home/home',
-				nav: true
+				nav: true,
+				home: true
+			},
+			{
+				route: 'nightly/:id',
+				title: 'Nightly ',
+				moduleId: 'nightly/nightly',
+				nav: false
 			}
 		]
 	};

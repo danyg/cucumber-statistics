@@ -1,19 +1,16 @@
 <div id="home">
 
-	<!-- ko widget: {
-		kind: 'container',
-		title: 'Most unstables scenarios',
-		type: 'scenarios',
-		method: 'getMostUnstables',
-	} -->
-	<!-- /ko -->
+	<div class="error-message" data-bind="css: {hidden: errorMsg() === ''}, text: errorMsg()"></div>
 
-	<!-- ko widget: {
-		kind: 'container',
-		title: 'Most time consuming scenarios',
-		type: 'scenarios',
-		method: 'getMostTimeConsuming',
-	} -->
-	<!-- /ko -->
+	<div class="panel full" data-bind="css: {hidden: errorMsg() !== ''}">
+		<h2>Nightlies</h2>
 
+		<ul class="itemised-list nightlies-container" data-bind="foreach: { data: nightlies, as: 'name' }">
+			<li class="item nightly" data-bind="css: {active: $root.isRouteActive.call($root, 'nightly/'+name) }">
+				<a data-bind="attr: {href: '#nightly/' + name}">
+					<span class="name" data-bind="text: name"></span>
+				</a>
+			</li>
+		</ul>
+	</div>
 </div>

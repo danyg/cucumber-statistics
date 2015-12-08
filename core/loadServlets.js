@@ -7,7 +7,7 @@ var fs = require('fs'),
 
 module.exports = function loadServlets(dirPath){
 	var toReturn = [];
-	if (fs.existsSync(dirPath)) {
+	if (fs.statSync(dirPath).isDirectory()) {
 
 		var servletsFiles = fs.readdirSync(dirPath);
 
