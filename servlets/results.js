@@ -1,6 +1,7 @@
 'use strict';
 
 var Servlet = require('../core/Servlet'),
+	restResponses = require('../core/servletRestResponses'),
 	results = require('../app/results'),
 
 	bodyParser = require('body-parser'),
@@ -13,75 +14,56 @@ app.use(bodyParser.json());
 
 var accepted = Object.keys(results.implementations);
 
-function return500(res, data){
-	res
-		.status(500)
-		.json({
-			error: [
-				{
-					code: 'internal.exception',
-					description: data.message
-				}
-			]
-		})
-	;
-}
-
-function defaultCallback(res, next, data) {
+function defaultDBDocumentHandler(res, next, data) {
 	if(data instanceof Error) {
-		return500(res, data);
+		restResponses.error500(res, data);
 	} else {
-
-		res
-			.status(200)
-			.json(data)
-		;
+		restResponses.ok200(res, data);
 	}
 
 	next();
 }
 
-function defaultHandler (methodName, req, res, next) {
+function defaultRequestHandler (methodName, req, res, next) {
 	var type = req.params.type;
+	var nightlyId = req.params.nightlyId;
+
 
 	if(accepted.indexOf(type) !== -1) {
-		var args = [];
-		if(!!req.params.id) {
-			args.push(req.params.id);
-		}
-		args.push(defaultCallback.bind(app, res, next));
-
 		try {
+			var Ctor = results.implementations[type],
+				impl = new Ctor(nightlyId),
+				args = []
+			;
 
-			results.implementations[type][methodName].apply(
+			if(!!req.params.id) {
+				args.push(req.params.id);
+			}
+			args.push(defaultDBDocumentHandler.bind(app, res, next));
+
+			impl[methodName].apply(
 				results.implementations[type],
 				args
 			);
 
 		} catch(e) {
-			return500(res, e);
+			restResponses.error500(res, e);
 		}
 
 	} else {
-		res.status(404).json({
-			error: [
-				{
-					code: 'unrecognized.type',
-					description: type
-				}
-			]
-		});
+		restResponses.error404(res, type);
 		next();
 	}
 }
 
-var methods = Object.keys(results.Searchable.prototype);
+var methods = Object.keys(results.iface.prototype);
+var BASE_MATCHER = '/:nightlyId/:type/';
 
 methods.forEach(function(methodName) {
 	if(methodName.indexOf('getBy') !== -1) {
-		app.get('/:type/' + methodName + '/:id', defaultHandler.bind(app, methodName));
+		app.get(BASE_MATCHER + methodName + '/:id', defaultRequestHandler.bind(app, methodName));
 	} else {
-		app.get('/:type/' + methodName, defaultHandler.bind(app, methodName));
+		app.get(BASE_MATCHER + methodName, defaultRequestHandler.bind(app, methodName));
 	}
 });
 

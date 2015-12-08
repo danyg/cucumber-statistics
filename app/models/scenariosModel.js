@@ -1,12 +1,11 @@
 'use strict';
 
-console.log('CREATING DB: ', process.cwd() + '/db/scenarios.json');
+var modelFactory = require('../modelsHandlers/modelFactory');
 
-var Datastore = require('nedb'),
-	db = new Datastore({
-		filename: process.cwd() + '/db/scenarios.json',
-		autoload: true
-	})
-;
-
-module.exports = db;
+/**
+ * Creates a scenarios DataSource for given nightlyId
+ * name scenariosDataStoreFactory
+ * @param {String} nightlyId nightlyId in nightlies Model
+ * @type {[type]}
+ */
+module.exports = modelFactory.bind(global, 'scenarios');

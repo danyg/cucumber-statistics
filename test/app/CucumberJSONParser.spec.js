@@ -1,18 +1,42 @@
 'use strict';
-var BASE = require('path').resolve(__dirname + '/../..');
+var BASE = require('path').resolve(__dirname + '/../..'),
+	sinon = require('sinon'),
+	proxyquire = require('proxyquire').noCallThru()
+;
+
+var scenariosModel = {
+		update: sinon.stub()
+	},
+	stepsModel = {
+		update: sinon.stub()
+	},
+	factories = {
+		scenariosModelFactory: function() {
+			return scenariosModel;
+		},
+		stepsModelFactory: function() {
+			return stepsModel;
+		}
+	}
+;
+sinon.spy(factories, 'scenariosModelFactory');
+sinon.spy(factories, 'stepsModelFactory');
+
+var mocks = {};
+mocks['./models/scenariosModel'] = factories.scenariosModelFactory;
+mocks['./models/stepsModel'] = factories.stepsModelFactory;
+
+proxyquire(BASE + '/app/CucumberJSONParser', mocks);
 
 var fs = require('fs'),
-
 	CucumberJSONParser = require(BASE + '/app/CucumberJSONParser'),
-
-	scenariosModel = require(BASE + '/app/models/scenariosModel'),
-	stepsModel = require(BASE + '/app/models/stepsModel'),
-
-	sinon = require('sinon'),
-
+	// scenariosModel = require(BASE + '/app/models/scenariosModel'),
+	// stepsModel = require(BASE + '/app/models/stepsModel'),
 	simpleMock = JSON.parse(fs.readFileSync(BASE + '/test/mocks/simple-cucumber.json'))
 	// simpleMock = JSON.parse(fs.readFileSync(BASE + '/test/mocks/cucumber-external-modules.json'))
 ;
+
+
 
 function assertUpdate(actualArgs) {
 	var args = Array.prototype.slice.call(arguments, 1);
@@ -36,16 +60,23 @@ function assertUpdateLazy(actualArgs) {
 describe('CucumberJSONParser', function() {
 
 	beforeEach(function() {
-		this.scenarioUpdateStub = sinon.stub(scenariosModel, 'update');
-		this.stepUpdateStub = sinon.stub(stepsModel, 'update');
+
+
+		this.scenarioUpdateStub = scenariosModel.update;
+		this.stepUpdateStub = stepsModel.update;
 
 		// this.scenarioUpdateStub = sinon.spy(scenariosModel, 'update');
 		// this.stepUpdateStub = sinon.spy(stepsModel, 'update');
 	});
 
 	afterEach(function() {
-		this.scenarioUpdateStub.restore();
-		this.stepUpdateStub.restore();
+		// factories.scenariosModelFactory.restore();
+		// factories.stepsModelFactory.restore();
+		factories.scenariosModelFactory.reset();
+		factories.stepsModelFactory.reset();
+
+		this.scenarioUpdateStub.reset();
+		this.stepUpdateStub.reset();
 	});
 
 	it('has an Public API', function(done) {
@@ -57,10 +88,16 @@ describe('CucumberJSONParser', function() {
 	it('should parse a simple json', function(done) {
 		var testee = new CucumberJSONParser('nightly', '1');
 
-		expect(testee.buildName).toBe('nightly');
+		expect(testee.nighlyId).toBe('nightly');
 		expect(testee.buildId).toBe('1');
 
+		expect(factories.scenariosModelFactory.calledWith('nightly')).toBe(true, 'scenariosDataStoreFactory wasn\'t called properly');
+		expect(factories.stepsModelFactory.calledWith('nightly')).toBe(true, 'stepsDataStoreFactory wasn\'t called properly');
+
 		testee.parse(simpleMock);
+
+		expect(this.scenarioUpdateStub.called).toBe(true, 'scenarioModel.update wasn\'t callled');
+		expect(this.stepUpdateStub.called).toBe(true, 'stepModel.update wasn\'t callled');
 
 		// SCENARIO 1 UPSERT
 		assertUpdate(
@@ -106,7 +143,6 @@ describe('CucumberJSONParser', function() {
 				},
 				$push: {
 					results: {
-						buildName: 'nightly',
 						buildId: '1',
 
 						duration: 10000000000,
@@ -242,7 +278,6 @@ describe('CucumberJSONParser', function() {
 				},
 				$push: {
 					results: {
-						buildName: 'nightly',
 						buildId: '1',
 
 						duration: 12000000000,
@@ -267,7 +302,6 @@ describe('CucumberJSONParser', function() {
 				},
 				$push: {
 					results: {
-						buildName: 'nightly',
 						buildId: '1',
 
 						duration: 9000000000,

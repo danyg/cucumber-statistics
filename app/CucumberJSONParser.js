@@ -1,16 +1,19 @@
 'use strict';
 
-var scenariosModel = require('./models/scenariosModel'),
-	stepsModel = require('./models/stepsModel'),
+var scenariosDataStoreFactory = require('./models/scenariosModel'),
+	stepsDataStoreFactory = require('./models/stepsModel'),
 
 	PASSED = 'passed',
 	FAILED = 'failed',
 	SKIPPED = 'skipped'
 ;
 
-function CucumberJSONParser(buildName, buildId) {
-	this.buildName = buildName;
+function CucumberJSONParser(nighlyId, buildId) {
+	this.nighlyId = nighlyId;
 	this.buildId = buildId;
+
+	this.scenariosModel = scenariosDataStoreFactory(this.nighlyId);
+	this.stepsModel = stepsDataStoreFactory(this.nighlyId);
 }
 
 CucumberJSONParser.prototype.parse = function(json) {
@@ -28,7 +31,6 @@ CucumberJSONParser.prototype._processFeature = function(feature, index) {
 CucumberJSONParser.prototype._processScenario = function(scenario) {
 	if(!!scenario.steps) {
 		var result = {
-			buildName: this.buildName,
 			buildId: this.buildId,
 
 			steps: [],
@@ -55,7 +57,7 @@ CucumberJSONParser.prototype._processScenario = function(scenario) {
 		var steps = result.steps;
 		delete result.steps;
 
-		scenariosModel.update(
+		this.scenariosModel.update(
 			{
 				_id: scenario.id
 			},
@@ -112,7 +114,7 @@ CucumberJSONParser.prototype._processStep = function(scenarioResult, step) {
 			id: id
 		});
 
-		stepsModel.update(
+		this.stepsModel.update(
 			{
 				_id: id
 			},

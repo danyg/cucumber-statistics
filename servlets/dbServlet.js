@@ -1,57 +1,29 @@
 'use strict';
 
 var Servlet = require('../core/Servlet'),
+	restResponses = require('../core/servletRestResponses'),
 	CucumberJSONParser = require('../app/CucumberJSONParser'),
 
 	bodyParser = require('body-parser'),
 
 	express = require('express'),
-	app = express(),
-	path = require('path')
+	app = express()
 ;
-
-function send405(res){
-	res.status(405).json({
-		error: [
-			{
-				code: 'type.allowed',
-				description: 'Content-type not allowed'
-			}
-		]
-	});
-}
-function send400(res, error){
-	res.status(400).json({
-		error: [
-			{
-				code: 'content.error',
-				description: 'Content received malformed'
-			},
-			{
-				code: 'content.error.description',
-				description: error.message
-			}
-		]
-	});
-}
-function send201(res){
-	res.status(201).end();
-}
 
 app.use(bodyParser.json({limit: '50mb'}));
 
-app.put('/set/:buildName/:buildId', function(req, res, next) {
+app.put('/set/:buildName/:buildId', function(req, res) {
 
 	if(req.is('application/json')) {
 		var parser = new CucumberJSONParser(req.params.buildName, req.params.buildId);
 		try {
 			parser.parse(req.body);
-			send201(res);
+			restResponses.ok201(res);
 		} catch( e ) {
-			send400(res, e);
+			restResponses.error400(res, e.message);
 		}
 	} else {
-		send405(res);
+		restResponses.error405('Content-type not allowed only application/json is accepted');
 	}
 
 });
