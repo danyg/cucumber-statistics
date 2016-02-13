@@ -2,6 +2,7 @@
 
 var scenariosDataStoreFactory = require('./models/scenariosModel'),
 	stepsDataStoreFactory = require('./models/stepsModel'),
+	coreUtils = require('../core/utils'),
 
 	PASSED = 'passed',
 	FAILED = 'failed',
@@ -44,9 +45,11 @@ CucumberJSONParser.prototype._processScenario = function(scenario) {
 			this._concatResults(result, resultBefore);
 		}
 
+		var id = scenario.id;
 		if(!!scenario.steps) {
 			var resultSteps = this._processSteps(scenario.steps);
 			this._concatResults(result, resultSteps);
+			id = this._stepsHash;
 		}
 
 		if(!!scenario.after) {
@@ -59,7 +62,7 @@ CucumberJSONParser.prototype._processScenario = function(scenario) {
 
 		this.scenariosModel.update(
 			{
-				_id: scenario.id
+				_id: id
 			},
 			{
 				$set: {
@@ -93,7 +96,10 @@ CucumberJSONParser.prototype._processSteps = function(steps) {
 		steps: []
 	};
 
+	this._stepsHash = '';
 	steps.forEach(this._processStep.bind(this, scenarioResult));
+	this._stepsHash = 'dG' + coreUtils.sha256(this._stepsHash);
+
 
 	return scenarioResult;
 };
@@ -106,6 +112,8 @@ CucumberJSONParser.prototype._processStep = function(scenarioResult, step) {
 			scenarioResult.status,
 			step.result.status
 		);
+
+		this._stepsHash += id+'-'+step.name+';';
 
 		scenarioResult.steps.push({
 			name: step.name || id,
