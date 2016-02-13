@@ -103,7 +103,7 @@ describe('CucumberJSONParser', function() {
 		assertUpdate(
 			this.scenarioUpdateStub.getCall(0).args,
 			{
-				_id: 'scenario-1'
+				_id: 'dG617cbd12e0422c41da6018fed1926f8fdc27f97ef2a222b550f731113090ff2c'
 			},
 			{
 				$set: {
@@ -269,7 +269,7 @@ describe('CucumberJSONParser', function() {
 		assertUpdateLazy(
 			this.scenarioUpdateStub.getCall(1).args,
 			{
-				_id: 'scenario-2'
+				_id: 'dG70707ce71558486cf341e4c5eaa92731ad154e503e2315ecacaa8c5dfc4d28e7'
 			},
 			{
 				$set: {
@@ -294,7 +294,7 @@ describe('CucumberJSONParser', function() {
 		assertUpdateLazy(
 			this.scenarioUpdateStub.getCall(2).args,
 			{
-				_id: 'scenario-3'
+				_id: 'dG70707ce71558486cf341e4c5eaa92731ad154e503e2315ecacaa8c5dfc4d28e7'
 			},
 			{
 				$set: {
