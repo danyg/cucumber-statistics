@@ -9,6 +9,7 @@ define([
 	'use strict';
 
 	function ScenarioWidget() {
+		var me = this;
 		this.id = ko.observable();
 		this.name = ko.observable();
 		this.sideValue = ko.observable();
@@ -23,6 +24,11 @@ define([
 
 		this._isLoading = ko.observable(false);
 		this.expanded = ko.observable(false);
+		this.status = ko.observable('');
+
+		this.cssClasses = ko.computed(function() {
+			return me.expanded() ? 'expanded ': '' + me.status();
+		});
 	}
 
 	ScenarioWidget.prototype.activate = function(settings) {
@@ -34,6 +40,10 @@ define([
 
 		this.id(scenario._id);
 		this.name(scenario.name);
+		var results = scenario.results.sort(function(a,b){
+			return parseInt(a.buildId, 10) < parseInt(b.buildId, 10);
+		});
+		this.status(results[0].status);
 
 		this.sideValue(
 			this._settings.sideValue === 'getMostTimeConsuming' ? 'time' :

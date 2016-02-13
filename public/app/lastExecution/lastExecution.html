@@ -1,0 +1,21 @@
+<div id="lastExecution">
+
+	<!-- ko widget: { kind:'loading', enable: _isLoading(), hover: true } --><!-- /ko -->
+
+	<!-- ko foreach: { data: nightlies, as: 'nightly' } -->
+		<div class="panel full">
+			<h2 data-bind="text: nightly.name + ' #' + nightly.build"></h2>
+			<ul class="description clearfix">
+				<li>
+					<strong>Last execution: </strong>
+					<span data-bind="text: (new Date(nightly.date)).toLocaleString()"></span>
+				</li>
+			</ul>
+
+			<ul class="itemised-list scenarios-container" data-bind="foreach: { data: nightly.scenarios, as: 'scenario' }">
+				<!-- ko widget: { kind: 'scenario', scenario: scenario, sideValue: 'getMostUnstables' } -->
+				<!-- /ko -->
+			</ul>
+		</div>
+	<!-- /ko -->
+</div>

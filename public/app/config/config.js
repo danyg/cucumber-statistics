@@ -16,6 +16,12 @@ define([], function() {
 				title: 'Nightly ',
 				moduleId: 'nightly/nightly',
 				nav: false
+			},
+			{
+				route: 'lastExecution',
+				title: 'Last Executions ',
+				moduleId: 'lastExecution/lastExecution',
+				nav: false
 			}
 		]
 	};

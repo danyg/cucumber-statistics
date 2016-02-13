@@ -1,4 +1,4 @@
-<li class="item scenario expandable" data-bind="attr: {id: id}, css: {expanded: expanded()}">
+<li class="item scenario expandable" data-bind="attr: {id: id}, css: cssClasses()">
 	<div class="title clearfix" data-bind="click: toggleExpand.bind($widget)">
 		<div class="name" data-bind="text: name()"></div>
 		<!-- ko if: sideValue() === 'stability' -->

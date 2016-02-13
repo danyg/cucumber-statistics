@@ -3,6 +3,7 @@
 var Servlet = require('../core/Servlet'),
 	restResponses = require('../core/servletRestResponses'),
 	CucumberJSONParser = require('../app/CucumberJSONParser'),
+	nightliesModel = require('../app/models/nighltiesModel')(),
 
 	bodyParser = require('body-parser'),
 
@@ -16,6 +17,8 @@ app.put('/set/:buildName/:buildId', function(req, res) {
 
 	if(req.is('application/json')) {
 		var parser = new CucumberJSONParser(req.params.buildName, req.params.buildId);
+		updateNightly(req.params.buildName, req.params.buildId);
+
 		try {
 			parser.parse(req.body);
 			restResponses.ok201(res);
@@ -27,5 +30,23 @@ app.put('/set/:buildName/:buildId', function(req, res) {
 	}
 
 });
+
+function updateNightly(name, buildId) {
+	nightliesModel.update(
+		{
+			_id: name
+		},
+		{
+			$set: {
+				lastBuildId: buildId,
+				lastExecution: Date.now()
+			}
+		},
+		{
+			upsert: true
+		},
+		function(/*numReplaced, newDoc*/) {}
+	);
+}
 
 module.exports = new Servlet('/db', app);

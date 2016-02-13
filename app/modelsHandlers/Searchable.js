@@ -1,6 +1,15 @@
 'use strict';
 
-function processDoc(doc) {
+
+// /////////////////////////////////////////////////////////////////////////////
+//  Serchable Definition
+// /////////////////////////////////////////////////////////////////////////////
+
+function Searchable() {
+
+}
+
+Searchable.processDoc = function(doc) {
 	var total = doc.results.length;
 	var timeSum = 0;
 
@@ -18,27 +27,20 @@ function processDoc(doc) {
 
 		doc.stability = doc.passed / total;
 	});
-}
+};
 
-function processDocs(docs) {
-	docs.forEach(processDoc.bind(null));
-}
+Searchable.processDocs = function(docs) {
+	docs.forEach(Searchable.processDoc.bind(null));
+};
 
-function sortByMoreFailed(a, b) {
+Searchable.sortByMoreFailed = function(a, b) {
 	return a.stability - b.stability;
-}
+};
 
-function sortByTime(a, b) {
+Searchable.sortByTime = function(a, b) {
 	return b.timeAvg - a.timeAvg;
 }
 
-// /////////////////////////////////////////////////////////////////////////////
-//  Serchable Definition
-// /////////////////////////////////////////////////////////////////////////////
-
-function Searchable() {
-
-}
 
 Searchable.prototype.getMostUnstables = function(cbk) {
 	this.model.find(
@@ -49,8 +51,8 @@ Searchable.prototype.getMostUnstables = function(cbk) {
 			if(err) {
 				cbk(new Error(err));
 			} else {
-				processDocs(docs);
-				cbk(docs.sort(sortByMoreFailed));
+				Searchable.processDocs(docs);
+				cbk(docs.sort(Searchable.sortByMoreFailed));
 			}
 		}
 	);
@@ -63,8 +65,8 @@ Searchable.prototype.getMostTimeConsuming = function(cbk) {
 			if(err) {
 				cbk(new Error(err));
 			} else {
-				processDocs(docs);
-				cbk(docs.sort(sortByTime).splice(0,10));
+				Searchable.processDocs(docs);
+				cbk(docs.sort(Searchable.sortByTime).splice(0,10));
 			}
 		}
 	);
@@ -77,7 +79,7 @@ Searchable.prototype.getById = function(id, cbk) {
 		if(err) {
 			cbk(new Error(err));
 		} else {
-			processDoc(doc);
+			Searchable.processDoc(doc);
 			cbk(doc);
 		}
 	});
