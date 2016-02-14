@@ -14,6 +14,9 @@ Cucumber Statistics can be replaced with jenkins plugins with the same propouse,
 if you don't have jenkins or your jenkins server configuration is out of your
 control but not the jobs configuration, then Cucumber Statistics is for you.
 
+## How is it?
+You can see some [Screenshots](http://danyg.github.io/cucumber-statistics/) following the link.
+
 ## How To?
 
 In order to use Cucumber Statistics you will need the following prerequisites
