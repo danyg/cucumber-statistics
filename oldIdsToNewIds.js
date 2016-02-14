@@ -37,14 +37,14 @@ nightlies.forEach(function(nIdPath) {
 			db.find({}, function (err, docs) {
 				if(!err) {
 					docs.forEach(function(scenario) {
-						var scenarioId = scenario._id;
+						var scenarioId = '';
 
 						if(scenarioId.substr(0,2) === 'dG') {
 							return;
 						}
 
 						scenario.steps.forEach(function(step){
-							if(!step.keyword) {
+							if(!step.keyword || !step.name) {
 								return;
 							}
 
@@ -52,7 +52,11 @@ nightlies.forEach(function(nIdPath) {
 
 						});
 
-						scenarioId = coreUtils.sha256(scenarioId);
+						if(!scenarioId) {
+							scenarioId = scenario._id;
+						} else {
+							scenarioId = coreUtils.sha256(scenarioId);
+						}
 						oldScenarios.push(scenario._id);
 						scenario._id = 'dG' + scenarioId;
 						promises.push(pushNewScenario(db, nIdPath, scenario));
