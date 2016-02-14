@@ -51,16 +51,13 @@ define([
 				|| me.userStatus() === 'fix'
 			);
 		});
-		this.visible = ko.computed(function() {
-			var v = me.hidePassed() && me.status() === 'passed' ? false : true;
-			if(v) {
-				v = me._isFixed() ? me.showFixed() : true;
-			}
-			return v;
-		});
+		this.visible = ko.observable(true);
+
+
 	}
 
 	ScenarioWidget.prototype.activate = function(settings) {
+		var me = this;
 		settings.bindingContext.$widget = this;
 
 		this._settings = settings;
@@ -109,6 +106,14 @@ define([
 		if(!!this._settings.onActivate) {
 			this._settings.onActivate(this);
 		}
+
+		this.visible = ko.computed(function() {
+			var v = me.hidePassed() && me.status() === 'passed' ? false : true;
+			if(v) {
+				v = me._isFixed() ? me.showFixed() : true;
+			}
+			return v;
+		});
 
 		return true;
 	};
