@@ -916,3 +916,6 @@ footer a:hover {
   overflow: hidden;
   text-overflow: ellipsis;
 }
+
+
+pre {margin:0; padding: 0;}
