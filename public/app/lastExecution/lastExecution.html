@@ -10,6 +10,10 @@
 					<strong>Last execution: </strong>
 					<span data-bind="text: (new Date(nightly.date)).toLocaleString()"></span>
 				</li>
+				<li>
+					<strong>Build Number: </strong>
+					<span data-bind="text: nightly.build"></span>
+				</li>
 			</ul>
 
 			<ul class="itemised-list scenarios-container" data-bind="foreach: { data: nightly.scenarios, as: 'scenario' }">

@@ -27,6 +27,8 @@
     "nedb": "~1.7.4",
     "body-parser": "~1.14.1",
     "sanitize-filename": "~1.5.3",
-    "q": "~1.4.1"
+    "q": "~1.4.1",
+    "connect-gzip-static": "git+https://github.com/danyg/connect-gzip-static.git",
+    "mkpath": "~1.0.0"
   }
 }

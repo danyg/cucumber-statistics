@@ -1,6 +1,10 @@
 'use strict'
 
-var crypto = require('crypto');
+var crypto = require('crypto'),
+	path = require('path'),
+	fs = require('fs'),
+	mkpath = require('mkpath')
+;
 
 module.exports = {
 
@@ -9,5 +13,9 @@ module.exports = {
 	},
 	sha256: function(data) {
 		return crypto.createHash('sha256').update(data).digest("hex");
+	},
+	mkdir: function(fileName) {
+		var dirname = path.dirname(fileName);
+		return mkpath.sync(dirname);
 	}
 };

@@ -3,6 +3,8 @@
 var scenariosDataStoreFactory = require('./models/scenariosModel'),
 	stepsDataStoreFactory = require('./models/stepsModel'),
 	coreUtils = require('../core/utils'),
+	fs = require('fs'),
+	zlib = require('zlib'),
 
 	PASSED = 'passed',
 	FAILED = 'failed',
@@ -119,7 +121,8 @@ CucumberJSONParser.prototype._processStep = function(scenarioResult, step) {
 			name: step.name || id,
 			status: step.result.status,
 			keyword: step.keyword || '',
-			id: id
+			id: id,
+			extraInfo: this._getStepExtraInfo(step, id)
 		});
 
 		this.stepsModel.update(
@@ -141,6 +144,47 @@ CucumberJSONParser.prototype._processStep = function(scenarioResult, step) {
 		);
 
 	}
+};
+
+CucumberJSONParser.prototype._getStepExtraInfo = function(step, stepId) {
+	var extraInfo = {};
+	var me = this;
+	var root = process.cwd() + '/public';
+	if(!!step.embeddings) {
+		extraInfo.imgs = [];
+
+		step.embeddings.forEach(function(emb) {
+			var ext = '.jpg';
+			if(!!emb.mime_type && emb.mime_type === 'image/png') {
+				var ext = '.png';
+			}
+
+			var fName = '/n_img/' + me.nighlyId + '/' + coreUtils.sha256(emb.data) + ext;
+			coreUtils.mkdir(root + fName);
+
+			var buf = new Buffer(emb.data, 'base64');
+			zlib.gzip(buf, function (_, result) {  // The callback will give you the
+				fs.writeFile(root + fName + '.gz', result, function(err) {
+					if(!!err) {
+						console.error(err);
+					}
+				});
+			});
+
+			extraInfo.imgs.push(fName);
+		});
+	}
+	if(!!step.output) {
+		extraInfo.html = '';
+		step.output.forEach(function(line) {
+			extraInfo.html += line
+				.replace(/\n/g, '<br/>')
+				.replace(/\t/g, '&nbsp;&nbsp;&nbsp;&nbsp;')
+				+ '<br/>'
+			;
+		});
+	}
+	return extraInfo;
 };
 
 CucumberJSONParser.prototype._resolveStatus = function(scenarioStatus, stepStatus) {

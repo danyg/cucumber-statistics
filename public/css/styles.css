@@ -24,17 +24,17 @@ html, body {
 h1, h2, h3, h4, h5, h6 {
 	padding: 12px 6px;
 	color: #00A818;
-	text-shadow: 0px 0px 1px #00A818, 2px 2px 3px #ccc;
+	text-shadow: 0px 0px 1px #00A818/*, 2px 2px 3px #ccc*/;
 }
 
 .clearfix:after {
-     visibility: hidden;
-     display: block;
-     font-size: 0;
-     content: " ";
-     clear: both;
-     height: 0;
-     }
+	visibility: hidden;
+	display: block;
+	font-size: 0;
+	content: " ";
+	clear: both;
+	height: 0;
+}
 .clearfix { display: inline-block; }
 /* start commented backslash hack \*/
 * html .clearfix { height: 1%; }
@@ -169,8 +169,8 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .panel.full {
-	background: #e1e1e1;
-	box-shadow: 0px 0px 5px #222;
+	background: #002200 linear-gradient(to bottom, #224422 0px,#cccccc 10px, #aaa 32px, #668666 36px,#002200 200px);
+	box-shadow: 2px 2px 5px #000;
 }
 
 .panel.full h1,
@@ -195,9 +195,13 @@ ul.description li {
     text-indent: 7px;
 }
 
+ul.image-list {
+	list-style: none;
+}
+
 #applicationHost {
-	height: 100%;
-	background: #e1e1e1;
+	min-height: 100%;
+	background: #222;
 }
 
 #shell {
@@ -312,4 +316,39 @@ ul.description li {
 
 .hidden.no-trans{
 	transition: none !important;
+}
+
+.not-important {
+	opacity: .8;
+}
+.important {
+	opacity: 1;
+}
+
+.with-image {
+	background-image: url('image.gif');
+	background-position: 99% .3em;
+	background-repeat: no-repeat;
+	background-origin: padding-box;
+}
+
+.with-output {
+	background-image: url('information.png');
+	background-position: 99% .3em;
+	background-repeat: no-repeat;
+	background-origin: padding-box;
+}
+
+.with-output,
+.with-image {
+	background-image: url('information.png'), url('image.gif');
+	background-position: 97% .3em, 99% .3em;
+}
+
+.output {
+	background: #222;
+    color: #eee;
+    padding: .5em;
+    overflow: auto;
+    max-height: 20em;
 }
