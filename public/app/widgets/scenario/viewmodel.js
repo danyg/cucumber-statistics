@@ -1,9 +1,15 @@
 define([
 	'knockout',
-	'jquery'
+	'jquery',
+
+	'plugins/http',
+	'nightly/nightly'
 ], function(
 	ko,
-	$
+	$,
+
+	http,
+	nightlyController
 ) {
 
 	'use strict';
@@ -21,13 +27,33 @@ define([
 		this.timeAvg = ko.observable();
 
 		this.scenario = ko.observable();
+		this.showFixed = ko.observable(false);
+		this.hidePassed = ko.observable(false);
 
 		this._isLoading = ko.observable(false);
 		this.expanded = ko.observable(false);
 		this.status = ko.observable('');
+		this.userStatus = ko.observable('');
+
+		this.nightlyId = ko.observable();
 
 		this.cssClasses = ko.computed(function() {
-			return me.expanded() ? 'expanded ': '' + me.status();
+			return (me.expanded() ? 'expanded ': '' + me.status()) + ' marked-as-' + me.userStatus();
+		});
+
+		this._isFixed = ko.computed(function() {
+			return (
+				me.userStatus() === 'auto-fix'
+				|| me.userStatus() === 'fix'
+			);
+		});
+		this.visible = ko.computed(function() {
+			var v = me.hidePassed() && me.status() === 'passed' ? false : true;
+			if(v) {
+				v = me._isFixed() ? me.showFixed() : true;
+			}
+			console.log('VISIBLE? ', v, me.hidePassed(), me.status());
+			return v;
 		});
 	}
 
@@ -38,12 +64,28 @@ define([
 		var scenario = this._settings.scenario;
 		this.scenario(scenario);
 
+		if(!!this._settings.showFixed) {
+			this.showFixed = this._settings.showFixed;
+		}
+		if(!!this._settings.hidePassed) {
+			this.hidePassed = this._settings.hidePassed;
+		}
+
 		this.id(scenario._id);
 		this.name(scenario.name);
-		var results = scenario.results.sort(function(a,b){
-			return parseInt(a.buildId, 10) < parseInt(b.buildId, 10);
-		});
-		this.status(results[0].status);
+
+		if(!!scenario.userStatus) {
+			this.userStatus(scenario.userStatus);
+		} else {
+			this.userStatus('none');
+		}
+
+		this.nightlyId(!!this._settings.nightlyId ?
+			this._settings.nightlyId :
+			nightlyController.nightlyId()
+		);
+
+		this.status(scenario.lastStatus);
 
 		this.sideValue(
 			this._settings.sideValue === 'getMostTimeConsuming' ? 'time' :
@@ -60,6 +102,10 @@ define([
 			this._formatTime(scenario.timeAvg) :
 			null
 		);
+
+		if(!!this._settings.onActivate) {
+			this._settings.onActivate(this);
+		}
 
 		return true;
 	};
@@ -101,6 +147,15 @@ define([
 	ScenarioWidget.prototype._formatTime = function(time) {
 		time = parseFloat(time) / 1000000000.0;
 		return time.toFixed(3) + 's';
+	};
+
+	ScenarioWidget.prototype.markAsFixed = function() {
+		this.toggleExpand();
+		this.userStatus('fix');
+
+		http.post('/results/' + this.nightlyId() + '/scenarios/updateUserStatus/' + this.id(), {
+			'userStatus': 'fix'
+		});
 	};
 
 	return ScenarioWidget;

@@ -16,10 +16,20 @@
 				</li>
 			</ul>
 
-			<ul class="itemised-list scenarios-container" data-bind="foreach: { data: nightly.scenarios, as: 'scenario' }">
-				<!-- ko widget: { kind: 'scenario', scenario: scenario, sideValue: 'getMostUnstables' } -->
-				<!-- /ko -->
-			</ul>
+
+			<!-- ko text: console.log('~~~~~~~~~~~~~ AQUI', nightly) --><!-- /ko -->
+
+			<!-- ko widget: {
+				kind: 'container',
+				title: 'Most unstables scenarios',
+				type: 'scenarios',
+				method: 'getMostUnstables',
+				data: nightly.scenarios,
+				frameless: true,
+				nightlyId: nightly.name
+			} -->
+			<!-- /ko -->
+
 		</div>
 	<!-- /ko -->
 </div>

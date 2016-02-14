@@ -16,6 +16,11 @@ Searchable.processDoc = function(doc) {
 	doc.passed = 0;
 	doc.failed = 0;
 	doc.skipped = 0;
+	doc.lastStatus = 'unknown';
+
+	doc.results = doc.results.sort(function(a , b) {
+		return parseInt(a.buildId, 10) > parseInt(b.buildId, 10);
+	});
 
 	doc.results.forEach(function(item, index) {
 		doc.passed += (item.status === 'passed' ? 1 : 0);
@@ -26,6 +31,7 @@ Searchable.processDoc = function(doc) {
 		doc.timeAvg = Math.round(timeSum / (index+1));
 
 		doc.stability = doc.passed / total;
+		doc.lastStatus = item.status;
 	});
 };
 

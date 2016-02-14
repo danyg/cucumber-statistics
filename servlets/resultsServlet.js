@@ -28,7 +28,6 @@ function defaultRequestHandler (methodName, req, res, next) {
 	var type = req.params.type;
 	var nightlyId = req.params.nightlyId;
 
-
 	if(accepted.indexOf(type) !== -1) {
 		try {
 			var Ctor = results.implementations[type],
@@ -38,6 +37,9 @@ function defaultRequestHandler (methodName, req, res, next) {
 
 			if(!!req.params.id) {
 				args.push(req.params.id);
+			}
+			if(methodName.indexOf('update') === 0) {
+				args.push(req.body);
 			}
 			args.push(defaultDBDocumentHandler.bind(app, res, next));
 
@@ -55,11 +57,16 @@ function defaultRequestHandler (methodName, req, res, next) {
 }
 
 var methods = Object.keys(results.iface.prototype);
+accepted.forEach(function(item) {
+	methods = methods.concat(Object.keys(results.implementations[item].prototype));
+});
 var BASE_MATCHER = '/:nightlyId/:type/';
 
 methods.forEach(function(methodName) {
-	if(methodName.indexOf('getBy') !== -1) {
+	if(methodName.indexOf('getBy') === 0) {
 		app.get(BASE_MATCHER + methodName + '/:id', defaultRequestHandler.bind(app, methodName));
+	} else if(methodName.indexOf('update') === 0) {
+		app.post(BASE_MATCHER + methodName + '/:id', defaultRequestHandler.bind(app, methodName));
 	} else {
 		app.get(BASE_MATCHER + methodName, defaultRequestHandler.bind(app, methodName));
 	}

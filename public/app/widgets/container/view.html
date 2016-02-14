@@ -1,10 +1,30 @@
-<div class="panel full">
-	<h2 data-bind="text: title()"></h2>
+<div class="" data-bind="css: {'panel full': !_frameless()}">
 
-	<!-- ko widget: { kind:'loading', enable: _isLoading(), hover: true } --><!-- /ko -->
+	<!-- ko if: !_frameless() -->
+		<h2 data-bind="text: title()"></h2>
+
+		<!-- ko widget: { kind:'loading', enable: _isLoading(), hover: true } --><!-- /ko -->
+	<!-- /ko -->
+
+	<label class="checkbox">
+		<input type="checkbox" data-bind="checked: hidePassedElements" />
+		Hide passed scenarios (<span data-bind="text: passedScenariosLength()"></span>)
+	</label>
+	<label class="checkbox" data-bind="visible: showCheckbox()">
+		<input type="checkbox" data-bind="checked: showHiddenElements" />
+		Show hidden scenarios (<span data-bind="text: hiddenScenariosLength()"></span>)
+	</label>
 
 	<ul class="itemised-list scenarios-container" data-bind="foreach: { data: scenarios, as: 'scenario' }">
-		<!-- ko widget: { kind: 'scenario', scenario: scenario, sideValue: $widget._settings.method } -->
+		<!-- ko widget: {
+			kind: 'scenario',
+			scenario: scenario,
+			sideValue: $widget._settings.method,
+			showFixed: $widget.showHiddenElements,
+			hidePassed: $widget.hidePassedElements,
+			nightlyId: $widget.nightlyId(),
+			onActivate: $widget.onActivateScenario.bind($widget)
+		} -->
 		<!-- /ko -->
 	</ul>
 

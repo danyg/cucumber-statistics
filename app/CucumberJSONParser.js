@@ -8,7 +8,13 @@ var scenariosDataStoreFactory = require('./models/scenariosModel'),
 
 	PASSED = 'passed',
 	FAILED = 'failed',
-	SKIPPED = 'skipped'
+	SKIPPED = 'skipped',
+
+	STATUS_NONE = 'none',
+	STATUS_FIX = 'fix',
+	STATUS_AUTO_FIX= 'auto-fix',
+	STATUS_RECIDIVIST = 'recidivist',
+	STATUS_AUTO_RECIDIVIST = 'auto-recidivist'
 ;
 
 function CucumberJSONParser(nighlyId, buildId) {
@@ -33,6 +39,7 @@ CucumberJSONParser.prototype._processFeature = function(feature, index) {
 
 CucumberJSONParser.prototype._processScenario = function(scenario) {
 	if(!!scenario.steps) {
+		var me = this;
 		var result = {
 			buildId: this.buildId,
 
@@ -52,6 +59,7 @@ CucumberJSONParser.prototype._processScenario = function(scenario) {
 			var resultSteps = this._processSteps(scenario.steps);
 			this._concatResults(result, resultSteps);
 			id = this._stepsHash;
+			console.log('id', id);
 		}
 
 		if(!!scenario.after) {
@@ -61,28 +69,79 @@ CucumberJSONParser.prototype._processScenario = function(scenario) {
 
 		var steps = result.steps;
 		delete result.steps;
+		delete scenario.id;
 
-		this.scenariosModel.update(
-			{
-				_id: id
-			},
-			{
-				$set: {
-					name: scenario.name,
-					steps: steps
-				},
-				$push: { results: result }
-			},
-			{
-				upsert: true
-			},
-			function(/*numReplaced, newDoc*/) {}
-		);
+		scenario._id = id;
+		scenario.userStatus = STATUS_NONE;
+		scenario.steps = steps;
+
+		console.log('>?id', id);
+		this.scenariosModel.findOne({_id: id}, function(err, oldScenario){
+			// console.log('oldScenario found?',!!oldScenario, !!oldScenario ? oldScenario._id : '');
+			if(!!oldScenario) {
+				scenario.userStatus = me._checkRecidivist(result, oldScenario);
+			}
+
+			me._pushScenario(scenario, steps, result);
+		})
+
 
 	} else {
 		console.warn('Scenario ' + scenario.id + ' doesn\'t have steps');
 	}
 
+};
+
+CucumberJSONParser.prototype._checkRecidivist = function(result, oldScenario) {
+	oldScenario.results = oldScenario.results.sort(function(a,b){
+		return parseInt(a.buildId, 10) > parseInt(b.buildId, 10);
+	});
+	var last5 = oldScenario.results.reduce(function(prev, current, ix){
+		return (ix < 5) ?
+			(prev === FAILED || current.status === FAILED ? FAILED : current.status) :
+			prev
+		;
+	});
+	var wasFailed = oldScenario.results.reduce(function(prev, current, ix){
+		return current.status === FAILED || prev;
+	}, false);
+
+	var status = STATUS_NONE;
+
+	if(last5 === PASSED && result.status === PASSED && wasFailed) {
+		status = STATUS_AUTO_FIX;
+	} else if(!!oldScenario.userStatus && oldScenario.userStatus === STATUS_FIX || oldScenario.userStatus === STATUS_AUTO_FIX ) {
+		if( result.status === FAILED) {
+			status = oldScenario.userStatus === STATUS_AUTO_FIX ?
+				STATUS_AUTO_RECIDIVIST : STATUS_RECIDIVIST
+			;
+		} else {
+			return oldScenario.userStatus;
+		}
+	}
+
+	console.log(oldScenario._id, '--> ', status, '| last5', last5, '| current', result.status, 'wasFailed', wasFailed, 'oldScenario.userStatus', oldScenario.userStatus||'UDEF');
+	return status;
+};
+
+CucumberJSONParser.prototype._pushScenario = function(scenario, steps, result) {
+	this.scenariosModel.update(
+		{
+			_id: scenario._id
+		},
+		{
+			$set: {
+				name: scenario.name,
+				userStatus: scenario.userStatus,
+				steps: steps
+			},
+			$push: { results: result }
+		},
+		{
+			upsert: true
+		},
+		function(/*numReplaced, newDoc*/) {}
+	);
 };
 
 CucumberJSONParser.prototype._concatResults = function(result, stepResults) {

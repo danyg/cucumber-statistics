@@ -352,3 +352,64 @@ ul.image-list {
     overflow: auto;
     max-height: 20em;
 }
+
+button {
+	border-radius: 12px;
+    border: solid 2px #222;
+    padding: 10px;
+    background: linear-gradient(to bottom, #7d7e7d 0%,#0e0e0e 100%);
+    color: #eee;
+    font-weight: bold;
+    margin: 0px 0px 5px;
+    cursor: pointer;
+}
+
+button:hover {
+	background: linear-gradient(to bottom, #b2b2b2 0%,#6e6e6e 100%);
+}
+
+button:active {
+	background: linear-gradient(to bottom, #6e6e6e 0%,#b2b2b2 100%);
+}
+
+button:focus {outline:0;}
+
+button[disabled] {
+	cursor: not-allowed;
+	opacity: .7;
+}
+
+.item.marked-as-auto-fix,
+.item.marked-as-fix {
+	opacity: .6;
+}
+.item.marked-as-auto-fix.expanded ,
+.item.marked-as-fix.expanded  {
+	opacity: 1;
+}
+
+.item.marked-as-auto-recidivist,
+.item.marked-as-recidivist {
+	opacity: 1;
+
+    background-image: url('warning-icon.png');
+    background-position: 4px .3em;
+    background-repeat: no-repeat;
+    background-origin: padding-box;
+    border: solid 2px #ffa500;
+    box-shadow: inset 0px 0px 5px 2px #ffa500;
+}
+
+.item.marked-as-auto-recidivist > .title,
+.item.marked-as-recidivist > .title {
+    padding-left: 23px;
+}
+
+label.checkbox {
+	line-height: 2em;
+	color: #eee;
+}
+label.checkbox input[type="checkbox"] {
+	top: 2px;
+	position: relative;
+}
