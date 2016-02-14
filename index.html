@@ -1,146 +1,182 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <meta charset='utf-8'>
-    <meta http-equiv="X-UA-Compatible" content="chrome=1">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <link href='https://fonts.googleapis.com/css?family=Architects+Daughter' rel='stylesheet' type='text/css'>
-    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
-    <link rel="stylesheet" type="text/css" href="stylesheets/github-light.css" media="screen">
-    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print">
+	<meta charset='utf-8'>
+	<meta http-equiv="X-UA-Compatible" content="chrome=1">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+	<link href='https://fonts.googleapis.com/css?family=Architects+Daughter' rel='stylesheet' type='text/css'>
+	<link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
+	<link rel="stylesheet" type="text/css" href="stylesheets/github-light.css" media="screen">
+	<link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print">
 
-    <!--[if lt IE 9]>
-    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
+	<!-- <script type="text/javascript" src="https://code.jquery.com/jquery-2.2.0.min.js"></script> -->
+	<script type="text/javascript" src="https://code.jquery.com/jquery-1.12.0.min.js"></script>
 
-    <title>Cucumber-statistics by danyg</title>
+	<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.8.2/css/lightbox.css">
+	<!-- <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.8.2/js/lightbox.min.js"></script> -->
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.8.2/js/lightbox.js"></script>
+
+	<script type="text/javascript">
+	$(document).ready(function(){
+		$('.gallery li').each(function(){
+		  var a = $('a', this);
+		  $('<label>')
+			.text(a.attr('data-title'))
+			.appendTo(this)
+		  ;
+		});
+		lightbox.option({
+		  'resizeDuration': 200,
+		  'wrapAround': true
+		});
+		lightbox.init();
+	});
+	</script>
+
+	<!--[if lt IE 9]>
+	<script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+	<![endif]-->
+
+	<title>Cucumber-statistics by danyg</title>
   </head>
 
   <body>
-    <header>
-      <div class="inner">
-        <h1>Cucumber-statistics</h1>
-        <h2>A cucumber standalone tests based statistics server.</h2>
-        <a href="https://github.com/danyg/cucumber-statistics" class="button"><small>View project on</small> GitHub</a>
-      </div>
-    </header>
+	<header>
+	  <div class="inner">
+		<h1>Cucumber-statistics</h1>
+		<h2>A cucumber standalone tests based statistics server.</h2>
+		<a href="https://github.com/danyg/cucumber-statistics" class="button"><small>View project on</small> GitHub</a>
+	  </div>
+	</header>
 
-    <div id="content-wrapper">
-      <div class="inner clearfix">
-        <section id="main-content">
-          <h2>
-<a id="whats-for" class="anchor" href="#whats-for" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Whats for?</h2>
+	<div id="content-wrapper">
+	  <div class="inner clearfix">
+		<section id="main-content">
 
-<p>Cucumber Statistics is a stand alone node server that is able to store information
-about cucumber executions.
-The idea of this project is to simplify the daily work of a person who wants to
-keep tracking of nightly builds of a project.
-Cucumber Statistics provides statistics about the stability of scenarios and
-step definitions for a cucumber test suite. Also provides a easy way to see all
-the failed scenarios the last night when dealing with many nightly builds.
-Cucumber Statistics can be replaced with jenkins plugins with the same propouse,
-if you don't have jenkins or your jenkins server configuration is out of your
-control but not the jobs configuration, then Cucumber Statistics is for you.</p>
+		  <h2>
+			<a id="whats-for" class="anchor" href="#whats-for" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Whats for?</h2>
 
-<h2>
-<a id="how-to" class="anchor" href="#how-to" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>How To?</h2>
+			<p>Cucumber Statistics is a stand alone node server that is able to store information
+			about cucumber executions.
+			The idea of this project is to simplify the daily work of a person who wants to
+			keep tracking of nightly builds of a project.
+			Cucumber Statistics provides statistics about the stability of scenarios and
+			step definitions for a cucumber test suite. Also provides a easy way to see all
+			the failed scenarios the last night when dealing with many nightly builds.
+			Cucumber Statistics can be replaced with jenkins plugins with the same propouse,
+			if you don't have jenkins or your jenkins server configuration is out of your
+			control but not the jobs configuration, then Cucumber Statistics is for you.</p>
 
-<p>In order to use Cucumber Statistics you will need the following prerequisites</p>
+			<h2>
+			<a id="how-is-it" class="anchor" href="#how-is-it" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>How is it?</h2>
 
-<ul>
-<li>A PC with node.js &gt;= 0.12 installed and git(optional).</li>
-<li>Control of the firewall, cucumber-statistics uses the port 9088, to serve the
-web page and the REST service to push and get information of cucumber.</li>
-<li>(optional) be able to inject bash commands or similar in your nightly/automated
-job test process, if you can't you will have to push the data manually.</li>
-</ul>
+			<ul class="gallery clearfix">
+			  <li><a href="images/screenshots/lastexecutions.png" rel="lightbox" data-lightbox="screenshots" data-title="Last Executions, resumee of all the nightlies were ran the previous night."><img src="images/screenshots/lastexecutions.png" alt=""/></a></li>
+			  <li><a href="images/screenshots/markAsFixed.png" rel="lightbox" data-lightbox="screenshots" data-title="Feature mark as fixed / Marks as not fixed yet, with context menu. You can mark a scenario as fixed in order to not see it again in the different views."><img src="images/screenshots/markAsFixed.png" alt=""/></a></li>
+			  <li><a href="images/screenshots/NightlyData.png" rel="lightbox" data-lightbox="screenshots" data-title="You can check nightly by nightly how is the status of it, seeing the stability of each scenario, and also you can see the most time consuming scenarios."><img src="images/screenshots/NightlyData.png" alt=""/></a></li>
+			  <li><a href="images/screenshots/imagesNoutput.png" rel="lightbox" data-lightbox="screenshots" data-title="When a scenario have images or output this will be shown with icons at the right of the step definition. Then you will be able to expand it and see this information."><img src="images/screenshots/imagesNoutput.png" alt=""/></a></li>
+			  <li><a href="images/screenshots/recidivistFeature.png" rel="lightbox" data-lightbox="screenshots" data-title="Recidivist Feature, when a scenario is marked as fixed (by a user or the by the system) and the scneario failed again, it's highlighted."><img src="images/screenshots/recidivistFeature.png" alt=""/></a></li>
+			</ul>
 
-<h3>
-<a id="in-your-server" class="anchor" href="#in-your-server" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>In your server</h3>
+			<h2>
+			<a id="how-to" class="anchor" href="#how-to" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>How To?</h2>
 
-<p>If you don't have git in your server or you don't want to have you can download
-it from github.
-<a href="https://github.com/danyg/cucumber-statistics/archive/master.zip">Download as zip</a>
-or you can use wget...</p>
+			<p>In order to use Cucumber Statistics you will need the following prerequisites</p>
 
-<p><strong>Normal Use</strong></p>
+			<ul>
+			<li>A PC with node.js &gt;= 0.12 installed and git(optional).</li>
+			<li>Control of the firewall, cucumber-statistics uses the port 9088, to serve the
+			web page and the REST service to push and get information of cucumber.</li>
+			<li>(optional) be able to inject bash commands or similar in your nightly/automated
+			job test process, if you can't you will have to push the data manually.</li>
+			</ul>
 
-<pre><code>git clone https://github.com/danyg/cucumber-statistics.git
-npm install
-node main
-</code></pre>
+			<h3>
+			<a id="in-your-server" class="anchor" href="#in-your-server" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>In your server</h3>
 
-<p>Now cucumber-statistics is working (assuming you don't have a firewall need to
-be configured).
-cucumber-statistics will show you all the interfaces available where you can
-reach it when running.</p>
+			<p>If you don't have git in your server or you don't want to have you can download
+			it from github.
+			<a href="https://github.com/danyg/cucumber-statistics/archive/master.zip">Download as zip</a>
+			or you can use wget...</p>
 
-<h3>
-<a id="in-your-ci-job" class="anchor" href="#in-your-ci-job" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>In your CI job</h3>
+			<p><strong>Normal Use</strong></p>
 
-<p>You need to investigate how to add an after build process, and send the
-generated cucumber.json to your server.</p>
+			<pre><code>git clone https://github.com/danyg/cucumber-statistics.git
+			npm install
+			node main
+			</code></pre>
 
-<h4>
-<a id="using-curl" class="anchor" href="#using-curl" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Using curl</h4>
+			<p>Now cucumber-statistics is working (assuming you don't have a firewall need to
+			be configured).
+			cucumber-statistics will show you all the interfaces available where you can
+			reach it when running.</p>
 
-<pre><code>curl -i -X PUT &lt;YOUR_SERVER_URL&gt;:9088/db/set/$BUILD_NAME/$BUILD_NUMBER -H "Content-Type: application/json" --data-binary "@./trunk/myProject/target/cucumber/cucumber.json" &gt;/dev/null 2&gt;&amp;1 | exit 0;
-</code></pre>
+			<h3>
+			<a id="in-your-ci-job" class="anchor" href="#in-your-ci-job" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>In your CI job</h3>
 
-<ul>
-<li>
-<code>&lt;YOUR_SERVER_URL&gt;</code> the ip of your server or a domain if you have one.</li>
-<li>
-<code>$BUILD_NAME</code> is the name of the job in Jenkins, this is really important,
-cucumber-statistics splits the information by BUILD_NAME / Nightly Name / Job
-name / project</li>
-<li>
-<code>$BUILD_NUMBER</code> have to be some consecutive number in each execution.
-Jenkins also provides this environment property.</li>
-<li>
-<code>--data-binary</code> here is where you need to write the path to your
-cucumber.json (if you don't know what or where it is, google for cucumber json
-reports for your cucumber implementation)</li>
-<li>the <code>&gt;/dev/null 2&gt;&amp;1</code> will send stdout and stderr to /dev/null and</li>
-<li>and <code>| exit 0</code> will prevent that any issue sending the file to the server
-could cause a failure in your nightly/automated job.</li>
-</ul>
+			<p>You need to investigate how to add an after build process, and send the
+			generated cucumber.json to your server.</p>
 
-<h3>
-<a id="how-to-stop-it" class="anchor" href="#how-to-stop-it" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>How To stop it?</h3>
+			<h4>
+			<a id="using-curl" class="anchor" href="#using-curl" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Using curl</h4>
 
-<p>You probably don't want to :P.</p>
+			<pre><code>curl -i -X PUT &lt;YOUR_SERVER_URL&gt;:9088/db/set/$BUILD_NAME/$BUILD_NUMBER -H "Content-Type: application/json" --data-binary "@./trunk/myProject/target/cucumber/cucumber.json" &gt;/dev/null 2&gt;&amp;1 | exit 0;
+			</code></pre>
 
-<p>Well for the moment I did't spend many time doing bash script to start / stop
-the server (if you can do it, please share).</p>
+			<ul>
+			<li>
+			<code>&lt;YOUR_SERVER_URL&gt;</code> the ip of your server or a domain if you have one.</li>
+			<li>
+			<code>$BUILD_NAME</code> is the name of the job in Jenkins, this is really important,
+			cucumber-statistics splits the information by BUILD_NAME / Nightly Name / Job
+			name / project</li>
+			<li>
+			<code>$BUILD_NUMBER</code> have to be some consecutive number in each execution.
+			Jenkins also provides this environment property.</li>
+			<li>
+			<code>--data-binary</code> here is where you need to write the path to your
+			cucumber.json (if you don't know what or where it is, google for cucumber json
+			reports for your cucumber implementation)</li>
+			<li>the <code>&gt;/dev/null 2&gt;&amp;1</code> will send stdout and stderr to /dev/null and</li>
+			<li>and <code>| exit 0</code> will prevent that any issue sending the file to the server
+			could cause a failure in your nightly/automated job.</li>
+			</ul>
 
-<p>If you are in linux you can:
-<code>ps -ax | grep node</code> you will see 2 process (among other if the case)
-one is <code>node main</code> and the other something like this
-<code>/usr/local/bin/node ./server</code>.</p>
+			<h3>
+			<a id="how-to-stop-it" class="anchor" href="#how-to-stop-it" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>How To stop it?</h3>
 
-<p>The first one is the watchdog, it's checking if the second one (the actual
-server) is still running, if not it will restart it. So you need to kill first
-the watchdog then the server itself.</p>
-        </section>
+			<p>You probably don't want to :P.</p>
 
-        <aside id="sidebar">
-          <a href="https://github.com/danyg/cucumber-statistics/zipball/master" class="button">
-            <small>Download</small>
-            .zip file
-          </a>
-          <a href="https://github.com/danyg/cucumber-statistics/tarball/master" class="button">
-            <small>Download</small>
-            .tar.gz file
-          </a>
+			<p>Well for the moment I did't spend many time doing bash script to start / stop
+			the server (if you can do it, please share).</p>
 
-          <p class="repo-owner"><a href="https://github.com/danyg/cucumber-statistics"></a> is maintained by <a href="https://github.com/danyg">danyg</a>.</p>
+			<p>If you are in linux you can:
+			<code>ps -ax | grep node</code> you will see 2 process (among other if the case)
+			one is <code>node main</code> and the other something like this
+			<code>/usr/local/bin/node ./server</code>.</p>
 
-          <p>This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the Architect theme by <a href="https://twitter.com/jasonlong">Jason Long</a>.</p>
-        </aside>
-      </div>
-    </div>
+			<p>The first one is the watchdog, it's checking if the second one (the actual
+			server) is still running, if not it will restart it. So you need to kill first
+			the watchdog then the server itself.</p>
+		</section>
 
-  
+		<aside id="sidebar">
+		  <a href="https://github.com/danyg/cucumber-statistics/zipball/master" class="button">
+			<small>Download</small>
+			.zip file
+		  </a>
+		  <a href="https://github.com/danyg/cucumber-statistics/tarball/master" class="button">
+			<small>Download</small>
+			.tar.gz file
+		  </a>
+
+		  <p class="repo-owner"><a href="https://github.com/danyg/cucumber-statistics"></a> is maintained by <a href="https://github.com/danyg">danyg</a>.</p>
+
+		  <p>This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the Architect theme by <a href="https://twitter.com/jasonlong">Jason Long</a>.</p>
+		</aside>
+	  </div>
+	</div>
+
+
   </body>
 </html>

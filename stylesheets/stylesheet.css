@@ -456,7 +456,7 @@ header {
 }
 
 header h1 {
-  width: 540px;
+  width: 730px;
   margin-top: 0;
   margin-bottom: 0.2em;
   font-size: 72px;
@@ -467,7 +467,7 @@ header h1 {
 }
 
 header h2 {
-  width: 540px;
+  width: 730px;
   margin-top: 0;
   margin-bottom: 0;
   font-size: 26px;
@@ -782,7 +782,7 @@ footer a:hover {
     width: 740px;
   }
   header h1, header h2 {
-    width: 340px;
+    width: 538px;
   }
   header h1 {
     font-size: 60px;
@@ -879,3 +879,40 @@ footer a:hover {
 /* Mobile Portrait Size to Mobile Landscape Size (devices and browsers) */
 @media only screen and (max-width: 479px) { }
 
+
+.gallery {
+  list-style: none;
+  position: relative;
+}
+
+.gallery li {
+  position: relative;
+  float: left;
+  width: 30%;
+  box-sizing: border-box;
+  padding: 10px;
+  box-shadow: 2px 2px 5px 2px #444;
+  margin-right: 3.3%;
+  margin-bottom: 30px;
+  max-height: 185px;
+  overflow: hidden;
+}
+.gallery li:last-child {
+  margin-right: 0%;
+}
+
+.gallery li img {
+  padding-bottom: 3.6em;
+}
+
+.gallery li label{
+  display: inline-block;
+  position: absolute;
+  bottom: 10px;
+  left: 10px;
+  margin-right: 10px;
+  max-height: 3.6em;
+  line-height: 1.2em;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
