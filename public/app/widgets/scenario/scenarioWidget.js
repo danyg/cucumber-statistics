@@ -100,7 +100,7 @@ define([
 
 		this.timeAvg(!!scenario.timeAvg ?
 			this._formatTime(scenario.timeAvg) :
-			null
+			'unknown'
 		);
 
 		if(!!this._settings.onActivate) {
@@ -194,6 +194,8 @@ define([
 			} else {
 				layout.addItem('Mark as not fixed yet', this.markAsNone.bind(this));
 			}
+		} else {
+			return false;
 		}
 
 		return layout;

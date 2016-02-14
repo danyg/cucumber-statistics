@@ -75,10 +75,10 @@ define([
 		var y = mouseEvent.clientY;
 		this.right('initial');
 		this.bottom('initial');
-		if(window.innerWidth-600 < x) {
-			if(window.innerWidth-300 < x) {
+		if(window.innerWidth-400 < x) {
+			if(window.innerWidth-200 < x) {
 				x = 'initial';
-				this.right('0px');
+				this.right('5px');
 			}
 			this.rtl(true);
 		} else {
@@ -88,7 +88,7 @@ define([
 		if(window.innerHeight*.6 < y) {
 			if(window.innerHeight*.8 < y) {
 				y = 'initial';
-				this.bottom('0px');
+				this.bottom('5px');
 			}
 		}
 
@@ -110,6 +110,9 @@ define([
 		$(element).on('contextmenu', function(e) {
 			if(!!cbk) {
 				layout = cbk(layout);
+			}
+			if(layout === false) {
+				return true;
 			}
 			me.render(layout);
 			me.open(e);
