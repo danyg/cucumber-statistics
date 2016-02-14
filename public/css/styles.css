@@ -19,12 +19,14 @@ html, body {
 
 	margin: 0;
 	padding: 0;
+	font-family: 'Open Sans', sans-serif;
 }
 
 h1, h2, h3, h4, h5, h6 {
 	padding: 12px 6px;
 	color: #00A818;
 	text-shadow: 0px 0px 1px #00A818/*, 2px 2px 3px #ccc*/;
+	font-family: 'Ubuntu', sans-serif;
 }
 
 .clearfix:after {
@@ -123,7 +125,7 @@ h1, h2, h3, h4, h5, h6 {
 
 .item.nightly.active {
 	box-shadow: inset 0px 0px 15px #fff;
-	background: #009000;
+	background: #7eb5e2;
 }
 .item.nightly:hover.active {
 	box-shadow: inset 0px 0px 15px #fff;
@@ -148,7 +150,7 @@ h1, h2, h3, h4, h5, h6 {
 	background-size: 100% 100%;
 	font-size: 1.85em;
 }
-
+/*
 .item.nightly.last-execution {
 	background: #87CEFA;
 }
@@ -156,7 +158,7 @@ h1, h2, h3, h4, h5, h6 {
 .item.nightly.last-execution.active {
 	background: #7eb5e2;
 }
-
+*/
 .item .right,
 .right {
 	float: right;
@@ -412,4 +414,75 @@ label.checkbox {
 label.checkbox input[type="checkbox"] {
 	top: 2px;
 	position: relative;
+}
+
+#contextMenu {
+
+}
+#contextMenu .context-menu-blockout{
+	position: fixed;
+	top:0;
+	left:0;
+	width: 100%;
+	height: 100%;
+	z-index: 20000;
+}
+
+ul.context-menu-container {
+	list-style: none;
+	background: linear-gradient(to bottom, #7d7e7d 0%,#0e0e0e 100%);
+	color: #eee;
+	padding: 0;
+
+	position: absolute;
+
+	min-width: 120px;
+	max-width: 300px;
+	box-shadow: 4px 4px 8px 0px #000;
+}
+
+ul.context-menu-container li {
+	padding: .5em .5em .3em .5em;
+	cursor: pointer;
+	line-height: 1.2em;
+}
+
+ul.context-menu-container li .name {
+	display: inline-block;
+	max-width: 95%;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	overflow: hidden;
+	line-height: 1.2em;
+}
+
+ul.context-menu-container li:hover {
+	background: linear-gradient(to bottom, #7d7e7d 0%,#0e0e0e 100%);
+	background: linear-gradient(to bottom, #0e0e0e 0%,#7d7e7d 100%);
+}
+
+ul.context-menu-container li.context-menu-submenu {
+	position: relative;
+}
+ul.context-menu-container li.context-menu-submenu:after {
+	display: inline-block;
+	float: right;
+	content: '>';
+}
+
+ul.context-menu-container li.context-menu-submenu > ul {
+	display: none;
+}
+
+ul.context-menu-container li.context-menu-submenu:hover > ul {
+	display: inherit;
+	left: 100%;
+	top: 0;
+}
+
+.context-menu-rtl ul.context-menu-container li.context-menu-submenu:hover > ul {
+	display: inherit;
+	left: inherit;
+	right: 100%;
+	top: 0;
 }

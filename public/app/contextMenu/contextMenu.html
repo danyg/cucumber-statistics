@@ -1,5 +1,14 @@
 <div id="contextMenu">
-	<div class="context-menu-blockout" data-bind="visible: visible">
-		<ul class="context-menu"></ul>
+	<div class="context-menu-blockout" data-bind="visible: visible, css: {'context-menu-rtl': rtl}, click: close.bind($root)">
+		<!-- ko widget: {
+			kind: 'contextMenu/contextMenuAtom',
+			layout: layout(),
+			director: $root,
+			top: top,
+			left: left,
+			right: right,
+			bottom: bottom
+		} -->
+		<!-- /ko -->
 	</div>
 </div>

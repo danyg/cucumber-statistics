@@ -3,13 +3,17 @@ define([
 	'jquery',
 
 	'plugins/http',
-	'nightly/nightly'
+	'nightly/nightly',
+
+	'contextMenu/contextMenu'
 ], function(
 	ko,
 	$,
 
 	http,
-	nightlyController
+	nightlyController,
+
+	contextMenu
 ) {
 
 	'use strict';
@@ -111,6 +115,7 @@ define([
 
 	ScenarioWidget.prototype.attached = function(view) {
 		this.$element = $(view);
+		this._createContextMenu(view);
 	};
 
 	ScenarioWidget.prototype.toggleExpand = function() {
@@ -157,13 +162,37 @@ define([
 	};
 
 	ScenarioWidget.prototype._markAs = function(userStatus) {
-		this.toggleExpand();
+		if(this.expanded()){
+			this.toggleExpand();
+		}
 		this.userStatus(userStatus);
 
 		http.post('/results/' + this.nightlyId() + '/scenarios/updateUserStatus/' + this.id(), {
 			'userStatus': userStatus
 		});
 	};
+
+	ScenarioWidget.prototype._createContextMenu = function(element) {
+		var layout = contextMenu.newLayout();
+
+		contextMenu.bindToElement(element, layout, this._onContextMenu.bind(this));
+	};
+
+	ScenarioWidget.prototype._onContextMenu = function(layout) {
+
+		layout.clearElements();
+
+		if(this.status() !== 'passed') {
+
+			if(!this._isFixed()) {
+				layout.addItem('Mark as fixed', this.markAsFixed.bind(this));
+			} else {
+				layout.addItem('Mark as not fixed yet', this.markAsNone.bind(this));
+			}
+		}
+
+		return layout;
+	}
 
 	return ScenarioWidget;
 });

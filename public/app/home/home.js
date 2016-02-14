@@ -1,11 +1,15 @@
 define([
 	'knockout',
 	'plugins/http',
-	'plugins/router'
+	'plugins/router',
+
+	'contextMenu/contextMenu'
 ], function(
 	ko,
 	http,
-	router
+	router,
+
+	contextMenu
 ) {
 
 	'use strict';
@@ -32,6 +36,10 @@ define([
 		return this.promise;
 	};
 
+	Home.prototype.attached = function(view) {
+		this._createContextMenu('body');
+	};
+
 	Home.prototype._onData = function(data) {
 		this.nightlies(data);
 	};
@@ -43,6 +51,31 @@ define([
 	Home.prototype.isRouteActive = function(fragment) {
 		return this._router.activeInstruction().fragment === fragment;
 	};
+
+	Home.prototype._createContextMenu = function(element) {
+		var layout = contextMenu.newLayout();
+
+		contextMenu.bindToElement(element, layout, this._onContextMenu.bind(this));
+	};
+
+	Home.prototype._onContextMenu = function(layout) {
+		var me = this;
+		layout.clearElements();
+
+		layout.addItem('Last Executions', this._navigate.bind(this, 'lastExecution'));
+
+		this.nightlies().forEach(function(name) {
+			layout.addItem('Check ' + name, me._navigate.bind(me, 'nightly/' + name));
+
+		});
+
+		return layout;
+	}
+
+	Home.prototype._navigate = function(where) {
+		this._router.navigate('#' + where);
+	};
+
 
 	return new Home();
 });

@@ -13,7 +13,8 @@ function(
 		};
 		var tmp = kind.split('/');
 		parts.container = tmp.splice(0,1);
-		parts.subpath = tmp.join('/') + type;
+		var widgetName = tmp.splice(-1,1);
+		parts.subpath = tmp.join('/') + widgetName + '/' + widgetName + type;
 		return parts;
 	}
 

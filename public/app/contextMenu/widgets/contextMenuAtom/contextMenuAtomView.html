@@ -1,0 +1,24 @@
+<ul class="context-menu-container" data-bind="
+	foreach: {data: elements.items, as: 'element'},
+	style: {left: left, top: top, right: right, bottom: bottom}
+">
+
+	<!-- ko if: !!element.items -->
+	<li class="context-menu-item context-menu-submenu">
+		<span class="name" data-bind="text: element.label"></span>
+		<!-- ko widget: {
+			kind: 'contextMenu/contextMenuAtom',
+			layout: element,
+			director: $widget.director
+		} -->
+		<!-- /ko -->
+	</li>
+	<!-- /ko -->
+	<!-- ko if: !element.items -->
+	<li class="context-menu-item" data-bind="
+		click: $widget.clickElement.bind($widget, element);
+	">
+		<span class="name" data-bind="text: element.label"></span>
+	</li>
+	<!-- /ko -->
+</ul>
