@@ -16,5 +16,21 @@ servelets.forEach(function(servelet) {
 });
 
 app.listen(PORT, function() {
-	console.log('cucumber statistics listening in port ' + PORT + ' access: http://localhost:' + PORT + '/');
+
+	var os = require('os'),
+		ifaces = os.networkInterfaces()
+	;
+
+	console.log('cucumber statistics listening in port ' + PORT + ' access:');
+	console.log('\t- http://localhost:' + PORT + '/');
+
+	Object.keys(ifaces).forEach(function (ifname) {
+		ifaces[ifname].forEach(function (iface) {
+			if ('IPv4' !== iface.family || iface.internal !== false) {
+				return;
+			}
+
+			console.log('\t- http://' + iface.address + ':' + PORT +  '/');
+		});
+	});
 });
