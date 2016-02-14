@@ -4,4 +4,5 @@ test/db
 public/bower_components
 public/n_img
 assets
+logs
 

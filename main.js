@@ -1,18 +1,32 @@
 'use strict';
 
-var loadServlets = require('./core/loadServlets'),
-	express = require('express'),
-	app = express(),
-	PORT = 9088
+var fork = require('child_process').fork,
+	server
 ;
 
-var servelets = loadServlets(__dirname + '/servlets');
+function start() {
+	server = fork('./server');
 
-servelets.forEach(function(servelet) {
-	app.use(servelet.getRoute(), servelet.getServlet());
-});
+	server.on('close', function() {
+		stop();
+		console.log('Server disconnected restarting');
+		start();
+	});
 
-app.listen(PORT, function() {
-	console.log('cucumber statistics listening in port ' + PORT + ' access: http://localhost:' + PORT + '/');
-});
+	server.on('disconnect', function() {
+		stop();
+		console.log('Server disconnected restarting');
+		start();
+	});
 
+	server.on('error', function(err) {
+		console.error(err);
+	});
+};
+
+function stop() {
+	server.removeAllListeners();
+	server.kill();
+}
+
+start();

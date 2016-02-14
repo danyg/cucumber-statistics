@@ -19,7 +19,6 @@ app.get('/', function(req, res, next) {
 		.then(processNightlies)
 		.then(function(data) {
 			restResponses.ok200(res, data);
-			next();
 		})
 	;
 

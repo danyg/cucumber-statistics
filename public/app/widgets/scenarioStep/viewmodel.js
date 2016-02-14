@@ -37,8 +37,10 @@ define([
 		this.id(step.id);
 		this.keyword(step.keyword);
 		this.name(step.name);
-		this.output(step.extraInfo.html || '');
-		this.images(step.extraInfo.imgs || []);
+		if(!!step.extraInfo) {
+			this.output(step.extraInfo.html || '');
+			this.images(step.extraInfo.imgs || []);
+		}
 
 		this.status(step.status);
 
