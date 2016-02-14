@@ -120,7 +120,7 @@ CucumberJSONParser.prototype._checkRecidivist = function(result, oldScenario) {
 		}
 	}
 
-	console.log(oldScenario._id, '--> ', status, '| last5', last5, '| current', result.status, 'wasFailed', wasFailed, 'oldScenario.userStatus', oldScenario.userStatus||'UDEF');
+	// console.log(oldScenario._id, '--> ', status, '| last5', last5, '| current', result.status, 'wasFailed', wasFailed, 'oldScenario.userStatus', oldScenario.userStatus||'UDEF');
 	return status;
 };
 
