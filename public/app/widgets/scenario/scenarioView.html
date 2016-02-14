@@ -20,6 +20,13 @@
 				data-bind="click: $widget.markAsFixed.bind($widget)"
 			>Mark as fixed</button>
 			<!-- /ko -->
+			<!-- ko if: _isFixed() && status() !== 'passed' -->
+			<button
+				class="btn-mark-as-not-fixed"
+				title="You mark it as fixed, but it wasn't this one?"
+				data-bind="click: $widget.markAsNone.bind($widget)"
+			>Mark as not fixed yet</button>
+			<!-- /ko -->
 
 			<ul class="description clearfix">
 				<li><strong>Executed: </strong><span data-bind="text: results().length"></span> times</li>

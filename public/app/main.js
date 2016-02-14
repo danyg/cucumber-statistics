@@ -20,8 +20,16 @@
 	define([
 		'durandal/system',
 		'durandal/app',
-		'durandal/viewLocator'
-	], function(system, app, viewLocator) {
+		'durandal/viewLocator',
+
+		'config/widgetConvention'
+	], function(
+		system,
+		app,
+		viewLocator,
+
+		widgetConvention
+	) {
 		app.title = 'Cucumber Statistics';
 
 		system.debug(true);
@@ -34,6 +42,7 @@
 
 		 app.start().then(function() {
 		 	viewLocator.useConvention();
+		 	widgetConvention();
 
 		 	app.setRoot('shell/shell');
 		 });

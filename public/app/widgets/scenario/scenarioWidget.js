@@ -52,7 +52,6 @@ define([
 			if(v) {
 				v = me._isFixed() ? me.showFixed() : true;
 			}
-			console.log('VISIBLE? ', v, me.hidePassed(), me.status());
 			return v;
 		});
 	}
@@ -150,11 +149,19 @@ define([
 	};
 
 	ScenarioWidget.prototype.markAsFixed = function() {
+		this._markAs('fix');
+	};
+
+	ScenarioWidget.prototype.markAsNone = function() {
+		this._markAs('none');
+	};
+
+	ScenarioWidget.prototype._markAs = function(userStatus) {
 		this.toggleExpand();
-		this.userStatus('fix');
+		this.userStatus(userStatus);
 
 		http.post('/results/' + this.nightlyId() + '/scenarios/updateUserStatus/' + this.id(), {
-			'userStatus': 'fix'
+			'userStatus': userStatus
 		});
 	};
 
