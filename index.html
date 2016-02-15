@@ -30,6 +30,13 @@
 		  'wrapAround': true
 		});
 		lightbox.init();
+
+		$('.download').click(function(){
+			 ga('send', 'download');
+		});
+		$('.go-github').click(function(){
+			 ga('send', 'go-github');
+		});
 	});
 	</script>
 
@@ -45,7 +52,7 @@
 	  <div class="inner">
 		<h1>Cucumber-statistics</h1>
 		<h2>A cucumber standalone tests based statistics server.</h2>
-		<a href="https://github.com/danyg/cucumber-statistics" class="button"><small>View project on</small> GitHub</a>
+		<a href="https://github.com/danyg/cucumber-statistics" class="button go-github"><small>View project on</small> GitHub</a>
 	  </div>
 	</header>
 
@@ -164,11 +171,11 @@ node main
 		</section>
 
 		<aside id="sidebar">
-		  <a href="https://github.com/danyg/cucumber-statistics/zipball/master" class="button">
+		  <a href="https://github.com/danyg/cucumber-statistics/zipball/master" class="button download">
 			<small>Download</small>
 			.zip file
 		  </a>
-		  <a href="https://github.com/danyg/cucumber-statistics/tarball/master" class="button">
+		  <a href="https://github.com/danyg/cucumber-statistics/tarball/master" class="button download">
 			<small>Download</small>
 			.tar.gz file
 		  </a>
