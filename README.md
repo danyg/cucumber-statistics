@@ -1,7 +1,7 @@
 Cucumber Statistics
 ===================
 
-## Whats for?
+## What's it for?
 
 Cucumber Statistics is a stand alone node server that is able to store information
 about cucumber executions.
@@ -10,7 +10,7 @@ keep tracking of nightly builds of a project.
 Cucumber Statistics provides statistics about the stability of scenarios and
 step definitions for a cucumber test suite. Also provides a easy way to see all
 the failed scenarios the last night when dealing with many nightly builds.
-Cucumber Statistics can be replaced with jenkins plugins with the same propouse,
+Cucumber Statistics can be replaced with jenkins plugins with the same purpose,
 if you don't have jenkins or your jenkins server configuration is out of your
 control but not the jobs configuration, then Cucumber Statistics is for you.
 
