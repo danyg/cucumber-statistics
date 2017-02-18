@@ -37,7 +37,7 @@ or you can use wget...
 ```
 git clone https://github.com/danyg/cucumber-statistics.git
 npm install
-node main
+node main mongodb
 ```
 
 Now cucumber-statistics is working (assuming you don't have a firewall need to
