@@ -30,6 +30,7 @@
     "q": "~1.4.1",
     "connect-gzip-static": "git+https://github.com/danyg/connect-gzip-static.git",
     "mkpath": "~1.0.0",
-    "express-logger": "0.0.3"
+    "express-logger": "0.0.3",
+    "mongodb": "latest"
   }
 }

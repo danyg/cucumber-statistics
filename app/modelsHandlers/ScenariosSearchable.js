@@ -16,7 +16,7 @@ ScenariosSearchable.prototype.getFailedByBuildId = function(buildId, cbk) {
 	this.model.find({
 		'results.buildId': buildId.toString(),
 		'results.status': 'failed'
-	},function(err, docs) {
+	}).toArray(function(err, docs) {
 		if(err) {
 			cbk(new Error(err));
 		} else {

@@ -22,9 +22,12 @@ define([
 		var me = this;
 		this.id = ko.observable();
 		this.name = ko.observable();
+		this.file = ko.observable();
+		this.fileRaw = ko.observable();
 		this.sideValue = ko.observable();
 		this.steps = ko.observableArray();
 		this.results = ko.observableArray();
+		this.tags = ko.observableArray();
 
 		this.stability = ko.observable();
 		this.stabilityLabel = ko.observable();
@@ -73,6 +76,13 @@ define([
 
 		this.id(scenario._id);
 		this.name(scenario.name);
+		if(scenario.hasOwnProperty('file')) {
+			var file = scenario.file.split(':');
+			var line = file.splice(-1)[0];
+			this.file(file.join(':') + ' @ line ' + line);
+			this.fileRaw(scenario.file);
+		}
+		this.tags(scenario.tags || []);
 
 		if(!!scenario.userStatus) {
 			this.userStatus(scenario.userStatus);
@@ -197,9 +207,40 @@ define([
 		} else {
 			return false;
 		}
+		layout.addItem('Copy Title to Clipboard', this._clipboard.bind(this, this.name()));
+		if(!!this.fileRaw()) {
+			layout.addItem('Copy file path to Clipboard', this._clipboard.bind(this, this.fileRaw()));
+		}
 
 		return layout;
-	}
+	};
+
+	var textarea;
+	ScenarioWidget.prototype._clipboard = function(text) {
+		if(!textarea) {
+			textarea = document.createElement('textarea');
+			textarea.style.zIndex = '10000';
+			textarea.style.top = '0';
+			textarea.style.left = '0';
+			textarea.style.width = '500px';
+			textarea.style.height = '30px';
+			textarea.style.position = 'absolute';
+			document.body.appendChild(textarea);
+		}
+		textarea.style.display = 'initial';
+		textarea.value = text;
+		textarea.select();
+
+		try {
+			var successful = document.execCommand('copy');
+			var msg = successful ? 'successful' : 'unsuccessful';
+			console.log('Copying text command was ' + msg);
+		} catch (err) {
+			console.log('Oops, unable to copy');
+		}
+
+		textarea.style.display = 'none';
+	};
 
 	return ScenarioWidget;
 });

@@ -24,10 +24,6 @@
     "Durandal": "durandal#~2.1.0",
     "requirejs": "2.1.11",
     "jquery": "1.9.1",
-    "knockout.js":"3.1.0"
-  },
-  "resolutions": {
-    "requirejs": "2.1.11",
-    "jquery": "1.9.1"
+    "knockout.js": "3.1.0"
   }
 }

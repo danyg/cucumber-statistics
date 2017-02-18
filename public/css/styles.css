@@ -57,10 +57,12 @@ h1, h2, h3, h4, h5, h6 {
 	background-color: #ddd;
 	padding: 2px;
 	position: relative;
+	opacity: .8;
 }
 
-.item:hover {
-	background-color: #ccc;
+.item.expanded,
+.item.expandable:hover {
+	opacity: 1;
 }
 
 .item .title {
@@ -81,16 +83,19 @@ h1, h2, h3, h4, h5, h6 {
 	font-weight: bold;
 }
 
+.passed,
 .item.passed {
 	background-color: #C4D88D;
 	color: #222;
 }
 
+.failed,
 .item.failed {
 	background-color: #D98B89;
 	color: #222;
 }
 
+.skipped,
 .item.skipped {
 	background-color: #63CBED;
 	color: #222;
@@ -137,7 +142,7 @@ h1, h2, h3, h4, h5, h6 {
 	color: #fff;
 	line-height: 2em;
 	display: block;
-    text-decoration: none;
+		text-decoration: none;
 }
 .item.nightly a:before {
 	content: " ";
@@ -184,17 +189,17 @@ h1, h2, h3, h4, h5, h6 {
 	padding-top: 0px;
 }
 
-ul.description {
+.description {
 	list-style: none;
-    background: #ccc;
-    margin-bottom: 5px;
+		background: #ccc;
+		margin-bottom: 5px;
 }
 
-ul.description li {
+.description li {
 	float: left;
 	width: 50%;
 	padding: 3px 0px;
-    text-indent: 7px;
+		text-indent: 7px;
 }
 
 ul.image-list {
@@ -313,7 +318,7 @@ ul.image-list {
 	margin: 0px !important;
 	border: 0px !important;
 	min-height: 0px !important;
-    min-width: 0px !important;
+		min-width: 0px !important;
 }
 
 .hidden.no-trans{
@@ -324,7 +329,7 @@ ul.image-list {
 	opacity: .8;
 }
 .important {
-	opacity: 1;
+	opacity: .9;
 }
 
 .with-image {
@@ -341,29 +346,28 @@ ul.image-list {
 	background-origin: padding-box;
 }
 
-.with-output,
-.with-image {
+.with-output.with-image {
 	background-image: url('information.png'), url('image.gif');
 	background-position: 97% .3em, 99% .3em;
 }
 
 .output {
 	background: #222;
-    color: #eee;
-    padding: .5em;
-    overflow: auto;
-    max-height: 20em;
+		color: #eee;
+		padding: .5em;
+		overflow: auto;
+		max-height: 20em;
 }
 
 button {
 	border-radius: 12px;
-    border: solid 2px #222;
-    padding: 10px;
-    background: linear-gradient(to bottom, #7d7e7d 0%,#0e0e0e 100%);
-    color: #eee;
-    font-weight: bold;
-    margin: 0px 0px 5px;
-    cursor: pointer;
+		border: solid 2px #222;
+		padding: 10px;
+		background: linear-gradient(to bottom, #7d7e7d 0%,#0e0e0e 100%);
+		color: #eee;
+		font-weight: bold;
+		margin: 0px 0px 5px;
+		cursor: pointer;
 }
 
 button:hover {
@@ -386,7 +390,7 @@ button[disabled] {
 	opacity: .6;
 }
 .item.marked-as-auto-fix.expanded ,
-.item.marked-as-fix.expanded  {
+.item.marked-as-fix.expanded	{
 	opacity: 1;
 }
 
@@ -394,17 +398,17 @@ button[disabled] {
 .item.marked-as-recidivist {
 	opacity: 1;
 
-    background-image: url('warning-icon.png');
-    background-position: 4px .3em;
-    background-repeat: no-repeat;
-    background-origin: padding-box;
-    border: solid 2px #ffa500;
-    box-shadow: inset 0px 0px 5px 2px #ffa500;
+		background-image: url('warning-icon.png');
+		background-position: 4px .3em;
+		background-repeat: no-repeat;
+		background-origin: padding-box;
+		border: solid 2px #ffa500;
+		box-shadow: inset 0px 0px 5px 2px #ffa500;
 }
 
 .item.marked-as-auto-recidivist > .title,
 .item.marked-as-recidivist > .title {
-    padding-left: 23px;
+		padding-left: 23px;
 }
 
 label.checkbox {
@@ -455,7 +459,7 @@ ul.context-menu-container li .name {
 	line-height: 1.2em;
 }
 
-ul.context-menu-container li:hover {
+ul.context-menu-container /*li:hover*/ {
 	background: linear-gradient(to bottom, #7d7e7d 0%,#0e0e0e 100%);
 	background: linear-gradient(to bottom, #0e0e0e 0%,#7d7e7d 100%);
 }
@@ -484,4 +488,49 @@ ul.context-menu-container li.context-menu-submenu:hover > ul {
 	left: inherit;
 	right: 100%;
 	top: 0;
+}
+
+.time-graph {
+	display: -webkit-box;
+	display: -moz-box;
+	display: -ms-flexbox;
+	display: -webkit-flex;
+	display: flex;
+	flex-flow:row;
+	min-height: 50px;
+	width:100%;
+
+	margin-bottom: 5px;
+
+	justify-content: flex-start;
+	overflow-y: hidden;
+	overflow-x: auto;
+}
+
+.time-graph .execution {
+	font-size:22px;
+	flex: 1;
+	-webkit-flex: 1;
+	text-align: center;
+	min-width: 6em;
+	max-width: 8em;
+
+	display: -webkit-box;
+	display: -moz-box;
+	display: -ms-flexbox;
+	display: -webkit-flex;
+	display: flex;
+	flex-flow: column;
+	margin-right: 2px;
+	vertical-align: middle;
+	padding-top: 7px;
+	box-sizing: border;
+}
+
+.time-graph .execution .date {
+	font-size: 11px;
+}
+
+.copy-clipboard {
+	cursor: pointer;
 }

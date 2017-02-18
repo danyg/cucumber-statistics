@@ -48,11 +48,25 @@ Searchable.sortByTime = function(a, b) {
 }
 
 
+Searchable.prototype.getAll = function(cbk) {
+	this.model.find().toArray(
+		function(err, docs) {
+			if(err) {
+				cbk(new Error(err));
+			} else {
+				Searchable.processDocs(docs);
+				cbk(docs.sort(Searchable.sortByMoreFailed));
+			}
+		}
+	);
+};
+
 Searchable.prototype.getMostUnstables = function(cbk) {
 	this.model.find(
 		{
 			'results.status': 'failed'
-		},
+		}
+	).toArray(
 		function(err, docs) {
 			if(err) {
 				cbk(new Error(err));
@@ -65,8 +79,7 @@ Searchable.prototype.getMostUnstables = function(cbk) {
 };
 
 Searchable.prototype.getMostTimeConsuming = function(cbk) {
-	this.model.find(
-		{},
+	this.model.find().toArray(
 		function(err, docs) {
 			if(err) {
 				cbk(new Error(err));

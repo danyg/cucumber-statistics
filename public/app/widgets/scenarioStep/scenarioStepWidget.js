@@ -24,6 +24,7 @@ define([
 				+ (me.images().length > 0 ? ' with-image' : '')
 				+ (me.output().length > 0 ? ' with-output' : '')
 				+ (me.expandable() ? ' expandable important' : ' not-important')
+				+ (me.expanded() ? ' expanded' : '')
 			;
 		});
 	}
@@ -59,22 +60,7 @@ define([
 		this.expanded(!this.expanded());
 		var panel = $('>.panel', this.$element);
 
-		if(this.expanded()) {
-
-
-			if(this.steps().length === 0) {
-				this.steps(this._settings.scenario.steps);
-			} else {
-				var h = panel.height();
-				panel
-					.addClass('hidden no-trans')
-					.css('height', h)
-				;
-				setTimeout(function() {
-					panel.removeClass('hidden no-trans');
-				}, 10);
-			}
-		} else {
+		if(!this.expanded()) {
 			panel.css('height', 'initial');
 		}
 

@@ -29,70 +29,106 @@ CucumberJSONParser.prototype.parse = function(json) {
 	json.forEach(this._processFeature.bind(this));
 };
 
+CucumberJSONParser.prototype._processTags = function(tags) {
+	if(tags === undefined) {
+		return [];
+	}
+	return tags.map(function(item) {
+		return item.name;
+	});
+};
+
 CucumberJSONParser.prototype._processFeature = function(feature, index) {
-	if(!!feature.elements) {
-		feature.elements.forEach(this._processScenario.bind(this));
-	} else {
-		console.warn('Feature ' + index + ' doesn\'t have elements');
+	try {
+
+		if(!!feature.elements) {
+			feature.elements.forEach(this._processScenario.bind(this, feature.uri, this._processTags(feature.tags)));
+		} else {
+			console.warn('Feature ' + index + ' doesn\'t have elements');
+		}
+	} catch (_err) {
+		console.error('Error Processing Feature ', _err.toString() + '\n\t' + _err.stack);
 	}
 };
 
-CucumberJSONParser.prototype._processScenario = function(scenario) {
-	if(!!scenario.steps) {
-		var me = this;
-		var result = {
-			buildId: this.buildId,
+CucumberJSONParser.prototype._processScenario = function(featureUri, featureTags, scenario) {
+	try {
 
-			steps: [],
-
-			duration: 0,
-			status: null
-		};
-
-		if(!!scenario.before) {
-			var resultBefore = this._processSteps(scenario.before);
-			this._concatResults(result, resultBefore);
-		}
-
-		var id = scenario.id;
 		if(!!scenario.steps) {
-			var resultSteps = this._processSteps(scenario.steps);
-			this._concatResults(result, resultSteps);
-			id = this._stepsHash;
-			console.log('id', id);
-		}
+			var me = this;
+			var currentExecution = {
+				buildId: this.buildId,
+				time: Date.now(),
 
-		if(!!scenario.after) {
-			var resultAfter = this._processSteps(scenario.after);
-			this._concatResults(result, resultAfter);
-		}
+				steps: [], // temporal, used by concatResults, this became scenarioToDB.steps
 
-		var steps = result.steps;
-		delete result.steps;
-		delete scenario.id;
+				duration: 0,
+				status: null
+			},
 
-		scenario._id = id;
-		scenario.userStatus = STATUS_NONE;
-		scenario.steps = steps;
+			scenarioToDB = {
+				_id: 'TBD',
+				name: scenario.name,
+				file: featureUri + ':' + scenario.line,
+				tags: [],
+				steps: [],
+				userStatus: STATUS_NONE
+			};
 
-		console.log('>?id', id);
-		this.scenariosModel.findOne({_id: id}, function(err, oldScenario){
-			// console.log('oldScenario found?',!!oldScenario, !!oldScenario ? oldScenario._id : '');
-			if(!!oldScenario) {
-				scenario.userStatus = me._checkRecidivist(result, oldScenario);
+
+			if(!!scenario.before) {
+				var resultBefore = this._processSteps(scenario.before);
+				this._concatResults(currentExecution, resultBefore);
 			}
 
-			me._pushScenario(scenario, steps, result);
-		})
+			var id = scenario.id;
+			if(!!scenario.steps) {
+				var resultSteps = this._processSteps(scenario.steps);
+				this._concatResults(currentExecution, resultSteps);
+				id = this._stepsHash;
+			}
 
+			if(!!scenario.after) {
+				var resultAfter = this._processSteps(scenario.after);
+				this._concatResults(currentExecution, resultAfter);
+			}
 
-	} else {
-		console.warn('Scenario ' + scenario.id + ' doesn\'t have steps');
+			var steps = currentExecution.steps;
+			delete currentExecution.steps;
+
+			scenarioToDB._id = id;
+			scenarioToDB.userStatus = STATUS_NONE;
+			scenarioToDB.steps = steps;
+
+console.log('');
+console.log('---[ Scenario ] ----------------------------------------------------------------');
+console.log(scenario.name);
+console.log('');
+console.log('featureTags:', featureTags);
+console.log('scenarioTags:', this._processTags(scenario.tags));
+
+			var tags = featureTags.concat(this._processTags(scenario.tags));
+			scenarioToDB.tags = tags;
+
+			// console.log('>?id', id);
+			this.scenariosModel.findOne({_id: id}, function(err, oldScenario){
+				// console.log('oldScenario found?',!!oldScenario, !!oldScenario ? oldScenario._id : '');
+				if(!!oldScenario) {
+					scenarioToDB.userStatus = me._checkRecidivist(currentExecution, oldScenario);
+				}
+
+				me._pushScenario(scenarioToDB, currentExecution);
+			});
+
+		} else {
+			console.warn('Scenario ' + scenario.id + ' doesn\'t have steps');
+		}
+	} catch (_err) {
+		console.error('Error Processing Scenario ', _err.toString() + '\n\t' + _err.stack);
 	}
-
 };
 
-CucumberJSONParser.prototype._checkRecidivist = function(result, oldScenario) {
+CucumberJSONParser.prototype._checkRecidivist = function(currentExecution, oldScenario) {
 	oldScenario.results = oldScenario.results.sort(function(a,b){
 		return parseInt(a.buildId, 10) > parseInt(b.buildId, 10);
 	});
@@ -108,10 +144,10 @@ CucumberJSONParser.prototype._checkRecidivist = function(result, oldScenario) {
 
 	var status = STATUS_NONE;
 
-	if(last5 === PASSED && result.status === PASSED && wasFailed) {
+	if(last5 === PASSED && currentExecution.status === PASSED && wasFailed) {
 		status = STATUS_AUTO_FIX;
 	} else if(!!oldScenario.userStatus && oldScenario.userStatus === STATUS_FIX || oldScenario.userStatus === STATUS_AUTO_FIX ) {
-		if( result.status === FAILED) {
+		if( currentExecution.status === FAILED) {
 			status = oldScenario.userStatus === STATUS_AUTO_FIX ?
 				STATUS_AUTO_RECIDIVIST : STATUS_RECIDIVIST
 			;
@@ -120,34 +156,42 @@ CucumberJSONParser.prototype._checkRecidivist = function(result, oldScenario) {
 		}
 	}
 
-	// console.log(oldScenario._id, '--> ', status, '| last5', last5, '| current', result.status, 'wasFailed', wasFailed, 'oldScenario.userStatus', oldScenario.userStatus||'UDEF');
+	// console.log(oldScenario._id, '--> ', status, '| last5', last5, '| current', currentExecution.status, 'wasFailed', wasFailed, 'oldScenario.userStatus', oldScenario.userStatus||'UDEF');
 	return status;
 };
 
-CucumberJSONParser.prototype._pushScenario = function(scenario, steps, result) {
+CucumberJSONParser.prototype._pushScenario = function(scenarioToDB, currentExecution) {
+	console.log('Pushing Scenario: ' + scenarioToDB._id);
+	console.log('\t # Steps: ' + scenarioToDB.steps.length);
+	console.log('\t # Tags: ' + scenarioToDB.tags.join(' '));
+	console.log('\t # file: ' + scenarioToDB.file);
+	console.log('');
+	var id = scenarioToDB._id;
+	delete scenarioToDB._id;
+
 	this.scenariosModel.update(
 		{
-			_id: scenario._id
+			_id: id
 		},
 		{
-			$set: {
-				name: scenario.name,
-				userStatus: scenario.userStatus,
-				steps: steps
-			},
-			$push: { results: result }
+			$set: scenarioToDB,
+			$push: { results: currentExecution }
 		},
 		{
 			upsert: true
 		},
-		function(/*numReplaced, newDoc*/) {}
+		function(err/*, newDoc*/) {
+			if(!!err) {
+				console.error('Error upserting ', scenarioToDB.name, 'MESSAGE:', err.message);
+			}
+		}
 	);
 };
 
-CucumberJSONParser.prototype._concatResults = function(result, stepResults) {
-	result.duration += stepResults.duration;
-	result.status = this._resolveStatus(result.status, stepResults.status);
-	result.steps = result.steps.concat(stepResults.steps);
+CucumberJSONParser.prototype._concatResults = function(currentExecution, stepResults) {
+	currentExecution.duration += stepResults.duration;
+	currentExecution.status = this._resolveStatus(currentExecution.status, stepResults.status);
+	currentExecution.steps = currentExecution.steps.concat(stepResults.steps);
 };
 
 CucumberJSONParser.prototype._processSteps = function(steps) {
@@ -233,8 +277,13 @@ CucumberJSONParser.prototype._getStepExtraInfo = function(step, stepId) {
 			extraInfo.imgs.push(fName);
 		});
 	}
+	if(!!step.result && !!step.result.error_message) {
+		extraInfo.html = '<p class="code_exception">' + this._parseLineToHTML(step.result.error_message) + '</p>';
+	}
 	if(!!step.output) {
-		extraInfo.html = '';
+		if(!extraInfo.hasOwnProperty('html')) {
+			extraInfo.html = '';
+		}
 		step.output.forEach(function(line) {
 			extraInfo.html += line
 				.replace(/\n/g, '<br/>')
@@ -245,6 +294,14 @@ CucumberJSONParser.prototype._getStepExtraInfo = function(step, stepId) {
 	}
 	return extraInfo;
 };
+
+CucumberJSONParser.prototype._parseLineToHTML = function(line) {
+	return line
+		.replace(/\n/g, '<br/>')
+		.replace(/\t/g, '&nbsp;&nbsp;&nbsp;&nbsp;')
+		+ '<br/>'
+	;
+}
 
 CucumberJSONParser.prototype._resolveStatus = function(scenarioStatus, stepStatus) {
 	if(scenarioStatus === FAILED) {

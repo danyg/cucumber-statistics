@@ -1,36 +1,51 @@
 'use strict';
 
 var loadServlets = require('./core/loadServlets'),
+	mongoDB = require('./core/mongoDB'),
 	express = require('express'),
 	logger = require('express-logger'),
 	app = express(),
 	PORT = 9088
 ;
 
-var servelets = loadServlets(__dirname + '/servlets');
 
-app.use(logger({path: process.cwd() + '/logs/access.log'}));
+function startHttpServer() {
+	console.log('Loading Servlets ...');
 
-servelets.forEach(function(servelet) {
-	app.use(servelet.getRoute(), servelet.getServlet());
-});
+	var servelets = loadServlets(__dirname + '/servlets');
 
-app.listen(PORT, function() {
+	app.use(logger({path: process.cwd() + '/logs/access.log'}));
 
-	var os = require('os'),
-		ifaces = os.networkInterfaces()
-	;
+	servelets.forEach(function(servelet) {
+		app.use(servelet.getRoute(), servelet.getServlet());
+	});
 
-	console.log('cucumber statistics listening in port ' + PORT + ' access:');
-	console.log('\t- http://localhost:' + PORT + '/');
+	console.log('Starting HTTP Server ...');
 
-	Object.keys(ifaces).forEach(function (ifname) {
-		ifaces[ifname].forEach(function (iface) {
-			if ('IPv4' !== iface.family || iface.internal !== false) {
-				return;
-			}
+	app.listen(PORT, function() {
 
-			console.log('\t- http://' + iface.address + ':' + PORT +  '/');
+		var os = require('os'),
+			ifaces = os.networkInterfaces()
+		;
+
+		console.log('cucumber statistics listening in port ' + PORT + ' access:');
+		console.log('\t- http://localhost:' + PORT + '/');
+
+		Object.keys(ifaces).forEach(function (ifname) {
+			ifaces[ifname].forEach(function (iface) {
+				if ('IPv4' !== iface.family || iface.internal !== false) {
+					return;
+				}
+
+				console.log('\t- http://' + iface.address + ':' + PORT +  '/');
+			});
 		});
 	});
-});
+}
+
+if(process.argv.join(' ').toLowerCase().indexOf('mongodb') !== -1) {
+	console.log('Connection to MongoDB...');
+	mongoDB.connect(startHttpServer);
+} else {
+	startHttpServer();
+}

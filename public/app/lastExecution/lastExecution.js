@@ -12,6 +12,7 @@ define([
 
 	function LastExecution() {
 		this.nightlies = ko.observableArray();
+		this.scenarios = ko.observableArray();
 		this._isLoading = ko.observable(false);
 	}
 
@@ -30,7 +31,12 @@ define([
 	};
 
 	LastExecution.prototype._onData = function(dfd, data) {
-		this.nightlies(data);
+		// this.nightlies(data);
+		var scenarios = [];
+		data.forEach(function(nightly) {
+			scenarios = scenarios.concat(nightly.scenarios);
+		});
+		this.scenarios(scenarios);
 		this._isLoading(false);
 		dfd.resolve();
 	};

@@ -26,7 +26,7 @@ app.get('/', function(req, res, next) {
 
 function getNightlies() {
 	var dfd = Q.defer();
-	nightliesModel.find({}, function(err, docs) {
+	nightliesModel.find().toArray(function(err, docs) {
 		if(!!err) {
 			dfd.reject(err);
 		} else {

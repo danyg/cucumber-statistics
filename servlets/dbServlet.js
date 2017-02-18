@@ -20,6 +20,7 @@ app.put('/set/:buildName/:buildId', function(req, res) {
 		updateNightly(req.params.buildName, req.params.buildId);
 
 		try {
+			console.log('Parsing new Nightly ' + req.params.buildName);
 			parser.parse(req.body);
 			restResponses.ok201(res);
 		} catch( e ) {
@@ -45,7 +46,9 @@ function updateNightly(name, buildId) {
 		{
 			upsert: true
 		},
-		function(/*numReplaced, newDoc*/) {}
+		function(/*numReplaced, newDoc*/) {
+			console.log('new Nighly Inserted', name);
+		}
 	);
 }
 

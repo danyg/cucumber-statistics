@@ -5,7 +5,13 @@ var fork = require('child_process').fork,
 ;
 
 function start() {
-	server = fork('./server');
+
+	var forkArgs = process.argv.slice(0);
+	forkArgs.splice(0,2);
+
+	console.log('initiating server with args', forkArgs.join(' '));
+
+	server = fork('./server', forkArgs);
 
 	server.on('close', function() {
 		stop();
@@ -22,7 +28,7 @@ function start() {
 	server.on('error', function(err) {
 		console.error(err);
 	});
-};
+}
 
 function stop() {
 	server.removeAllListeners();

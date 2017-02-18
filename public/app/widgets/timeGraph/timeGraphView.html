@@ -1,0 +1,6 @@
+<ul class="time-graph" data-bind="foreach: { data: results, as: 'execution' }">
+	<li class="execution" data-bind="css: execution.status">
+		<span class="build-id" data-bind="text: '#'+ execution.buildId"></span>
+		<span class="date"data-bind="text: $parent._parseDate(execution.time)"></span>
+	</li>
+</ul>

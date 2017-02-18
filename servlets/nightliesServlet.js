@@ -4,25 +4,47 @@ var Servlet = require('../core/Servlet'),
 	fs = require('fs'),
 	dbPath = process.cwd() + '/db',
 	restResponses = require('../core/servletRestResponses'),
+	mongoDB = require('../core/mongoDB'),
+	nighltiesModel = require('../app/models/nighltiesModel')(),
 
 	express = require('express'),
 	app = express()
 ;
 
 app.get('/', function(req, res) {
+	if(mongoDB.isUsed()) {
+		nighltiesModel.find().toArray(function(err, docs) {
+			console.log('find return', err, docs);
+			if(!!err) {
+				restResponses.error500(res, 'Error retrieving nightlyies form MongoDB ' + err);
+			} else {
+				if(docs.length > 0) {
+					var listOfNightlies = docs.map(function(item) {
+						return item._id;
+					});
+					console.log('returning', listOfNightlies);
 
-	if (fs.statSync(dbPath).isDirectory()) {
-		var nightlies = fs.readdirSync(dbPath).filter(function(fileName) {
-			return fs.statSync(dbPath + '/' + fileName).isDirectory();
+					restResponses.ok200(res, listOfNightlies);
+				} else {
+					restResponses.error404(res, 'not registed nightlies');
+				}
+
+			}
 		});
-
-		if(nightlies.length > 0) {
-			restResponses.ok200(res, nightlies);
-		} else {
-			restResponses.error404(res, 'not registed nightlies');
-		}
 	} else {
-		restResponses.error404(res, 'database directory doesn\'t exists.');
+		if (fs.statSync(dbPath).isDirectory()) {
+			var nightlies = fs.readdirSync(dbPath).filter(function(fileName) {
+				return fs.statSync(dbPath + '/' + fileName).isDirectory();
+			});
+
+			if(nightlies.length > 0) {
+				restResponses.ok200(res, nightlies);
+			} else {
+				restResponses.error404(res, 'not registed nightlies');
+			}
+		} else {
+			restResponses.error500(res, 'database directory doesn\'t exists.');
+		}
 	}
 });
 

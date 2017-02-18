@@ -28,6 +28,10 @@
 			>Mark as not fixed yet</button>
 			<!-- /ko -->
 
+			<div class="description tags" >
+				<p data-bind="text: file(), click: _clipboard.bind($root,fileRaw())" class="copy-clipboard"></p>
+				<p data-bind="text: tags().join(' ')"></p>
+			</div>
 			<ul class="description clearfix">
 				<li><strong>Executed: </strong><span data-bind="text: results().length"></span> times</li>
 				<li><strong>Passed: </strong><span data-bind="text: scenario().passed"></span> times</li>
@@ -36,6 +40,8 @@
 				<li><strong>Average Time: </strong><span data-bind="text: timeAvg()"></span></li>
 				<li><strong>Skipped: </strong><span data-bind="text: scenario().skipped"></span> times</li>
 			</ul>
+
+			<!-- ko widget: { kind: 'timeGraph', results: results } --><!-- /ko -->
 
 			<ul class="itemised-list steps-container" data-bind="foreach: { data: steps, as: 'step' }">
 				<!-- ko widget: { kind: 'scenarioStep', step: step } -->
