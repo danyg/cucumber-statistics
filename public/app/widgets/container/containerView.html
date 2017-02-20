@@ -6,6 +6,8 @@
 		<!-- ko widget: { kind:'loading', enable: _isLoading(), hover: true } --><!-- /ko -->
 	<!-- /ko -->
 
+	<div data-part="filters"></div>
+
 	<label class="checkbox">
 		<input type="checkbox" data-bind="checked: hidePassedElements" />
 		Hide passed scenarios (<span data-bind="text: passedScenariosLength()"></span>)
@@ -23,7 +25,7 @@
 			showFixed: $widget.showHiddenElements,
 			hidePassed: $widget.hidePassedElements,
 			nightlyId: $widget.nightlyId(),
-			onActivate: $widget.onActivateScenario.bind($widget)
+			onActivate: $widget.onActivateScenario.bind($widget, scenario)
 		} -->
 		<!-- /ko -->
 	</ul>

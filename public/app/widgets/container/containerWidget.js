@@ -104,12 +104,37 @@ define([
 		this._isLoading(false);
 	};
 
-	ContainerWidget.prototype.onActivateScenario = function(scenarioWidget) {
+	ContainerWidget.prototype.onActivateScenario = function(scenario, scenarioWidget) {
 		this._scenariosWidgets.push(scenarioWidget);
+		scenario._widget = scenarioWidget;
 		var me = this;
 		scenarioWidget.userStatus.subscribe(function() {
 			me._scenariosWidgets.notifySubscribers();
-		})
+		});
+	};
+
+	ContainerWidget.prototype.showAllScenarios = function() {
+		this.scenarios().forEach(function(scenario) {
+			if(!!scenario._widget) {
+				scenario._widget.show();
+			}
+		});
+	};
+
+	ContainerWidget.prototype.showScenariosByTags = function(tags) {
+		var regex = new RegExp(tags.join('|'));
+		this.scenarios().forEach(function(scenario) {
+			if(!!scenario._widget) {
+				if(scenario.hasOwnProperty('tags'))
+					console.log(regex.toString() + '.test("' + scenario.tags.join(' ') + '");', regex.test(scenario.tags.join(' ')));
+
+				if(scenario.hasOwnProperty('tags') && regex.test(scenario.tags.join(' '))) {
+					scenario._widget.show();
+				} else {
+					scenario._widget.hide();
+				}
+			}
+		});
 	};
 
 	return ContainerWidget;

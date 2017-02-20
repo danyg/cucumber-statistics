@@ -4,13 +4,26 @@
 
 	<!-- ko widget: {
 			kind: 'container',
-			title: 'Most unstables scenarios',
+			title: 'All failed scenarios in last execution',
 			type: 'scenarios',
 			method: 'getMostUnstables',
 			data: scenarios(),
 			frameless: false,
-			nightlyId: 'lastExecution'
+			nightlyId: 'lastExecution',
+			attached : $root._onWidgetActivated.bind($root)
 		} -->
+			<div data-part="filters" class="tag-filters">
+				<input data-bind="value: $root.filterFilter,valueUpdate:'keyup'" placeholder="Filter Tags">
+
+				<ul class="tags-list" data-bind="foreach: {data: $root.tags, as: 'tag'}, visible: $root._filterActivated">
+					<li data-bind="attr: {rel: tag.substr(1)}">
+						<label class="checkbox" data-bind="attr: {title: tag}">
+							<input type="checkbox" data-bind="checkedValue: tag, checked: $root.selectedTags" />
+							<span data-bind="text: tag"></span>
+						</label>
+					</li>
+				</ul>
+			</div>
 		<!-- /ko -->
 
 </div>

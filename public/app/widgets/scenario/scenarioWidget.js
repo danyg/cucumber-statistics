@@ -55,12 +55,10 @@ define([
 			);
 		});
 		this.visible = ko.observable(true);
-
-
+		this.hidden = ko.observable(false);
 	}
 
 	ScenarioWidget.prototype.activate = function(settings) {
-		var me = this;
 		settings.bindingContext.$widget = this;
 
 		this._settings = settings;
@@ -117,13 +115,14 @@ define([
 			this._settings.onActivate(this);
 		}
 
-		this.visible = ko.computed(function() {
-			var v = me.hidePassed() && me.status() === 'passed' ? false : true;
+		this.visible = ko.computed((function() {
+			var v = this.hidePassed() && this.status() === 'passed' ? false : true;
 			if(v) {
-				v = me._isFixed() ? me.showFixed() : true;
+				v = this._isFixed() ? this.showFixed() : true;
 			}
+			v = v && !this.hidden();
 			return v;
-		});
+		}).bind(this));
 
 		return true;
 	};
@@ -157,6 +156,27 @@ define([
 		}
 
 	};
+
+	/**
+	 * Will mark it to be shown, but other features might make it hidden,
+	 * check how the computable visible works
+	 * @see  ScenarioWidget.visible
+	 *
+	 * @return void
+	 */
+	ScenarioWidget.prototype.show = function() {
+		this.hidden(false);
+	}
+	/**
+	 * Will mark it to be hidden, this will override any other logic and it
+	 * will be dissapear
+	 * @see  ScenarioWidget.visible
+	 *
+	 * @return void
+	 */
+	ScenarioWidget.prototype.hide = function() {
+		this.hidden(true);
+	}
 
 	ScenarioWidget.prototype._formatStability = function(stability) {
 		stability = parseFloat(stability) * 100.0;
