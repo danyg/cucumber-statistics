@@ -122,6 +122,9 @@ define([
 	};
 
 	ContainerWidget.prototype.showScenariosByTags = function(tags) {
+		if(tags.length === 0) {
+			return this.showAllScenarios();
+		}
 		var regex = new RegExp(tags.join('|'));
 		this.scenarios().forEach(function(scenario) {
 			if(!!scenario._widget) {

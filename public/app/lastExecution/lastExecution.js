@@ -57,15 +57,17 @@ define([
 			}
 		}).bind(this);
 
-		var forEachScenario = (function(scenario) {
-			this.scenarios.push(scenario);
-			if(scenario.hasOwnProperty('tags')) {
-				scenario.tags.forEach(forEachTag);
+		var forEachScenario = (function(nightly, scenario) {
+			if(!!scenario.results && !!scenario.results[0] && scenario.results[0].buildId === nightly.build) {
+				this.scenarios.push(scenario);
+				if(scenario.hasOwnProperty('tags')) {
+					scenario.tags.forEach(forEachTag);
+				}
 			}
 		}).bind(this);
 
 		data.forEach((function(nightly) {
-			nightly.scenarios.forEach(forEachScenario);
+			nightly.scenarios.forEach(forEachScenario.bind(this, nightly));
 		}).bind(this));
 
 		this.tags.sort();
