@@ -28,6 +28,7 @@ define([
 		this.steps = ko.observableArray();
 		this.results = ko.observableArray();
 		this.tags = ko.observableArray();
+		this.nightlyParent = ko.observable();
 
 		this.stability = ko.observable();
 		this.stabilityLabel = ko.observable();
@@ -81,6 +82,9 @@ define([
 			this.fileRaw(scenario.file);
 		}
 		this.tags(scenario.tags || []);
+		if(scenario.hasOwnProperty('_parent')) {
+			this.nightlyParent(scenario._parent.name);
+		}
 
 		if(!!scenario.userStatus) {
 			this.userStatus(scenario.userStatus);

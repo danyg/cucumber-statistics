@@ -29,7 +29,10 @@
 			<!-- /ko -->
 
 			<div class="description tags" >
-				<p data-bind="text: file(), click: _clipboard.bind($root,fileRaw())" class="copy-clipboard"></p>
+				<p data-bind="click: _clipboard.bind($root,fileRaw()), attr: {title: file() }" class="copy-clipboard">
+					<span data-bind="text: fileRaw()"></span>
+					<span data-bind="html: !!nightlyParent() ? ' at <b>' + nightlyParent() + '</b> nigthly build' : ''"></span>
+				</p>
 				<p data-bind="text: tags().join(' ')"></p>
 			</div>
 			<ul class="description clearfix">
