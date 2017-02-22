@@ -58,7 +58,8 @@ define([
 		}).bind(this);
 
 		var forEachScenario = (function(nightly, scenario) {
-			if(!!scenario.results && !!scenario.results[0] && scenario.results[0].buildId === nightly.build) {
+			var lE = !!scenario.results && scenario.results.length ? scenario.results[scenario.results.length -1] : null;
+			if(!!lE && lE.buildId === nightly.build) {
 				scenario._parent = nightly;
 				this.scenarios.push(scenario);
 				if(scenario.hasOwnProperty('tags')) {
