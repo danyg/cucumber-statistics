@@ -16,12 +16,15 @@ define([
 		this.nightlies = ko.observableArray();
 		this.scenarios = ko.observableArray();
 		this.tags = ko.observableArray();
-		this.selectedTags = ko.observableArray();
+		this.includedTags = ko.observableArray();
+		this.excludedTags = ko.observableArray();
 		this._isLoading = ko.observable(false);
 		this._filterActivated = ko.observable(false);
 		this.filterFilter = ko.observable('');
 
-		this.selectedTags.subscribe(this._filterByTags.bind(this));
+		this.includedTags.subscribe(this._filterByTags.bind(this));
+		this.excludedTags.subscribe(this._filterByTags.bind(this));
+
 		this.filterFilter.subscribe(this._filterShownTags.bind(this));
 	}
 
@@ -48,8 +51,6 @@ define([
 		this._filterActivated(false);
 		this.scenarios.removeAll();
 		this.tags.removeAll();
-		// this.tags.push('ALL');
-		// this.selectedTags(['ALL']);
 
 		var forEachTag = (function(tag){
 			if(this.tags.indexOf(tag) === -1) {
@@ -58,6 +59,13 @@ define([
 		}).bind(this);
 
 		var forEachScenario = (function(nightly, scenario) {
+			if(!!scenario.results) {
+				scenario.results.sort(function(a,b) {
+					return a.buildId - b.buildId;
+				});
+			}
+
+
 			var lE = !!scenario.results && scenario.results.length ? scenario.results[scenario.results.length -1] : null;
 			if(!!lE && lE.buildId === nightly.build) {
 				scenario._parent = nightly;
@@ -92,14 +100,19 @@ define([
 
 	LastExecution.prototype._filterByTags = function() {
 		if(this._filterActivated()) {
-			if(this.selectedTags.indexOf('ALL') !== -1) {
-				this._filterActivated(false);
-				this._containerWidget.showAllScenarios();
-				this.selectedTags(['ALL']);
-				this._filterActivated(true);
-			} else {
-				this._containerWidget.showScenariosByTags(this.selectedTags());
-			}
+			this._filterActivated(false);
+			// clean tags that are in both lists
+			var dual = this.includedTags().filter((function(item){
+				return this.excludedTags().indexOf(item) !== -1
+			}).bind(this));
+			dual.forEach((function(item){
+				this.includedTags.splice( this.includedTags.indexOf(item) ,1);
+				this.excludedTags.splice( this.excludedTags.indexOf(item) ,1);
+			}).bind(this));
+
+			this._containerWidget.showScenariosByTags(this.includedTags(), this.excludedTags());
+
+			this._filterActivated(true);
 		}
 	};
 

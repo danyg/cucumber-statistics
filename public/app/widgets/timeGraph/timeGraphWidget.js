@@ -2,7 +2,7 @@
 * @Author: Daniel Goberitz
 * @Date:   2017-02-18 13:28:12
 * @Last Modified by:   dalgo
-* @Last Modified time: 2017-02-18 14:14:38
+* @Last Modified time: 2017-02-25 12:50:12
 */
 define([
 	'knockout'

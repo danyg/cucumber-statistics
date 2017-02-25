@@ -121,23 +121,60 @@ define([
 		});
 	};
 
-	ContainerWidget.prototype.showScenariosByTags = function(tags) {
-		if(tags.length === 0) {
+	ContainerWidget.prototype.showScenariosByTags = function(includedTags, excludedTags) {
+		if(includedTags.length === 0 && excludedTags.length === 0) {
 			return this.showAllScenarios();
 		}
-		var regex = new RegExp(tags.join('|'));
+		var regexIn = new RegExp(includedTags.join('|'));
+		var regexOut = new RegExp(excludedTags.join('|'));
+		// if(includedTags.join('|') === '') {
+		// 	regexIn.test = function() {return false;}
+		// }
+		if(excludedTags.join('|') === '') {
+			regexOut.test = function() {return false;}
+		}
+
+		console.group('showScenariosByTags')
+		console.log('includedTags', includedTags.join(', '));
+		console.log('excludedTags', excludedTags.join(', '));
+
 		this.scenarios().forEach(function(scenario) {
 			if(!!scenario._widget) {
-				if(scenario.hasOwnProperty('tags'))
-					console.log(regex.toString() + '.test("' + scenario.tags.join(' ') + '");', regex.test(scenario.tags.join(' ')));
+				console.group('showScenariosByTags: ', scenario.name)
 
-				if(scenario.hasOwnProperty('tags') && regex.test(scenario.tags.join(' '))) {
-					scenario._widget.show();
+				if(scenario.hasOwnProperty('tags')) {
+					console.log(regexIn.toString() + '.test("' + scenario.tags.join(' ') + '");', regexIn.test(scenario.tags.join(' ')));
+					console.log(regexOut.toString() + '.test("' + scenario.tags.join(' ') + '");', regexOut.test(scenario.tags.join(' ')));
+
+					var scenarioTags = scenario.tags.join(' '),
+						isIn = regexIn.test(scenarioTags),
+						isOut = regexOut.test(scenarioTags)
+					;
+
+					// both regex in true is not an accepted scenario!
+
+					if(isIn) {
+						console.log('is in white: show');
+						scenario._widget.show();
+					}
+					if(isOut) {
+						scenario._widget.hide();
+						console.log('isOUT: hide');
+					}
+					if(!isIn && !isOut) {
+						// is not present in any list
+						scenario._widget.hide();
+						console.log('not filter?: hide');
+					}
+
 				} else {
-					scenario._widget.hide();
+					console.log('NoTags: hide');
+					scenario._widget.hide(); // if no tags, no shown
 				}
+				console.groupEnd();
 			}
 		});
+		console.groupEnd()
 	};
 
 	return ContainerWidget;

@@ -50,7 +50,6 @@ function processNightlies(docs) {
 			date: nightly.lastExecution
 		};
 
-
 		promises.push(getLastFailedSteps(record));
 
 		response.push(record);
