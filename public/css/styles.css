@@ -35,7 +35,7 @@
 		height 400ms,
 		background-color 150ms,
 		margin 300ms,
-		padding 300ms,
+		padding 0ms,
 		width 300ms,
 		height 300ms
 	;
@@ -209,6 +209,9 @@ h1, h2, h3, h4, h5, h6 {
 	position: relative;
 	padding: 10px;
 	margin-bottom: 10px;
+}
+.panel:last-child {
+	margin-bottom: 0px;
 }
 
 .panel.full {
@@ -634,3 +637,9 @@ ul.context-menu-container li.context-menu-submenu:hover > ul {
 	color: #fff;
 }
 
+.scenario.expandable.expanded {
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
+li:first-child .scenario.expandable.expanded { margin-top: 0px; }
+li:last-child .scenario.expandable.expanded { margin-bottom: 0px; }
