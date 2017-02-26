@@ -134,17 +134,17 @@ define([
 			regexOut.test = function() {return false;}
 		}
 
-		console.group('showScenariosByTags')
-		console.log('includedTags', includedTags.join(', '));
-		console.log('excludedTags', excludedTags.join(', '));
+		// console.group('showScenariosByTags')
+		// console.log('includedTags', includedTags.join(', '));
+		// console.log('excludedTags', excludedTags.join(', '));
 
 		this.scenarios().forEach(function(scenario) {
 			if(!!scenario._widget) {
-				console.group('showScenariosByTags: ', scenario.name)
+				// console.group('showScenariosByTags: ', scenario.name)
 
 				if(scenario.hasOwnProperty('tags')) {
-					console.log(regexIn.toString() + '.test("' + scenario.tags.join(' ') + '");', regexIn.test(scenario.tags.join(' ')));
-					console.log(regexOut.toString() + '.test("' + scenario.tags.join(' ') + '");', regexOut.test(scenario.tags.join(' ')));
+					// console.log(regexIn.toString() + '.test("' + scenario.tags.join(' ') + '");', regexIn.test(scenario.tags.join(' ')));
+					// console.log(regexOut.toString() + '.test("' + scenario.tags.join(' ') + '");', regexOut.test(scenario.tags.join(' ')));
 
 					var scenarioTags = scenario.tags.join(' '),
 						isIn = regexIn.test(scenarioTags),
@@ -154,27 +154,27 @@ define([
 					// both regex in true is not an accepted scenario!
 
 					if(isIn) {
-						console.log('is in white: show');
+						// console.log('is in white: show');
 						scenario._widget.show();
 					}
 					if(isOut) {
 						scenario._widget.hide();
-						console.log('isOUT: hide');
+						// console.log('isOUT: hide');
 					}
 					if(!isIn && !isOut) {
 						// is not present in any list
 						scenario._widget.hide();
-						console.log('not filter?: hide');
+						// console.log('not filter?: hide');
 					}
 
 				} else {
-					console.log('NoTags: hide');
+					// console.log('NoTags: hide');
 					scenario._widget.hide(); // if no tags, no shown
 				}
-				console.groupEnd();
+				// console.groupEnd();
 			}
 		});
-		console.groupEnd()
+		// console.groupEnd()
 	};
 
 	return ContainerWidget;

@@ -105,7 +105,7 @@ define([
 	};
 
 	ContextMenu.prototype.bindToElement = function(element, layout, cbk) {
-		console.log('CONTEXTMENU BINDED TO', element);
+		// console.log('CONTEXTMENU BINDED TO', element);
 		var me = this;
 		$(element).on('contextmenu', function(e) {
 			if(!!cbk) {
@@ -117,7 +117,7 @@ define([
 			me.render(layout);
 			me.open(e);
 
-			console.log('CONTEXT MENU ACTIONED ON', this, e, e.target === this);
+			// console.log('CONTEXT MENU ACTIONED ON', this, e, e.target === this);
 
 			e.preventDefault();
 			return false;

@@ -32,7 +32,7 @@
 	) {
 		app.title = 'Cucumber Statistics';
 
-		system.debug(true);
+		system.debug(false);
 
 		app.configurePlugins({
 		    router:true,

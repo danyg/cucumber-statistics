@@ -24,7 +24,7 @@ define([
 		this.director = this._settings.director;
 		this._setPositions();
 
-		console.log(this);
+		// console.log(this);
 		if(!window.menus) {
 			window.menus = [];
 		}
