@@ -1,6 +1,6 @@
 html, body {
 	font: normal 14px/20px 'Trebuchet MS', Sans-Serif;
-	color: #222;
+	color: #ddd;
 	font-family: 'Open Sans', sans-serif;
 }
 
@@ -9,9 +9,11 @@ html, body {
 }
 
 h1, h2, h3, h4, h5, h6 {
-	color: #00A818;
-	text-shadow: 0px 0px 1px #00A818/*, 2px 2px 3px #ccc*/;
+	color: #eee;
 	font-family: 'Ubuntu', sans-serif;
+	font-weight: normal;
+	margin-left: 0;
+	padding-left: 0;
 }
 .error-message {
 	background-color: #D98B89;
@@ -20,27 +22,29 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .item {
-	background-color: #ddd;
+	background-color: #555;
 }
-
 .passed,
 .item.passed {
-	background-color: #C4D88D;
-	color: #222;
+	background-color: #98A771;
+	color: #000;
 }
 
 .failed,
 .item.failed {
-	background-color: #D98B89;
-	color: #222;
+	background-color: #B57675;
+	color: #000;
 }
 
 .skipped,
 .item.skipped {
-	background-color: #63CBED;
-	color: #222;
+	background-color: #56AAC5;
+	color: #000;
 }
 
+.description {
+	background: #444;
+}
 
 .itemised-list.nightlies-container {
 	width: 100%;
@@ -75,11 +79,13 @@ h1, h2, h3, h4, h5, h6 {
 	user-select: none;
 	border-radius: 4px 4px 0px 0px;
 }
+
 .item.nightly a{
 	color: #eee;
 }
 .item.nightly:hover {
 	position: relative;
+	box-shadow: inset 7px 0px 10px -5px #fff
 	/*top: -0.25em;
 	left: -0.25em;
 	box-shadow: 5px 5px 15px rgba(0,0,0,.6);
@@ -89,12 +95,8 @@ h1, h2, h3, h4, h5, h6 {
 	box-shadow: inset 7px 0px 10px -5px #10ee10
 }
 .panel.full {
-	background: #002200;
-	box-shadow: 2px 2px 5px #000;
-}
-
-.description {
-	background: #ccc;
+	background: #333;
+	box-shadow: 1px 1px 5px rgba(0,0,0,.5);
 }
 
 .loading-container.hover {
@@ -151,15 +153,34 @@ ul.context-menu-container li {
 }
 .main-container >.menu .nightlies-container {
 	width: 0px;
-}/*
-.main-container >.menu.stored .item {
-	width: 0;
-	min-width: 0;
-	padding:0;
-	margin:0;
-	overflow: hidden;
-}*/
+}
+
+.main-container >.menu.alone {
+	padding: 5px;
+}
+
+.main-container >.menu.alone .nightlies-container {
+	width: 100%;
+}
+
+
 .main-container >.container {
 	/*float: right;
 	width: 84%;*/
+	padding: 12px
+}
+
+.filter-checkbox { opacity: .8; }
+.filter-checkbox:hover { opacity: 1; }
+
+.panel.full >h1,
+.panel.full >h2,
+.panel.full >h3,
+.panel.full >h4,
+.panel.full >h5,
+.panel.full >h6 {
+	border-bottom: 1px solid #444;
+	padding-bottom: 8px;
+	margin-bottom: 10px;
+	font-size: 16px
 }

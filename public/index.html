@@ -5,12 +5,17 @@
 	<link href='https://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
 	<link href='https://fonts.googleapis.com/css?family=Ubuntu' rel='stylesheet' type='text/css'>
 	<link rel="stylesheet" type="text/css" href="css/styles.css"/>
-	<link rel="stylesheet" type="text/css" href="css/theme-cucumber.css" id="theme"/>
-	<!-- <link rel="stylesheet" type="text/css" href="css/dark.css" id="theme"/> -->
+	<link rel="stylesheet" type="text/css" href="css/dark.css" id="theme"/>
 
 	<script type="text/javascript" src="./bower_components/requirejs/require.js" data-main="./app/main"></script>
 </head>
 <body>
+	<div id="theme-changer-container">
+		<select id="theme-changer">
+			<option value="/css/dark.css" selected>Dark</option>
+			<option value="/css/theme-cucumber.css">Cucumber-Dark</option>
+		</select>
+	</div>
 	<div id="applicationHost">
 		<div class="loading">
 			<div class="rect1"></div>
@@ -20,5 +25,13 @@
 			<div class="rect5"></div>
 		</div>
     </div>
+
+    <script type="text/javascript">
+    	var elm = document.getElementById('theme-changer');
+    	elm
+    		.addEventListener('change', function() {
+    			document.getElementById('theme').setAttribute('href', elm.value);
+    		})
+    </script>
 </body>
 </html>

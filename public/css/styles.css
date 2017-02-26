@@ -113,19 +113,16 @@ h1, h2, h3, h4, h5, h6 {
 .passed,
 .item.passed {
 	background-color: #C4D88D;
-	color: #222;
 }
 
 .failed,
 .item.failed {
 	background-color: #D98B89;
-	color: #222;
 }
 
 .skipped,
 .item.skipped {
 	background-color: #63CBED;
-	color: #222;
 }
 
 .itemised-list {
@@ -567,3 +564,25 @@ ul.context-menu-container li.context-menu-submenu:hover > ul {
 }
 li:first-child .scenario.expandable.expanded { margin-top: 0px; }
 li:last-child .scenario.expandable.expanded { margin-bottom: 0px; }
+
+
+#theme-changer-container {
+	padding: 5px 0px 5px 5px;
+	position: fixed;
+	right: 0;
+	top: 0;
+	z-index: 20;
+	background: #444;
+}
+#theme-changer-container select {
+	width: 0px;
+	overflow: hidden;
+}
+#theme-changer-container select:focus,
+#theme-changer-container select:active {
+	outline: none;
+}
+#theme-changer-container:hover select {
+	width: 150px;
+	overflow: initial;
+}
