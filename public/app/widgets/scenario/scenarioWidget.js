@@ -42,11 +42,12 @@ define([
 		this.expanded = ko.observable(false);
 		this.status = ko.observable('');
 		this.userStatus = ko.observable('');
+		this.isNew = ko.observable(false);
 
 		this.nightlyId = ko.observable();
 
 		this.cssClasses = ko.computed(function() {
-			return (me.expanded() ? 'expanded ': '' + me.status()) + ' marked-as-' + me.userStatus();
+			return (me.expanded() ? 'expanded ': '' + me.status()) + ' marked-as-' + me.userStatus() + (me.isNew() ? ' marked-as-new' : '');
 		});
 
 		this._isFixed = ko.computed(function() {
@@ -90,6 +91,10 @@ define([
 			this.userStatus(scenario.userStatus);
 		} else {
 			this.userStatus('none');
+		}
+
+		if(!!scenario.results) {
+			this.isNew(scenario.results[scenario.results.length-1].status === 'failed' && scenario.results[scenario.results.length-2].status === 'passed');
 		}
 
 		this.nightlyId(!!this._settings.nightlyId ?

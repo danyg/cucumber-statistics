@@ -372,6 +372,33 @@ button[disabled] {
 	padding-left: 23px;
 }
 
+.item.marked-as-new {
+       	background-position: 4px .3em;
+        background-repeat: no-repeat;
+        background-origin: padding-box;
+/*	border: solid 2px #eee;
+        box-shadow: inset 0px 0px 2px 2px #eee;*/
+	position: relative;
+}
+.item.marked-as-new:before {
+	content: 'N';
+	font-size: 16px;
+	width: 22px;
+	position: absolute;
+	left: 3px;
+	top: 0;
+	text-align: center;
+	height: 22px;
+	border-radius: 12px;
+	background: red;
+	color: white;
+}
+
+.item.marked-as-new > .title {
+        padding-left: 23px;
+}
+
+
 label.checkbox {
 	line-height: 2em;
 }
