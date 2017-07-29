@@ -4,7 +4,7 @@ define([
 	'jquery',
 	'plugins/http',
 
-	'nightly/nightly'
+	'modules/nightly/nightly'
 ], function(
 	ko,
 	system,

@@ -7,7 +7,7 @@
     "install": "cd public && bower install && cd ..",
     "test": "./node_modules/.bin/jasmine-node --color ./test",
     "autotest": "./node_modules/.bin/jasmine-node --autotest --color ./test",
-    "start": "node main"
+    "start": "node main mongodb"
   },
   "repository": {
     "type": "git",

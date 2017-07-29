@@ -3,9 +3,9 @@ define([
 	'jquery',
 
 	'plugins/http',
-	'nightly/nightly',
+	'modules/nightly/nightly',
 
-	'contextMenu/contextMenu'
+	'modules/contextMenu/contextMenu'
 ], function(
 	ko,
 	$,
@@ -97,10 +97,15 @@ define([
 			this.isNew(scenario.results[scenario.results.length-1].status === 'failed' && scenario.results[scenario.results.length-2].status === 'passed');
 		}
 
-		this.nightlyId(!!this._settings.nightlyId ?
-			this._settings.nightlyId :
-			nightlyController.nightlyId()
-		);
+		if(scenario.hasOwnProperty('_parent')) {
+			this.nightlyId(scenario._parent.name);
+		} else {
+			this.nightlyId(!!this._settings.nightlyId ?
+				this._settings.nightlyId :
+				nightlyController.nightlyId()
+			);
+		}
+
 
 		this.status(scenario.lastStatus);
 

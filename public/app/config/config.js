@@ -7,20 +7,20 @@ define([], function() {
 			{
 				route: '',
 				title: 'Home',
-				moduleId: 'home/home',
+				moduleId: 'modules/home/home',
 				nav: true,
 				home: true
 			},
 			{
 				route: 'nightly/:id',
 				title: 'Nightly ',
-				moduleId: 'nightly/nightly',
+				moduleId: 'modules/nightly/nightly',
 				nav: false
 			},
 			{
 				route: 'lastExecution',
 				title: 'Last Executions ',
-				moduleId: 'lastExecution/lastExecution',
+				moduleId: 'modules/lastExecution/lastExecution',
 				nav: false
 			}
 		]

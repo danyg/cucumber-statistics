@@ -44,7 +44,7 @@
 		 	viewLocator.useConvention();
 		 	widgetConvention();
 
-		 	app.setRoot('shell/shell');
+		 	app.setRoot('modules/shell/shell');
 		 });
 	});
 

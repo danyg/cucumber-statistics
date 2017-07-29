@@ -3,7 +3,7 @@ define([
 	'plugins/http',
 	'plugins/router',
 
-	'contextMenu/contextMenu'
+	'modules/contextMenu/contextMenu'
 ], function(
 	ko,
 	http,
