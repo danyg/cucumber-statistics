@@ -23,7 +23,7 @@ function(
 			return 'widgets/' + kind + '/' + kind + type;
 		} else {
 			var parts = getParts(kind, type);
-			return parts.container + '/widgets/' + parts.subpath;
+			return 'modules/' + parts.container + '/widgets/' + parts.subpath;
 		}
 	}
 
