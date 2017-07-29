@@ -23,17 +23,16 @@ define([
 
 	Home.prototype.getData = function() {
 		this.errorMsg('');
-		this.promise = http.get('/nightlies')
+		http.get('/nightlies')
 			.then(
 				this._onData.bind(this),
 				this._onFailure.bind(this)
 			)
-			.promise()
 		;
 	};
 
 	Home.prototype.activate = function() {
-		return this.promise;
+		return true;
 	};
 
 	Home.prototype.attached = function(view) {

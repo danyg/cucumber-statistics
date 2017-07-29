@@ -7,7 +7,7 @@ until.elementIsNotPresent = function elementIsNotPresent(locator) {
 	});
 };
 
-by.testId = function(testid) {
+By.testId = function(testid) {
 	return by.css(`[data-testid="${testid}"]`);
 }
 
@@ -17,4 +17,5 @@ module.exports = {
 			return index == 0 ? letter.toLowerCase() : letter.toUpperCase();
 		}).replace(/\s+/g, '');
 	}
+
 }

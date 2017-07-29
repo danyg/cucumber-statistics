@@ -10,26 +10,34 @@ var e = new EventEmitter(),
 	_DB_ = null
 ;
 
-var mongoDBUrl = 'mongodb://localhost:27017/cucumberStatistics';
+const MONGO_URL = 'mongodb://localhost:27017/';
 
-function connect(cbk) {
-	isUsed = true;
-
-	if(typeof cbk === 'function') {
-		onConnected(cbk);
-	}
-
-	MongoClient.connect(mongoDBUrl, function(err, db) {
-
-		if(err) {
-			console.error('Error connecting to ' + mongoDBUrl + ' due: ' + err.toString() );
-			process.exit(-1);
-		} else {
-			isConnected = true;
-			_DB_ = db;
-			e.emit('mongo-connected', db);
-
+function connect(dbName, cbk) {
+	return new Promise(function(resolve, reject) {
+		if(isUsed) {
+			return resolve(_DB_);
 		}
+		let mongoDBUrl = MONGO_URL + dbName;
+		isUsed = true;
+
+		if(typeof cbk === 'function') {
+			onConnected(cbk);
+		}
+
+		console.log(`Connection to MongoDB to ${mongoDBUrl}...`);
+		MongoClient.connect(mongoDBUrl, function(err, db) {
+			if(err) {
+				console.error(`Error connecting to ${mongoDBUrl}\nError:\n\t${err}\n`);
+				reject(err);
+			} else {
+
+				isConnected = true;
+				_DB_ = db;
+
+				resolve(_DB_);
+				e.emit('mongo-connected', db);
+			}
+		});
 	});
 }
 

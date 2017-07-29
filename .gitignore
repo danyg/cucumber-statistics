@@ -1,5 +1,4 @@
 node_modules
-acceptanceTests/node_modules
 db
 test/db
 public/bower_components
@@ -7,4 +6,6 @@ public/n_img
 assets
 logs
 ./reports
+acceptanceTests/node_modules
+acceptanceTests/logs
 **/npm-debug.log

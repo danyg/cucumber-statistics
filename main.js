@@ -13,15 +13,15 @@ function start() {
 
 	server = fork('./server', forkArgs);
 
-	server.on('close', function() {
+	server.on('close', function(code, signal) {
 		stop();
-		console.log('Server disconnected restarting');
+		console.log(`Server disconnected [CODE: ${code}, SIGNAL: ${signal}] restarting\n`);
 		start();
 	});
 
-	server.on('disconnect', function() {
+	server.on('disconnect', function(e) {
 		stop();
-		console.log('Server disconnected restarting');
+		console.log('Server disconnected restarting...\n');
 		start();
 	});
 
