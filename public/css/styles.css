@@ -1,14 +1,10 @@
 ::-webkit-scrollbar {
-  width: 2px;
-  height: 2px;
-  opacity: 0.2;
-  transition: opacity 500ms, width 200ms;
-}
-::-webkit-scrollbar:hover {
-  opacity: 1;
   width: 8px;
   height: 8px;
+  opacity: 1;
+  transition: opacity 500ms, width 200ms;
 }
+
 ::-webkit-scrollbar-button {
   width: 0px;
   height: 0px;
@@ -16,12 +12,12 @@
 ::-webkit-scrollbar-thumb {
   background: #888;
   border: 0px none #666666;
-  border-radius: 50px;
+  /*border-radius: 50px;*/
 }
 ::-webkit-scrollbar-track {
   background: #444;
   border: 0px none #222222;
-  border-radius: 50px;
+  /*border-radius: 50px;*/
 }
 ::-webkit-scrollbar-corner {
   background: transparent;
@@ -255,6 +251,11 @@ ul.image-list {
 		transform: scaleY(1.0);
 		-webkit-transform: scaleY(1.0);
 	}
+}
+
+.scrollable-contents {
+	max-height: 100vh;
+	overflow-y: auto;
 }
 
 .main-container >.menu .nightlies-container {
