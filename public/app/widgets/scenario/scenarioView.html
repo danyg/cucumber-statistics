@@ -16,9 +16,17 @@
 			<!-- ko if: !_isFixed() && status() !== 'passed' -->
 			<button
 				class="btn-mark-as-fixed"
-				title="Will hide the scenario. If the scenario fails again it will appear in this list again with a warning."
+				title="Will mark the scenario as fixed and will hide it for you and your collegues. If the scenario fails again in a future excecution it will appear in this list again with a warning."
 				data-bind="click: $widget.markAsFixed.bind($widget)"
 			>Mark as fixed</button>
+			<button
+				class="btn-show-hide-it"
+				title="Will show / hide the scenario only to you."
+				data-bind="
+					click: $widget.toggleHide.bind($widget),
+					text: $widget.isLocallyHidden() ? 'Show' : 'Hide'
+				"
+			></button>
 			<!-- /ko -->
 			<!-- ko if: _isFixed() && status() !== 'passed' -->
 			<button
@@ -27,6 +35,7 @@
 				data-bind="click: $widget.markAsNone.bind($widget)"
 			>Mark as not fixed yet</button>
 			<!-- /ko -->
+
 
 			<div class="description tags" >
 				<p data-bind="click: _clipboard.bind($root,fileRaw()), attr: {title: file() }" class="copy-clipboard">

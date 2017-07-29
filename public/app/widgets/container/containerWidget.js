@@ -17,7 +17,6 @@ define([
 	'use strict';
 
 	function ContainerWidget() {
-		var me = this;
 		this.title = ko.observable();
 		this.scenarios = ko.observableArray();
 		this._isLoading = ko.observable(false);
@@ -33,23 +32,24 @@ define([
 
 		this._scenariosWidgets = ko.observableArray();;
 
-		this._scenariosWidgets.subscribe(function() {
+		this._scenariosWidgets.subscribe((function() {
 			var lPassed = 0,
 				lHidden = 0
 			;
-			if(!!me._scenariosWidgets()) {
-				me._scenariosWidgets().forEach(function(scenarioWidget) {
+			if(!!this._scenariosWidgets()) {
+				this._scenariosWidgets().forEach((function(scenarioWidget) {
 					lPassed += scenarioWidget.status() === 'passed' ? 1 : 0;
 
-					lHidden += (scenarioWidget.userStatus() === 'auto-fix' ||
-						scenarioWidget.userStatus() === 'fix') ? 1 : 0
-					;
-				});
+					lHidden += scenarioWidget.isInHiddenStatus() ? 1 : 0;
+					// lHidden += (scenarioWidget.userStatus() === 'auto-fix' ||
+					// 	scenarioWidget.userStatus() === 'fix') ? 1 : 0
+					// ;
+				}).bind(this));
 			}
 
-			me.passedScenariosLength(lPassed);
-			me.hiddenScenariosLength(lHidden);
-		});
+			this.passedScenariosLength(lPassed);
+			this.hiddenScenariosLength(lHidden);
+		}).bind(this));
 	}
 
 	ContainerWidget.prototype.activate = function(settings) {
@@ -107,10 +107,10 @@ define([
 	ContainerWidget.prototype.onActivateScenario = function(scenario, scenarioWidget) {
 		this._scenariosWidgets.push(scenarioWidget);
 		scenario._widget = scenarioWidget;
-		var me = this;
-		scenarioWidget.userStatus.subscribe(function() {
-			me._scenariosWidgets.notifySubscribers();
-		});
+		var forceNotify = this._scenariosWidgets.notifySubscribers.bind(this._scenariosWidgets);
+
+		scenarioWidget.isLocallyHidden.subscribe(forceNotify);
+		scenarioWidget.userStatus.subscribe(forceNotify);
 	};
 
 	ContainerWidget.prototype.showAllScenarios = function() {

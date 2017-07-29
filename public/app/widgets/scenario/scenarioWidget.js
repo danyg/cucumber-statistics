@@ -35,7 +35,7 @@ define([
 		this.timeAvg = ko.observable();
 
 		this.scenario = ko.observable();
-		this.showFixed = ko.observable(false);
+		this.showHidden = ko.observable(false);
 		this.hidePassed = ko.observable(false);
 
 		this._isLoading = ko.observable(false);
@@ -46,9 +46,21 @@ define([
 
 		this.nightlyId = ko.observable();
 
-		this.cssClasses = ko.computed(function() {
-			return (me.expanded() ? 'expanded ': '' + me.status()) + ' marked-as-' + me.userStatus() + (me.isNew() ? ' marked-as-new' : '');
-		});
+		this.isLocallyHidden = ko.observable(false);
+		this.hidden = ko.observable(false);
+
+		this.isForcedToBeHidden = ko.observable(false);
+		this.isForcedToBeShown = ko.observable(false);
+
+		this.cssClasses = ko.computed((function() {
+			var klasses = [
+				(this.expanded() ? 'expanded': this.status()),
+				('marked-as-' + this.userStatus()),
+				(this.isNew() ? 'marked-as-new' : ''),
+				(this.isLocallyHidden() ? 'is-locally-hidden' : '')
+			];
+			return klasses.join(' ');
+		}).bind(this));
 
 		this._isFixed = ko.computed(function() {
 			return (
@@ -56,8 +68,38 @@ define([
 				|| me.userStatus() === 'fix'
 			);
 		});
-		this.visible = ko.observable(true);
-		this.hidden = ko.observable(false);
+
+		this.visible = ko.computed((function() {
+			var forceSubscription = this.isForcedToBeHidden() || this.isForcedToBeShown || this.hidden() || this._isFixed() || this.isLocallyHidden() || this.status() || this.hidePassed() || this.showHidden();
+
+			if(this.isForcedToBeShown()) {
+				return true;
+			}
+			if(this.isForcedToBeHidden()) {
+				return false;
+			}
+
+			if(this.status() === 'passed') {
+				if(this.hidePassed()) {
+					return false;
+				}
+				return true;
+			}
+
+			if(this._isFixed() || this.isLocallyHidden()) {
+				if(this.showHidden()) {
+					return true;
+				}
+				return false;
+			}
+
+			return true;
+		}).bind(this));
+
+		// to be used in container to list the amount of hidden elements
+		this.isInHiddenStatus = ko.computed((function() {
+			return this._isFixed() || this.isLocallyHidden();
+		}).bind(this));
 	}
 
 	ScenarioWidget.prototype.activate = function(settings) {
@@ -67,8 +109,8 @@ define([
 		var scenario = this._settings.scenario;
 		this.scenario(scenario);
 
-		if(!!this._settings.showFixed) {
-			this.showFixed = this._settings.showFixed;
+		if(!!this._settings.showHidden) {
+			this.showHidden = this._settings.showHidden;
 		}
 		if(!!this._settings.hidePassed) {
 			this.hidePassed = this._settings.hidePassed;
@@ -129,14 +171,6 @@ define([
 			this._settings.onActivate(this);
 		}
 
-		this.visible = ko.computed((function() {
-			var v = this.hidePassed() && this.status() === 'passed' ? false : true;
-			if(v) {
-				v = this._isFixed() ? this.showFixed() : true;
-			}
-			v = v && !this.hidden();
-			return v;
-		}).bind(this));
 
 		return true;
 	};
@@ -179,7 +213,8 @@ define([
 	 * @return void
 	 */
 	ScenarioWidget.prototype.show = function() {
-		this.hidden(false);
+		this.isForcedToBeHidden(false);
+		this.isForcedToBeShown(true);
 	}
 	/**
 	 * Will mark it to be hidden, this will override any other logic and it
@@ -189,7 +224,8 @@ define([
 	 * @return void
 	 */
 	ScenarioWidget.prototype.hide = function() {
-		this.hidden(true);
+		this.isForcedToBeShown(false);
+		this.isForcedToBeHidden(true);
 	}
 
 	ScenarioWidget.prototype._formatStability = function(stability) {
@@ -204,6 +240,14 @@ define([
 
 	ScenarioWidget.prototype.markAsFixed = function() {
 		this._markAs('fix');
+	};
+
+	ScenarioWidget.prototype.toggleHide = function() {
+		this.isLocallyHidden(!this.isLocallyHidden());
+
+		if(this.expanded() && this.isLocallyHidden()){
+			this.toggleExpand();
+		}
 	};
 
 	ScenarioWidget.prototype.markAsNone = function() {

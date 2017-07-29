@@ -346,6 +346,7 @@ button[disabled] {
 	opacity: .7;
 }
 
+.item.is-locally-hidden,
 .item.marked-as-auto-fix,
 .item.marked-as-fix {
 	opacity: .6;

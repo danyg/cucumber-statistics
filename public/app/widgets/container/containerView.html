@@ -14,7 +14,7 @@
 	</label>
 	<label class="checkbox" data-bind="visible: showCheckbox()">
 		<input type="checkbox" data-bind="checked: showHiddenElements" />
-		Show hidden scenarios (<span data-bind="text: hiddenScenariosLength()"></span>)
+		Show hidden/fixed scenarios (<span data-bind="text: hiddenScenariosLength()"></span>)
 	</label>
 
 	<ul class="itemised-list scenarios-container" data-bind="foreach: { data: scenarios, as: 'scenario' }">
@@ -22,7 +22,7 @@
 			kind: 'scenario',
 			scenario: scenario,
 			sideValue: $widget._settings.method,
-			showFixed: $widget.showHiddenElements,
+			showHidden: $widget.showHiddenElements,
 			hidePassed: $widget.hidePassedElements,
 			nightlyId: $widget.nightlyId(),
 			onActivate: $widget.onActivateScenario.bind($widget, scenario)
