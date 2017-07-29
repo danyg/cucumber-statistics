@@ -7,3 +7,4 @@ public/n_img
 assets
 logs
 ./reports
+**/npm-debug.log
