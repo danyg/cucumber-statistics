@@ -22,7 +22,8 @@
 		'durandal/app',
 		'durandal/viewLocator',
 
-		'config/widgetConvention'
+		'config/widgetConvention',
+		'bindings/testid'
 	], function(
 		system,
 		app,

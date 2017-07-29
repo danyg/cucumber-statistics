@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites>
+    <testsuite name="basic-navegavility;a-user-can-select-a-nightly-to-be-check" tests="4" failures="0" skipped="0">
+        <properties>
+            <property name="URI" value="/scrumdata/workspaces/tests/cucumberStatistics/cucumber-statistics/acceptanceTests/features/navegavility.feature">
+            </property>
+        </properties>
+        <testcase name="Given A user is in cucumber statistics" classname="basic-navegavility;a-user-can-select-a-nightly-to-be-check" time="1.142398458">
+        </testcase>
+        <testcase name="When the nightly &quot;main&quot; is selected" classname="basic-navegavility;a-user-can-select-a-nightly-to-be-check" time="0.663559695">
+        </testcase>
+        <testcase name="Then the &quot;Most unstables scenarios&quot; container is displayed" classname="basic-navegavility;a-user-can-select-a-nightly-to-be-check" time="0.02823989">
+        </testcase>
+        <testcase name="And the &quot;Most time consuming scenarios&quot; container is displayed" classname="basic-navegavility;a-user-can-select-a-nightly-to-be-check" time="0.034495008">
+        </testcase>
+    </testsuite>
+    <testsuite name="basic-navegavility;a-user-can-select-the-last-executions-view" tests="4" failures="0" skipped="0">
+        <properties>
+            <property name="URI" value="/scrumdata/workspaces/tests/cucumberStatistics/cucumber-statistics/acceptanceTests/features/navegavility.feature">
+            </property>
+        </properties>
+        <testcase name="Given A user is in cucumber statistics" classname="basic-navegavility;a-user-can-select-the-last-executions-view" time="1.066466812">
+        </testcase>
+        <testcase name="When the last executions are selected" classname="basic-navegavility;a-user-can-select-the-last-executions-view" time="0.726001852">
+        </testcase>
+        <testcase name="Then the &quot;All failed scenarios in last execution&quot; container is displayed" classname="basic-navegavility;a-user-can-select-the-last-executions-view" time="0.028502181">
+        </testcase>
+        <testcase name="And the user is presented with the Filter Tags component" classname="basic-navegavility;a-user-can-select-the-last-executions-view" time="0.007937904">
+        </testcase>
+    </testsuite>
+</testsuites>

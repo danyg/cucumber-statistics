@@ -1,0 +1,22 @@
+{
+  "name": "cucumber-statistics-aceptance-tests",
+  "version": "0.0.1",
+  "description": "Aceptance tests for cucumber-statistics.",
+  "main": "main.js",
+  "scripts": {
+    "test": "node ./node_modules/selenium-cucumber-js/index.js -b phantomjs -r ../reports"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/danyg/cucumber-statistics.git"
+  },
+  "keywords": [],
+  "author": "danyg",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/danyg/cucumber-statistics/issues"
+  },
+  "devDependencies": {
+    "selenium-cucumber-js": "git+https://github.com/danyg/selenium-cucumber-js.git"
+  }
+}

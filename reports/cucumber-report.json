@@ -1,0 +1,160 @@
+[
+  {
+    "elements": [
+      {
+        "id": "basic-navegavility;a-user-can-select-a-nightly-to-be-check",
+        "keyword": "Scenario",
+        "line": 3,
+        "name": "A user can select a nightly to be check",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "name": "A user is in cucumber statistics",
+            "result": {
+              "status": "passed",
+              "duration": 1142398458
+            },
+            "line": 4,
+            "match": {
+              "location": "/scrumdata/workspaces/tests/cucumberStatistics/cucumber-statistics/acceptanceTests/step-definitions/generic_givens-steps.js:3"
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "name": "the nightly \"main\" is selected",
+            "result": {
+              "status": "passed",
+              "duration": 663559695
+            },
+            "line": 5,
+            "match": {
+              "location": "/scrumdata/workspaces/tests/cucumberStatistics/cucumber-statistics/acceptanceTests/step-definitions/home-menu-steps.js:3"
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "name": "the \"Most unstables scenarios\" container is displayed",
+            "result": {
+              "status": "passed",
+              "duration": 28239890
+            },
+            "line": 6,
+            "match": {
+              "location": "/scrumdata/workspaces/tests/cucumberStatistics/cucumber-statistics/acceptanceTests/step-definitions/nightly-steps.js:3"
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "name": "the \"Most time consuming scenarios\" container is displayed",
+            "result": {
+              "status": "passed",
+              "duration": 34495008
+            },
+            "line": 7,
+            "match": {
+              "location": "/scrumdata/workspaces/tests/cucumberStatistics/cucumber-statistics/acceptanceTests/step-definitions/nightly-steps.js:3"
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "After ",
+            "result": {
+              "status": "passed",
+              "duration": 11837877
+            },
+            "hidden": true,
+            "match": {
+              "location": "/scrumdata/workspaces/tests/cucumberStatistics/cucumber-statistics/acceptanceTests/node_modules/selenium-cucumber-js/runtime/world.js:185"
+            }
+          }
+        ],
+        "tags": [],
+        "type": "scenario"
+      },
+      {
+        "id": "basic-navegavility;a-user-can-select-the-last-executions-view",
+        "keyword": "Scenario",
+        "line": 9,
+        "name": "A user can select the last executions view",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "name": "A user is in cucumber statistics",
+            "result": {
+              "status": "passed",
+              "duration": 1066466812
+            },
+            "line": 10,
+            "match": {
+              "location": "/scrumdata/workspaces/tests/cucumberStatistics/cucumber-statistics/acceptanceTests/step-definitions/generic_givens-steps.js:3"
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "When ",
+            "name": "the last executions are selected",
+            "result": {
+              "status": "passed",
+              "duration": 726001852
+            },
+            "line": 11,
+            "match": {
+              "location": "/scrumdata/workspaces/tests/cucumberStatistics/cucumber-statistics/acceptanceTests/step-definitions/home-menu-steps.js:11"
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "Then ",
+            "name": "the \"All failed scenarios in last execution\" container is displayed",
+            "result": {
+              "status": "passed",
+              "duration": 28502181
+            },
+            "line": 12,
+            "match": {
+              "location": "/scrumdata/workspaces/tests/cucumberStatistics/cucumber-statistics/acceptanceTests/step-definitions/nightly-steps.js:3"
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "And ",
+            "name": "the user is presented with the Filter Tags component",
+            "result": {
+              "status": "passed",
+              "duration": 7937904
+            },
+            "line": 13,
+            "match": {
+              "location": "/scrumdata/workspaces/tests/cucumberStatistics/cucumber-statistics/acceptanceTests/step-definitions/lastExecutions-steps.js:3"
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "After ",
+            "result": {
+              "status": "passed",
+              "duration": 5740970
+            },
+            "hidden": true,
+            "match": {
+              "location": "/scrumdata/workspaces/tests/cucumberStatistics/cucumber-statistics/acceptanceTests/node_modules/selenium-cucumber-js/runtime/world.js:185"
+            }
+          }
+        ],
+        "tags": [],
+        "type": "scenario"
+      }
+    ],
+    "id": "basic-navegavility",
+    "keyword": "Feature",
+    "line": 1,
+    "name": "Basic Navegavility",
+    "tags": [],
+    "uri": "/scrumdata/workspaces/tests/cucumberStatistics/cucumber-statistics/acceptanceTests/features/navegavility.feature"
+  }
+]

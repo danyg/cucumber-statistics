@@ -1,11 +1,12 @@
 {
   "name": "cucumber-statistics",
-  "version": "0.0.0",
+  "version": "0.0.10",
   "description": "A cucumber standalone tests based statistics server.",
   "main": "main.js",
   "scripts": {
     "install": "cd public && bower install && cd ..",
-    "test": "./node_modules/.bin/jasmine-node --color ./test",
+    "test": "cd acceptanceTests && npm install && npm test && cd ..",
+    "utest": "./node_modules/.bin/jasmine-node --color ./test",
     "autotest": "./node_modules/.bin/jasmine-node --autotest --color ./test",
     "start": "node main mongodb"
   },

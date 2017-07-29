@@ -12,7 +12,7 @@
 			nightlyId: 'lastExecution',
 			attached : $root._onWidgetActivated.bind($root)
 		} -->
-			<div data-part="filters" class="tag-filters">
+			<div data-part="filters" class="tag-filters" data-testid="filters_container">
 				<input data-bind="value: $root.filterFilter,valueUpdate:'keyup'" placeholder="Filter Tags">
 
 				<ul class="tags-list" data-bind="foreach: {data: $root.tags, as: 'tag'}, visible: $root._filterActivated">
