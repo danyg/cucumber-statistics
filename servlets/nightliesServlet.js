@@ -8,13 +8,14 @@ var Servlet = require('../core/Servlet'),
 	nighltiesModel = require('../app/models/nighltiesModel')(),
 
 	express = require('express'),
-	app = express()
+	app = express(),
+	LOGGER = new (require('../core/Logger'))('nightliesServlet')
 ;
 
 app.get('/', function(req, res) {
 	if(mongoDB.isUsed()) {
 		nighltiesModel.find().toArray(function(err, docs) {
-			console.log('find return', err, docs);
+			LOGGER.debug('find return', err, docs);
 			if(!!err) {
 				restResponses.error500(res, 'Error retrieving nightlyies form MongoDB ' + err);
 			} else {
@@ -22,7 +23,7 @@ app.get('/', function(req, res) {
 					var listOfNightlies = docs.map(function(item) {
 						return item._id;
 					});
-					console.log('returning', listOfNightlies);
+					LOGGER.debug('returning', listOfNightlies);
 
 					restResponses.ok200(res, listOfNightlies);
 				} else {

@@ -1,19 +1,19 @@
 'use strict';
 
-var loadServlets = require('./core/loadServlets'),
-	mongoDB = require('./core/mongoDB'),
-	express = require('express'),
-	logger = require('express-logger'),
-	app = express(),
-	DEFAULT_DB_NAME = 'cucumberStatistics',
-	DEFAULT_PORT = 9088
-;
+const LOGGER = new ( require('./core/Logger') )('cucumberStatistics');
+const loadServlets = require('./core/loadServlets');
+const mongoDB = require('./core/mongoDB');
+const express = require('express');
+const logger = require('express-logger');
+const app = express();
+const DEFAULT_DB_NAME = 'cucumberStatistics';
+const DEFAULT_PORT = 9088;
 
 function startHttpServer(port) {
 	port = !!port ? port : DEFAULT_PORT;
 	return new Promise(function(resolve, reject) {
 
-		console.log('Loading Servlets ...');
+		LOGGER.info('Loading Servlets ...');
 
 		var servelets = loadServlets(__dirname + '/servlets');
 
@@ -23,7 +23,7 @@ function startHttpServer(port) {
 			app.use(servelet.getRoute(), servelet.getServlet());
 		});
 
-		console.log(`Starting HTTP Server in port ${port} ...`);
+		LOGGER.info(`Starting HTTP Server in port ${port} ...`);
 
 		try{
 			app.listen(port, function() {
@@ -48,7 +48,7 @@ function startHttpServer(port) {
 
 			});
 		} catch(e) {
-			console.error(`Error trying to start server in port ${port}\nError:\n\t${e}\n`);
+			LOGGER.error(`Error trying to start server in port ${port}\nError:\n\t${e}\n`);
 			reject(e);
 		}
 	});
@@ -56,7 +56,7 @@ function startHttpServer(port) {
 
 function catchError(reject, e) {
 	if (require.main === module) {
-		console.error('\nError starting the app\nError:\n\t', e);
+		LOGGER.error('\nError starting the app\nError:\n\t', e);
 		process.exit(-1);
 	}
 	reject(e);
@@ -75,10 +75,18 @@ function startApp(mongodb, port) {
 			return mongoDB.connect(dbName)
 				.catch(catchError.bind(null, reject))
 				.then(_ => startHttpServer(port))
+				.then(_ => {
+					process.send ? process.send('STARTED') : '';
+					return _;
+				})
 				.then(resolve)
 			;
 		} else {
 			return startHttpServer(port)
+				.then(_ => {
+					process.send ? process.send('STARTED') : '';
+					return _;
+				})
 				.then(resolve)
 				.catch(catchError.bind(null, reject))
 			;

@@ -27,6 +27,9 @@ define([
 			if(typeof tI === 'string') {
 				return [tI, TI_SUFFIX];
 			} else {
+				if(tI === undefined) {
+					return [];
+				}
 				return tI.push(TI_SUFFIX);
 			}
 		};

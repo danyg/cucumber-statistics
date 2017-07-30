@@ -19,7 +19,7 @@ module.exports = function () {
 
 	// add before scenario hook
 	this.BeforeScenario(function(scenario, done) {
-		console.log('Starting Scenario: ' + scenario.getName());
+		LOGGER.info('Starting Scenario: ' + scenario.getName());
 		if(scenario.getTags().indexOf('@RestartServer') !== -1){
 
 			page.appPO.startApp()
@@ -34,7 +34,7 @@ module.exports = function () {
 	// add after scenario hook
 	this.AfterScenario(function(scenario, done) {
 		if(scenario.getTags().indexOf('@DontStopServer'))
-		console.log('AfterScenario: ' + scenario.getName());
+		LOGGER.info('AfterScenario: ' + scenario.getName());
 		done();
 	});
 

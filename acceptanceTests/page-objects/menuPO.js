@@ -11,14 +11,14 @@ module.exports = {
 		var elm = driver.findElement(this.elements.nightliesList);
 		return elm.findElement(by.xpath(`//*[contains(text(), '${nighlyName}')]/..`))
 			.click()
-				.then(page.appPO.waitForMainSpinner.bind(this))
+				.then(_ => page.appPO.waitForMainSpinner())
 		;
 	},
 
 	selectLastExecutions: function() {
 		return driver.findElement(this.elements.lastExecutionsBtn)
 			.click()
-				.then(page.appPO.waitForMainSpinner.bind(this))
+				.then(_ => page.appPO.waitForMainSpinner())
 		;
 	},
 

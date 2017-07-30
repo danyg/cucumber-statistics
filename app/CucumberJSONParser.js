@@ -14,7 +14,9 @@ var scenariosDataStoreFactory = require('./models/scenariosModel'),
 	STATUS_FIX = 'fix',
 	STATUS_AUTO_FIX= 'auto-fix',
 	STATUS_RECIDIVIST = 'recidivist',
-	STATUS_AUTO_RECIDIVIST = 'auto-recidivist'
+	STATUS_AUTO_RECIDIVIST = 'auto-recidivist',
+
+	LOGGER = new (require('../core/Logger'))('CucumberJSONParser')
 ;
 
 function CucumberJSONParser(nighlyId, buildId) {
@@ -26,7 +28,16 @@ function CucumberJSONParser(nighlyId, buildId) {
 }
 
 CucumberJSONParser.prototype.parse = function(json) {
-	json.forEach(this._processFeature.bind(this));
+	return new Promise((resolve, reject) => {
+
+		this.promises = [];
+		json.forEach(this._processFeature.bind(this));
+
+		Promise.all(this.promises)
+			.then(_ => resolve())
+			.catch(_ => reject())
+		;
+	});
 };
 
 CucumberJSONParser.prototype._processTags = function(tags) {
@@ -44,10 +55,10 @@ CucumberJSONParser.prototype._processFeature = function(feature, index) {
 		if(!!feature.elements) {
 			feature.elements.forEach(this._processScenario.bind(this, feature.uri, this._processTags(feature.tags)));
 		} else {
-			console.warn('Feature ' + index + ' doesn\'t have elements');
+			LOGGER.warn('Feature ' + index + ' doesn\'t have elements');
 		}
 	} catch (_err) {
-		console.error('Error Processing Feature ', _err.toString() + '\n\t' + _err.stack);
+		LOGGER.error('Error Processing Feature ', _err.toString() + '\n\t' + _err.stack);
 	}
 };
 
@@ -75,7 +86,6 @@ CucumberJSONParser.prototype._processScenario = function(featureUri, featureTags
 				userStatus: STATUS_NONE
 			};
 
-
 			if(!!scenario.before) {
 				var resultBefore = this._processSteps(scenario.before);
 				this._concatResults(currentExecution, resultBefore);
@@ -100,31 +110,35 @@ CucumberJSONParser.prototype._processScenario = function(featureUri, featureTags
 			scenarioToDB.userStatus = STATUS_NONE;
 			scenarioToDB.steps = steps;
 
-console.log('');
-console.log('---[ Scenario ] ----------------------------------------------------------------');
-console.log(scenario.name);
-console.log('');
-console.log('featureTags:', featureTags);
-console.log('scenarioTags:', this._processTags(scenario.tags));
+			LOGGER.debug('');
+			LOGGER.debug('---[ Scenario ] ----------------------------------------------------------------');
+			LOGGER.debug(scenario.name);
+			LOGGER.debug('');
+			LOGGER.debug('featureTags:', featureTags);
+			LOGGER.debug('scenarioTags:', this._processTags(scenario.tags));
 
 			var tags = featureTags.concat(this._processTags(scenario.tags));
 			scenarioToDB.tags = tags;
 
-			// console.log('>?id', id);
-			this.scenariosModel.findOne({_id: id}, function(err, oldScenario){
-				// console.log('oldScenario found?',!!oldScenario, !!oldScenario ? oldScenario._id : '');
-				if(!!oldScenario) {
-					scenarioToDB.userStatus = me._checkRecidivist(currentExecution, oldScenario);
-				}
+			// LOGGER.debug('>?id', id);
+			this.promises.push(
+				this.scenariosModel.findOne({_id: id})
+					.then(oldScenario => {
+						if(!!oldScenario) {
+							scenarioToDB.userStatus = this._checkRecidivist(currentExecution, oldScenario);
+						}
 
-				me._pushScenario(scenarioToDB, currentExecution);
-			});
+						return this._pushScenario(scenarioToDB, currentExecution)
+							.then(_ => { LOGGER.debug('Scenario Upserted ', id) ; return _;})
+						;
+					})
+			);
 
 		} else {
-			console.warn('Scenario ' + scenario.id + ' doesn\'t have steps');
+			LOGGER.warn('Scenario ' + scenario.id + ' doesn\'t have steps');
 		}
 	} catch (_err) {
-		console.error('Error Processing Scenario ', _err.toString() + '\n\t' + _err.stack);
+		LOGGER.error('Error Processing Scenario ', _err.toString() + '\n\t' + _err.stack);
 	}
 };
 
@@ -156,20 +170,20 @@ CucumberJSONParser.prototype._checkRecidivist = function(currentExecution, oldSc
 		}
 	}
 
-	// console.log(oldScenario._id, '--> ', status, '| last5', last5, '| current', currentExecution.status, 'wasFailed', wasFailed, 'oldScenario.userStatus', oldScenario.userStatus||'UDEF');
+	// LOGGER.debug(oldScenario._id, '--> ', status, '| last5', last5, '| current', currentExecution.status, 'wasFailed', wasFailed, 'oldScenario.userStatus', oldScenario.userStatus||'UDEF');
 	return status;
 };
 
 CucumberJSONParser.prototype._pushScenario = function(scenarioToDB, currentExecution) {
-	console.log('Pushing Scenario: ' + scenarioToDB._id);
-	console.log('\t # Steps: ' + scenarioToDB.steps.length);
-	console.log('\t # Tags: ' + scenarioToDB.tags.join(' '));
-	console.log('\t # file: ' + scenarioToDB.file);
-	console.log('');
+	LOGGER.debug('Pushing Scenario: ' + scenarioToDB._id);
+	LOGGER.debug('\t # Steps: ' + scenarioToDB.steps.length);
+	LOGGER.debug('\t # Tags: ' + scenarioToDB.tags.join(' '));
+	LOGGER.debug('\t # file: ' + scenarioToDB.file);
+	LOGGER.debug('');
 	var id = scenarioToDB._id;
 	delete scenarioToDB._id;
 
-	this.scenariosModel.update(
+	return this.scenariosModel.update(
 		{
 			_id: id
 		},
@@ -179,13 +193,10 @@ CucumberJSONParser.prototype._pushScenario = function(scenarioToDB, currentExecu
 		},
 		{
 			upsert: true
-		},
-		function(err/*, newDoc*/) {
-			if(!!err) {
-				console.error('Error upserting ', scenarioToDB.name, 'MESSAGE:', err.message);
-			}
 		}
-	);
+	)
+		.catch(err => err ? LOGGER.error('Error upserting ', scenarioToDB.name, 'MESSAGE:', err.message) : '' )
+	;
 };
 
 CucumberJSONParser.prototype._concatResults = function(currentExecution, stepResults) {
@@ -269,7 +280,7 @@ CucumberJSONParser.prototype._getStepExtraInfo = function(step, stepId) {
 			zlib.gzip(buf, function (_, result) {  // The callback will give you the
 				fs.writeFile(root + fName + '.gz', result, function(err) {
 					if(!!err) {
-						console.error(err);
+						LOGGER.error(err);
 					}
 				});
 			});

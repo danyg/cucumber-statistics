@@ -1,0 +1,6 @@
+{
+	"logLevel": "DEBUG",
+	"outputs": [
+		"file:./logs/cucumber-statistics.app.log"
+	]
+}

@@ -10,44 +10,33 @@ class DatabaseSO {
 		return mongoDB.connect(TEST_DB_NAME)
 			.then(db => this.db = db)
 			.then(this._cleanDB.bind(this))
-			.then(_ => console.log('Testing DB wiped out...'))
+			.then(_ => LOGGER.info('Testing DB wiped out...'))
 		;
 	}
 
 	_cleanDB() {
 		let promises = [];
-		return new Promise((ok, fail) => {
-			this.db.collections((err, list) => {
-				err ? fail(err): err;
-				promises.concat(
-					list.map(colName => new Promise((reject, resolve) => {
-						console.log(' ', colName);
-						console.log(' ', colName);
-						console.log(' ', colName);
-						console.log(' ', colName);
-						console.log(' ', colName);
-						console.log(' ', colName);
-						console.log(' ', colName);
-						console.log('ABOUT TO DROP ', colName);
-						console.log(' ', colName);
-						console.log(' ', colName);
-						console.log(' ', colName);
-						console.log(' ', colName);
-						console.log(' ', colName);
-						console.log(' ', colName);
-						console.log(' ', colName);
-						reject();
-						// db.dropCollection(colName, function(err, r){
-						// 	err ? reject(err) : resolve(r);
-						// });
-					}))
-				);
-				Promise.all(promises)
-					.then(ok)
-					.catch(fail)
-				;
-			});
-		});
+
+		return this.db.collections()
+			.then(list => {
+				return Promise.all(list.map(collection => {
+					if(collection.collectionName === 'system.indexes') {
+						return true;
+					}
+					LOGGER.debug(`Droping collection ${collection.collectionName}...`);
+					return this.db.dropCollection(
+							collection.collectionName
+						)
+						.then(_ => {
+							LOGGER.debug(`Collection ${collection.collectionName} Dropped.`);
+							return _;
+						})
+					;
+
+				}));
+			})
+		;
+
 	}
 
 	fillDatabaseWith (dataScript) {

@@ -6,6 +6,8 @@
   "scripts": {
     "install": "cd public && bower install && cd ..",
     "test": "cd acceptanceTests && npm install && npm test && cd ..",
+    "toTest": "cd acceptanceTests && npm install && npm run toTest && cd ..",
+    "testServer": "cd acceptanceTests && node testServer && cd ..",
     "utest": "./node_modules/.bin/jasmine-node --color ./test",
     "autotest": "./node_modules/.bin/jasmine-node --autotest --color ./test",
     "start": "node main mongodb"

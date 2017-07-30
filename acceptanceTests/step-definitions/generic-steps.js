@@ -24,9 +24,9 @@ module.exports = function() {
 
 	this.Given(/^the database is empty$/, steps.wipeDB.bind(steps));
 
-	this.Given(/^the database is populated with (.+)$/, steps.populateDB.bind(steps));
+	this.Given(/^the database is populated with "([^"]+)"$/, steps.populateDB.bind(steps));
 
-	this.Given(/^A user is in cucumber statistics with (.+)$/, function(dataScript, done) {
+	this.Given(/^A user is in cucumber statistics with "([^"]+)"$/, function(dataScript, done) {
 		return steps.populateDB(dataScript)
 			.then(_ => steps.userInApp)
 		;

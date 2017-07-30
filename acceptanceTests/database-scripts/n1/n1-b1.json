@@ -2,10 +2,10 @@
   {
     "elements": [
       {
-        "id": "basic-navegavility;a-user-will-be-adviced-of-the-db-is-empty",
+        "id": "basic-navegavility;a-user-will-be-adviced-of-empty-db",
         "keyword": "Scenario",
         "line": 3,
-        "name": "A user will be adviced of the DB is empty",
+        "name": "A user will be adviced of empty DB",
         "steps": [
           {
             "arguments": [],
@@ -13,11 +13,11 @@
             "name": "A user is in cucumber statistics",
             "result": {
               "status": "passed",
-              "duration": 970906996
+              "duration": 1077598185
             },
             "line": 4,
             "match": {
-              "location": "/scrumdata/workspaces/tests/cucumberStatistics/cucumber-statistics/acceptanceTests/step-definitions/generic-steps.js:21"
+              "location": "/home/daniel/DEVEL/cucumberStatistics/cucumber-statistics/acceptanceTests/step-definitions/generic-steps.js:23"
             }
           },
           {
@@ -26,11 +26,11 @@
             "name": "the database is empty",
             "result": {
               "status": "passed",
-              "duration": 3229838
+              "duration": 4647480
             },
             "line": 5,
             "match": {
-              "location": "/scrumdata/workspaces/tests/cucumberStatistics/cucumber-statistics/acceptanceTests/step-definitions/generic-steps.js:23"
+              "location": "/home/daniel/DEVEL/cucumberStatistics/cucumber-statistics/acceptanceTests/step-definitions/generic-steps.js:25"
             }
           },
           {
@@ -39,11 +39,11 @@
             "name": "the user is presented with an error message \"Not nightlies founded\" in the main menu",
             "result": {
               "status": "passed",
-              "duration": 33664028
+              "duration": 38496749
             },
             "line": 6,
             "match": {
-              "location": "/scrumdata/workspaces/tests/cucumberStatistics/cucumber-statistics/acceptanceTests/step-definitions/home-menu-steps.js:17"
+              "location": "/home/daniel/DEVEL/cucumberStatistics/cucumber-statistics/acceptanceTests/step-definitions/home-menu-steps.js:17"
             }
           },
           {
@@ -51,11 +51,11 @@
             "keyword": "After ",
             "result": {
               "status": "passed",
-              "duration": 10439941
+              "duration": 40548154
             },
             "hidden": true,
             "match": {
-              "location": "/scrumdata/workspaces/tests/cucumberStatistics/cucumber-statistics/acceptanceTests/node_modules/selenium-cucumber-js/runtime/world.js:186"
+              "location": "/home/daniel/DEVEL/cucumberStatistics/cucumber-statistics/acceptanceTests/node_modules/selenium-cucumber-js/runtime/world.js:186"
             }
           }
         ],
@@ -74,24 +74,24 @@
             "name": "A user is in cucumber statistics",
             "result": {
               "status": "passed",
-              "duration": 923870722
+              "duration": 1080019620
             },
             "line": 9,
             "match": {
-              "location": "/scrumdata/workspaces/tests/cucumberStatistics/cucumber-statistics/acceptanceTests/step-definitions/generic-steps.js:21"
+              "location": "/home/daniel/DEVEL/cucumberStatistics/cucumber-statistics/acceptanceTests/step-definitions/generic-steps.js:23"
             }
           },
           {
             "arguments": [],
             "keyword": "And ",
-            "name": "the database is populated with at least one nightly",
+            "name": "the database is populated with \"one nightly\"",
             "result": {
               "status": "passed",
-              "duration": 3196575
+              "duration": 20003228
             },
             "line": 10,
             "match": {
-              "location": "/scrumdata/workspaces/tests/cucumberStatistics/cucumber-statistics/acceptanceTests/step-definitions/generic-steps.js:25"
+              "location": "/home/daniel/DEVEL/cucumberStatistics/cucumber-statistics/acceptanceTests/step-definitions/generic-steps.js:27"
             }
           },
           {
@@ -100,12 +100,12 @@
             "name": "the nightly \"main\" is selected",
             "result": {
               "status": "failed",
-              "duration": 388812535,
-              "error_message": "NoSuchElementError: {\"errorMessage\":\"Unable to find element with xpath '//*[contains(text(), 'main')]/..'\",\"request\":{\"headers\":{\"Accept\":\"application/json; charset=utf-8\",\"Connection\":\"close\",\"Content-Length\":\"60\",\"Content-Type\":\"application/json;charset=UTF-8\",\"Host\":\"192.168.238.128:50308\"},\"httpVersion\":\"1.1\",\"method\":\"POST\",\"post\":\"{\\\"using\\\":\\\"xpath\\\",\\\"value\\\":\\\"//*[contains(text(), 'main')]/..\\\"}\",\"url\":\"/element\",\"urlParsed\":{\"anchor\":\"\",\"query\":\"\",\"file\":\"element\",\"directory\":\"/\",\"path\":\"/element\",\"relative\":\"/element\",\"port\":\"\",\"host\":\"\",\"password\":\"\",\"user\":\"\",\"userInfo\":\"\",\"authority\":\"\",\"protocol\":\"\",\"source\":\"/element\",\"queryKey\":{},\"chunks\":[\"element\"]},\"urlOriginal\":\"/session/c15bc5e0-74b1-11e7-b881-e9abf8e708af/element/:wdc:1501369246352/element\"}}\n    at WebDriverError (/scrumdata/workspaces/tests/cucumberStatistics/cucumber-statistics/acceptanceTests/node_modules/selenium-webdriver/lib/error.js:27:5)\n    at NoSuchElementError (/scrumdata/workspaces/tests/cucumberStatistics/cucumber-statistics/acceptanceTests/node_modules/selenium-webdriver/lib/error.js:168:5)\n    at Object.checkLegacyResponse (/scrumdata/workspaces/tests/cucumberStatistics/cucumber-statistics/acceptanceTests/node_modules/selenium-webdriver/lib/error.js:505:15)\n    at parseHttpResponse (/scrumdata/workspaces/tests/cucumberStatistics/cucumber-statistics/acceptanceTests/node_modules/selenium-webdriver/lib/http.js:509:13)\n    at doSend.then.response (/scrumdata/workspaces/tests/cucumberStatistics/cucumber-statistics/acceptanceTests/node_modules/selenium-webdriver/lib/http.js:440:13)\n    at process._tickCallback (internal/process/next_tick.js:109:7)\nFrom: Task: WebElement.findElement(By(xpath, //*[contains(text(), 'main')]/..))\n    at thenableWebDriverProxy.schedule (/scrumdata/workspaces/tests/cucumberStatistics/cucumber-statistics/acceptanceTests/node_modules/selenium-webdriver/lib/webdriver.js:815:17)\n    at WebElementPromise.schedule_ (/scrumdata/workspaces/tests/cucumberStatistics/cucumber-statistics/acceptanceTests/node_modules/selenium-webdriver/lib/webdriver.js:1914:25)\n    at WebElementPromise.findElement (/scrumdata/workspaces/tests/cucumberStatistics/cucumber-statistics/acceptanceTests/node_modules/selenium-webdriver/lib/webdriver.js:1961:17)\n    at Object.selectNightly (/scrumdata/workspaces/tests/cucumberStatistics/cucumber-statistics/acceptanceTests/page-objects/menuPO.js:12:14)\n    at World.<anonymous> (/scrumdata/workspaces/tests/cucumberStatistics/cucumber-statistics/acceptanceTests/step-definitions/home-menu-steps.js:4:15)\nFrom: Task: WebElement.click()\n    at thenableWebDriverProxy.schedule (/scrumdata/workspaces/tests/cucumberStatistics/cucumber-statistics/acceptanceTests/node_modules/selenium-webdriver/lib/webdriver.js:815:17)\n    at WebElementPromise.schedule_ (/scrumdata/workspaces/tests/cucumberStatistics/cucumber-statistics/acceptanceTests/node_modules/selenium-webdriver/lib/webdriver.js:1914:25)\n    at WebElementPromise.click (/scrumdata/workspaces/tests/cucumberStatistics/cucumber-statistics/acceptanceTests/node_modules/selenium-webdriver/lib/webdriver.js:1995:17)\n    at Object.selectNightly (/scrumdata/workspaces/tests/cucumberStatistics/cucumber-statistics/acceptanceTests/page-objects/menuPO.js:13:5)\n    at World.<anonymous> (/scrumdata/workspaces/tests/cucumberStatistics/cucumber-statistics/acceptanceTests/step-definitions/home-menu-steps.js:4:15)"
+              "duration": 415103004,
+              "error_message": "NoSuchElementError: {\"errorMessage\":\"Unable to find element with xpath '//*[contains(text(), 'main')]/..'\",\"request\":{\"headers\":{\"Accept\":\"application/json; charset=utf-8\",\"Connection\":\"close\",\"Content-Length\":\"60\",\"Content-Type\":\"application/json;charset=UTF-8\",\"Host\":\"192.168.238.128:39444\"},\"httpVersion\":\"1.1\",\"method\":\"POST\",\"post\":\"{\\\"using\\\":\\\"xpath\\\",\\\"value\\\":\\\"//*[contains(text(), 'main')]/..\\\"}\",\"url\":\"/element\",\"urlParsed\":{\"anchor\":\"\",\"query\":\"\",\"file\":\"element\",\"directory\":\"/\",\"path\":\"/element\",\"relative\":\"/element\",\"port\":\"\",\"host\":\"\",\"password\":\"\",\"user\":\"\",\"userInfo\":\"\",\"authority\":\"\",\"protocol\":\"\",\"source\":\"/element\",\"queryKey\":{},\"chunks\":[\"element\"]},\"urlOriginal\":\"/session/194467e0-7501-11e7-92c5-71893c740dff/element/:wdc:1501403324191/element\"}}\n    at WebDriverError (/home/daniel/DEVEL/cucumberStatistics/cucumber-statistics/acceptanceTests/node_modules/selenium-webdriver/lib/error.js:27:5)\n    at NoSuchElementError (/home/daniel/DEVEL/cucumberStatistics/cucumber-statistics/acceptanceTests/node_modules/selenium-webdriver/lib/error.js:168:5)\n    at Object.checkLegacyResponse (/home/daniel/DEVEL/cucumberStatistics/cucumber-statistics/acceptanceTests/node_modules/selenium-webdriver/lib/error.js:505:15)\n    at parseHttpResponse (/home/daniel/DEVEL/cucumberStatistics/cucumber-statistics/acceptanceTests/node_modules/selenium-webdriver/lib/http.js:509:13)\n    at doSend.then.response (/home/daniel/DEVEL/cucumberStatistics/cucumber-statistics/acceptanceTests/node_modules/selenium-webdriver/lib/http.js:440:13)\n    at process._tickCallback (internal/process/next_tick.js:109:7)\nFrom: Task: WebElement.findElement(By(xpath, //*[contains(text(), 'main')]/..))\n    at thenableWebDriverProxy.schedule (/home/daniel/DEVEL/cucumberStatistics/cucumber-statistics/acceptanceTests/node_modules/selenium-webdriver/lib/webdriver.js:815:17)\n    at WebElementPromise.schedule_ (/home/daniel/DEVEL/cucumberStatistics/cucumber-statistics/acceptanceTests/node_modules/selenium-webdriver/lib/webdriver.js:1914:25)\n    at WebElementPromise.findElement (/home/daniel/DEVEL/cucumberStatistics/cucumber-statistics/acceptanceTests/node_modules/selenium-webdriver/lib/webdriver.js:1961:17)\n    at Object.selectNightly (/home/daniel/DEVEL/cucumberStatistics/cucumber-statistics/acceptanceTests/page-objects/menuPO.js:12:14)\n    at World.<anonymous> (/home/daniel/DEVEL/cucumberStatistics/cucumber-statistics/acceptanceTests/step-definitions/home-menu-steps.js:4:15)\nFrom: Task: WebElement.click()\n    at thenableWebDriverProxy.schedule (/home/daniel/DEVEL/cucumberStatistics/cucumber-statistics/acceptanceTests/node_modules/selenium-webdriver/lib/webdriver.js:815:17)\n    at WebElementPromise.schedule_ (/home/daniel/DEVEL/cucumberStatistics/cucumber-statistics/acceptanceTests/node_modules/selenium-webdriver/lib/webdriver.js:1914:25)\n    at WebElementPromise.click (/home/daniel/DEVEL/cucumberStatistics/cucumber-statistics/acceptanceTests/node_modules/selenium-webdriver/lib/webdriver.js:1995:17)\n    at Object.selectNightly (/home/daniel/DEVEL/cucumberStatistics/cucumber-statistics/acceptanceTests/page-objects/menuPO.js:13:5)\n    at World.<anonymous> (/home/daniel/DEVEL/cucumberStatistics/cucumber-statistics/acceptanceTests/step-definitions/home-menu-steps.js:4:15)"
             },
             "line": 11,
             "match": {
-              "location": "/scrumdata/workspaces/tests/cucumberStatistics/cucumber-statistics/acceptanceTests/step-definitions/home-menu-steps.js:3"
+              "location": "/home/daniel/DEVEL/cucumberStatistics/cucumber-statistics/acceptanceTests/step-definitions/home-menu-steps.js:3"
             }
           },
           {
@@ -117,7 +117,7 @@
             },
             "line": 12,
             "match": {
-              "location": "/scrumdata/workspaces/tests/cucumberStatistics/cucumber-statistics/acceptanceTests/step-definitions/nightly-steps.js:3"
+              "location": "/home/daniel/DEVEL/cucumberStatistics/cucumber-statistics/acceptanceTests/step-definitions/nightly-steps.js:3"
             }
           },
           {
@@ -129,7 +129,7 @@
             },
             "line": 13,
             "match": {
-              "location": "/scrumdata/workspaces/tests/cucumberStatistics/cucumber-statistics/acceptanceTests/step-definitions/nightly-steps.js:3"
+              "location": "/home/daniel/DEVEL/cucumberStatistics/cucumber-statistics/acceptanceTests/step-definitions/nightly-steps.js:3"
             }
           },
           {
@@ -137,7 +137,7 @@
             "keyword": "After ",
             "result": {
               "status": "passed",
-              "duration": 137430419
+              "duration": 137458438
             },
             "hidden": true,
             "embeddings": [
@@ -147,7 +147,7 @@
               }
             ],
             "match": {
-              "location": "/scrumdata/workspaces/tests/cucumberStatistics/cucumber-statistics/acceptanceTests/node_modules/selenium-cucumber-js/runtime/world.js:186"
+              "location": "/home/daniel/DEVEL/cucumberStatistics/cucumber-statistics/acceptanceTests/node_modules/selenium-cucumber-js/runtime/world.js:186"
             }
           }
         ],
@@ -166,24 +166,24 @@
             "name": "A user is in cucumber statistics",
             "result": {
               "status": "passed",
-              "duration": 983394615
+              "duration": 1024608774
             },
             "line": 16,
             "match": {
-              "location": "/scrumdata/workspaces/tests/cucumberStatistics/cucumber-statistics/acceptanceTests/step-definitions/generic-steps.js:21"
+              "location": "/home/daniel/DEVEL/cucumberStatistics/cucumber-statistics/acceptanceTests/step-definitions/generic-steps.js:23"
             }
           },
           {
             "arguments": [],
             "keyword": "And ",
-            "name": "the database is populated with a few nightlies",
+            "name": "the database is populated with \"a few nightlies\"",
             "result": {
               "status": "passed",
-              "duration": 1626185
+              "duration": 5164651
             },
             "line": 17,
             "match": {
-              "location": "/scrumdata/workspaces/tests/cucumberStatistics/cucumber-statistics/acceptanceTests/step-definitions/generic-steps.js:25"
+              "location": "/home/daniel/DEVEL/cucumberStatistics/cucumber-statistics/acceptanceTests/step-definitions/generic-steps.js:27"
             }
           },
           {
@@ -192,12 +192,12 @@
             "name": "the last executions are selected",
             "result": {
               "status": "failed",
-              "duration": 182446035,
-              "error_message": "ElementNotVisibleError: {\"errorMessage\":\"Element is not currently visible and may not be manipulated\",\"request\":{\"headers\":{\"Accept\":\"application/json; charset=utf-8\",\"Connection\":\"close\",\"Content-Length\":\"2\",\"Content-Type\":\"application/json;charset=UTF-8\",\"Host\":\"192.168.238.128:58490\"},\"httpVersion\":\"1.1\",\"method\":\"POST\",\"post\":\"{}\",\"url\":\"/click\",\"urlParsed\":{\"anchor\":\"\",\"query\":\"\",\"file\":\"click\",\"directory\":\"/\",\"path\":\"/click\",\"relative\":\"/click\",\"port\":\"\",\"host\":\"\",\"password\":\"\",\"user\":\"\",\"userInfo\":\"\",\"authority\":\"\",\"protocol\":\"\",\"source\":\"/click\",\"queryKey\":{},\"chunks\":[\"click\"]},\"urlOriginal\":\"/session/c2451470-74b1-11e7-85b3-39db94e863c9/element/:wdc:1501369247877/click\"}}\n    at WebDriverError (/scrumdata/workspaces/tests/cucumberStatistics/cucumber-statistics/acceptanceTests/node_modules/selenium-webdriver/lib/error.js:27:5)\n    at ElementNotVisibleError (/scrumdata/workspaces/tests/cucumberStatistics/cucumber-statistics/acceptanceTests/node_modules/selenium-webdriver/lib/error.js:53:5)\n    at Object.checkLegacyResponse (/scrumdata/workspaces/tests/cucumberStatistics/cucumber-statistics/acceptanceTests/node_modules/selenium-webdriver/lib/error.js:505:15)\n    at parseHttpResponse (/scrumdata/workspaces/tests/cucumberStatistics/cucumber-statistics/acceptanceTests/node_modules/selenium-webdriver/lib/http.js:509:13)\n    at doSend.then.response (/scrumdata/workspaces/tests/cucumberStatistics/cucumber-statistics/acceptanceTests/node_modules/selenium-webdriver/lib/http.js:440:13)\n    at process._tickCallback (internal/process/next_tick.js:109:7)\nFrom: Task: WebElement.click()\n    at thenableWebDriverProxy.schedule (/scrumdata/workspaces/tests/cucumberStatistics/cucumber-statistics/acceptanceTests/node_modules/selenium-webdriver/lib/webdriver.js:815:17)\n    at WebElementPromise.schedule_ (/scrumdata/workspaces/tests/cucumberStatistics/cucumber-statistics/acceptanceTests/node_modules/selenium-webdriver/lib/webdriver.js:1914:25)\n    at WebElementPromise.click (/scrumdata/workspaces/tests/cucumberStatistics/cucumber-statistics/acceptanceTests/node_modules/selenium-webdriver/lib/webdriver.js:1995:17)\n    at Object.selectLastExecutions (/scrumdata/workspaces/tests/cucumberStatistics/cucumber-statistics/acceptanceTests/page-objects/menuPO.js:20:5)\n    at World.<anonymous> (/scrumdata/workspaces/tests/cucumberStatistics/cucumber-statistics/acceptanceTests/step-definitions/home-menu-steps.js:12:15)"
+              "duration": 200505888,
+              "error_message": "ElementNotVisibleError: {\"errorMessage\":\"Element is not currently visible and may not be manipulated\",\"request\":{\"headers\":{\"Accept\":\"application/json; charset=utf-8\",\"Connection\":\"close\",\"Content-Length\":\"2\",\"Content-Type\":\"application/json;charset=UTF-8\",\"Host\":\"192.168.238.128:41857\"},\"httpVersion\":\"1.1\",\"method\":\"POST\",\"post\":\"{}\",\"url\":\"/click\",\"urlParsed\":{\"anchor\":\"\",\"query\":\"\",\"file\":\"click\",\"directory\":\"/\",\"path\":\"/click\",\"relative\":\"/click\",\"port\":\"\",\"host\":\"\",\"password\":\"\",\"user\":\"\",\"userInfo\":\"\",\"authority\":\"\",\"protocol\":\"\",\"source\":\"/click\",\"queryKey\":{},\"chunks\":[\"click\"]},\"urlOriginal\":\"/session/1a3fb7d0-7501-11e7-aa83-1bc801b9a3f2/element/:wdc:1501403325735/click\"}}\n    at WebDriverError (/home/daniel/DEVEL/cucumberStatistics/cucumber-statistics/acceptanceTests/node_modules/selenium-webdriver/lib/error.js:27:5)\n    at ElementNotVisibleError (/home/daniel/DEVEL/cucumberStatistics/cucumber-statistics/acceptanceTests/node_modules/selenium-webdriver/lib/error.js:53:5)\n    at Object.checkLegacyResponse (/home/daniel/DEVEL/cucumberStatistics/cucumber-statistics/acceptanceTests/node_modules/selenium-webdriver/lib/error.js:505:15)\n    at parseHttpResponse (/home/daniel/DEVEL/cucumberStatistics/cucumber-statistics/acceptanceTests/node_modules/selenium-webdriver/lib/http.js:509:13)\n    at doSend.then.response (/home/daniel/DEVEL/cucumberStatistics/cucumber-statistics/acceptanceTests/node_modules/selenium-webdriver/lib/http.js:440:13)\n    at process._tickCallback (internal/process/next_tick.js:109:7)\nFrom: Task: WebElement.click()\n    at thenableWebDriverProxy.schedule (/home/daniel/DEVEL/cucumberStatistics/cucumber-statistics/acceptanceTests/node_modules/selenium-webdriver/lib/webdriver.js:815:17)\n    at WebElementPromise.schedule_ (/home/daniel/DEVEL/cucumberStatistics/cucumber-statistics/acceptanceTests/node_modules/selenium-webdriver/lib/webdriver.js:1914:25)\n    at WebElementPromise.click (/home/daniel/DEVEL/cucumberStatistics/cucumber-statistics/acceptanceTests/node_modules/selenium-webdriver/lib/webdriver.js:1995:17)\n    at Object.selectLastExecutions (/home/daniel/DEVEL/cucumberStatistics/cucumber-statistics/acceptanceTests/page-objects/menuPO.js:20:5)\n    at World.<anonymous> (/home/daniel/DEVEL/cucumberStatistics/cucumber-statistics/acceptanceTests/step-definitions/home-menu-steps.js:12:15)"
             },
             "line": 18,
             "match": {
-              "location": "/scrumdata/workspaces/tests/cucumberStatistics/cucumber-statistics/acceptanceTests/step-definitions/home-menu-steps.js:11"
+              "location": "/home/daniel/DEVEL/cucumberStatistics/cucumber-statistics/acceptanceTests/step-definitions/home-menu-steps.js:11"
             }
           },
           {
@@ -209,7 +209,7 @@
             },
             "line": 19,
             "match": {
-              "location": "/scrumdata/workspaces/tests/cucumberStatistics/cucumber-statistics/acceptanceTests/step-definitions/nightly-steps.js:3"
+              "location": "/home/daniel/DEVEL/cucumberStatistics/cucumber-statistics/acceptanceTests/step-definitions/nightly-steps.js:3"
             }
           },
           {
@@ -221,7 +221,7 @@
             },
             "line": 20,
             "match": {
-              "location": "/scrumdata/workspaces/tests/cucumberStatistics/cucumber-statistics/acceptanceTests/step-definitions/lastExecutions-steps.js:3"
+              "location": "/home/daniel/DEVEL/cucumberStatistics/cucumber-statistics/acceptanceTests/step-definitions/lastExecutions-steps.js:3"
             }
           },
           {
@@ -229,7 +229,7 @@
             "keyword": "After ",
             "result": {
               "status": "passed",
-              "duration": 113761771
+              "duration": 111779087
             },
             "hidden": true,
             "embeddings": [
@@ -239,7 +239,7 @@
               }
             ],
             "match": {
-              "location": "/scrumdata/workspaces/tests/cucumberStatistics/cucumber-statistics/acceptanceTests/node_modules/selenium-cucumber-js/runtime/world.js:186"
+              "location": "/home/daniel/DEVEL/cucumberStatistics/cucumber-statistics/acceptanceTests/node_modules/selenium-cucumber-js/runtime/world.js:186"
             }
           }
         ],
@@ -252,6 +252,6 @@
     "line": 1,
     "name": "Basic Navegavility",
     "tags": [],
-    "uri": "/scrumdata/workspaces/tests/cucumberStatistics/cucumber-statistics/acceptanceTests/features/navegavility.feature"
+    "uri": "/home/daniel/DEVEL/cucumberStatistics/cucumber-statistics/acceptanceTests/features/navegavility.feature"
   }
 ]

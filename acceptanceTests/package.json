@@ -4,7 +4,8 @@
   "description": "Aceptance tests for cucumber-statistics.",
   "main": "main.js",
   "scripts": {
-    "test": "node ./node_modules/selenium-cucumber-js/index.js -b phantomjs -r ../reports"
+    "test": "node ./node_modules/selenium-cucumber-js/index.js -b phantomjs -r ../reports -x 30000 -t '~@ToDo' ",
+    "toTest": "node ./node_modules/selenium-cucumber-js/index.js -b phantomjs -r ../reports -x 30000 -t '@ToTest'"
   },
   "repository": {
     "type": "git",

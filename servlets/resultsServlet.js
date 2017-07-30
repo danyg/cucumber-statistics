@@ -7,7 +7,8 @@ var Servlet = require('../core/Servlet'),
 	bodyParser = require('body-parser'),
 
 	express = require('express'),
-	app = express()
+	app = express(),
+	LOGGER = new (require('../core/Logger'))('resultsServlet')
 ;
 
 app.use(bodyParser.json());
@@ -47,7 +48,7 @@ function defaultRequestHandler (methodName, req, res, next) {
 
 		} catch(e) {
 			restResponses.error500(res, e);
-			console.error(e, e.stack);
+			LOGGER.error(e, e.stack);
 		}
 
 	} else {

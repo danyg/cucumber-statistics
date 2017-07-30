@@ -1,0 +1,9 @@
+{
+	"level": "DEBUG",
+	"showTrace": true,
+	"showAllTraces": false,
+	"outputs": [
+		"stdout",
+		"file:./logs/aceptanceTests.log"
+	]
+}

@@ -11,16 +11,16 @@ class AppPO {
 	}
 
 	_printAppInitMarkers() {
-		console.log('\n\n\n────────────────────────────────────────────────────────────────────────────────\n');
+		LOGGER.info('\n\n\n────────────────────────────────────────────────────────────────────────────────\n');
 	}
 
 	_printAppEndInitMarkers() {
-		console.log('\n────────────────────────────────────────────────────────────────────────────────\n\n\n');
+		LOGGER.info('\n────────────────────────────────────────────────────────────────────────────────\n\n\n');
 	}
 
 	startApp() {
 		this._printAppInitMarkers();
-		console.log('Wiping Testing DB...');
+		LOGGER.info('Wiping Testing DB...');
 
 		return startTestServer()
 			.then(app => {
@@ -41,6 +41,7 @@ class AppPO {
 	open() {
 		return helpers.loadPage(this.url)
 			.then(_ => this.waitForInitialSpinner())
+			.then(_ => this.waitForMainSpinnerToDissapear())
 		;
 	}
 
@@ -78,11 +79,35 @@ class AppPO {
 
 	waitForMainSpinner() {
 		return driver.wait(
-				until.elementLocated(this.elements.mainLoadingSpinner)
+				until.elementLocated( this.elements.mainLoadingSpinner )
 			)
-			.then(spinner => {
+			.then(_ => this.waitForMainSpinnerToDissapear())
+		;
+		/*
+		spinner => {
 				spinner.isDisplayed().then(v => assert.isTrue(v, 'The spinner should be displayed.'));
-				driver.wait(until.stalenessOf(spinner))
+				driver.wait(until.elementIsNotVisible(spinner))
+			}
+		 */
+	}
+
+	waitForMainSpinnerToDissapear() {
+		return driver.findElements(this.elements.mainLoadingSpinner)
+			.then(elms => {
+				if(elms.length === 0) {
+					return true;
+				}
+
+				return new Promise((a,b) => {
+					try {
+						driver.wait(until.elementIsNotVisible(elms[0]))
+							.then(_ => a(_))
+							.catch(_ => a(_))
+						;
+					} catch(e) {
+						a(_);
+					}
+				});
 			})
 		;
 	}

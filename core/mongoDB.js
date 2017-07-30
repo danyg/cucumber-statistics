@@ -24,12 +24,13 @@ function connect(dbName, cbk) {
 			onConnected(cbk);
 		}
 
-		console.log(`Connection to MongoDB to ${mongoDBUrl}...`);
+		LOGGER.debug(`Connection to MongoDB to ${mongoDBUrl}...`);
 		MongoClient.connect(mongoDBUrl, function(err, db) {
 			if(err) {
-				console.error(`Error connecting to ${mongoDBUrl}\nError:\n\t${err}\n`);
+				LOGGER.error(`Error connecting to ${mongoDBUrl}\nError:\n\t${err}\n`);
 				reject(err);
 			} else {
+				LOGGER.debug(`Connection to MongoDB to ${mongoDBUrl} stablished.`);
 
 				isConnected = true;
 				_DB_ = db;
@@ -48,7 +49,7 @@ function onConnected(cbk) {
 			cbk(_DB_);
 
 		} catch( err ) {
-			console.error(err);
+			LOGGER.error(err);
 		}
 	} else {
 

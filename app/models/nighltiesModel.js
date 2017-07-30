@@ -12,7 +12,7 @@ if(mongoDB.isUsed()) {
 		// db = modelFactory.standarizeFindMethod(collection);
 		db = collection;
 	} else {
-		console.error('MongoDB Mode On, should be connected!!');
+		LOGGER.error('MongoDB Mode On, should be connected!!');
 	}
 } else {
 	var Datastore = require('nedb');

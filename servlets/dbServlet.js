@@ -8,48 +8,68 @@ var Servlet = require('../core/Servlet'),
 	bodyParser = require('body-parser'),
 
 	express = require('express'),
-	app = express()
+	app = express(),
+	LOGGER = new (require('../core/Logger'))('dbServlet')
 ;
 
 app.use(bodyParser.json({limit: '50mb'}));
 
-app.put('/set/:buildName/:buildId', function(req, res) {
+app.put(
+	[
+		'/set/:buildName/:buildId',
+		'/set/:buildName/:buildId/:sync'
+	],
+	function(req, res) {
 
-	if(req.is('application/json')) {
-		var parser = new CucumberJSONParser(req.params.buildName, req.params.buildId);
-		updateNightly(req.params.buildName, req.params.buildId);
+		if(req.is('application/json')) {
+			let sync = false;
+			var parser = new CucumberJSONParser(req.params.buildName, req.params.buildId);
+			if(req.params.hasOwnProperty('sync') && req.params.sync) {
+				sync = true;
+			}
+			let promise = updateNightly(req.params.buildName, req.params.buildId)
+				.then(_ => { LOGGER.debug('Parsing new Nightly ' + req.params.buildName); return _; })
+				.then(_ => parser.parse(req.body))
+				.catch(e => restResponses.error400(res, e.message))
+			;
 
-		try {
-			console.log('Parsing new Nightly ' + req.params.buildName);
-			parser.parse(req.body);
-			restResponses.ok201(res);
-		} catch( e ) {
-			restResponses.error400(res, e.message);
+			if(sync) {
+				promise.then(_ => {
+					LOGGER.debug('Responding');
+					restResponses.ok201(res)
+				})
+			} else {
+				LOGGER.debug('Responding');
+				restResponses.ok201(res);
+			}
+		} else {
+			restResponses.error405('Content-type not allowed only application/json is accepted');
 		}
-	} else {
-		restResponses.error405('Content-type not allowed only application/json is accepted');
-	}
 
-});
+	}
+);
 
 function updateNightly(name, buildId) {
-	nightliesModel.update(
-		{
-			_id: name
-		},
-		{
-			$set: {
-				lastBuildId: buildId,
-				lastExecution: Date.now()
+	LOGGER.debug(`Upserting nighly ${name}...`);
+	return nightliesModel.update(
+			{
+				_id: name
+			},
+			{
+				$set: {
+					lastBuildId: buildId,
+					lastExecution: Date.now()
+				}
+			},
+			{
+				upsert: true
 			}
-		},
-		{
-			upsert: true
-		},
-		function(/*numReplaced, newDoc*/) {
-			console.log('new Nighly Inserted', name);
-		}
-	);
+		)
+		.then(_ => {
+			LOGGER.debug(`New Nighly Inserted ${name}.`);
+			return _;
+		})
+	;
 }
 
 module.exports = new Servlet('/db', app);

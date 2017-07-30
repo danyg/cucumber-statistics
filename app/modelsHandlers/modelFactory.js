@@ -22,7 +22,7 @@ function getDBObject(nIdPath, modelFileName) {
 			return standarizeFindMethod( mongoDB.getDB().collection(modelFileName + '_' + nIdPath) );
 			// return mongoDB.getDB().collection(modelFileName + '_' + nIdPath);
 		} else {
-			console.error('MongoDB Mode On, should be connected!!');
+			LOGGER.error('MongoDB Mode On, should be connected!!');
 		}
 	} else {
 		return new Datastore({

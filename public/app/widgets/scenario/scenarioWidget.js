@@ -136,7 +136,11 @@ define([
 		}
 
 		if(!!scenario.results) {
-			this.isNew(scenario.results[scenario.results.length-1].status === 'failed' && scenario.results[scenario.results.length-2].status === 'passed');
+			if(scenario.results.length > 1) {
+				this.isNew(scenario.results[scenario.results.length-1].status === 'failed' && scenario.results[scenario.results.length-2].status === 'passed');
+			} else {
+				this.isNew(true);
+			}
 		}
 
 		if(scenario.hasOwnProperty('_parent')) {

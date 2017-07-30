@@ -1,87 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <testsuites>
-    <testsuite name="basic-navegavility;a-user-will-be-adviced-of-the-db-is-empty" tests="3" failures="0" skipped="0">
+    <testsuite name="basic-navegavility;a-user-can-select-a-nightly-to-be-check" tests="5" failures="0" skipped="0">
         <properties>
-            <property name="URI" value="/scrumdata/workspaces/tests/cucumberStatistics/cucumber-statistics/acceptanceTests/features/navegavility.feature">
+            <property name="@ToTest" value="true">
+            </property>
+            <property name="URI" value="/home/daniel/DEVEL/cucumberStatistics/cucumber-statistics/acceptanceTests/features/navegavility.feature">
             </property>
         </properties>
-        <testcase name="Given A user is in cucumber statistics" classname="basic-navegavility;a-user-will-be-adviced-of-the-db-is-empty" time="0.970906996">
+        <testcase name="Given the database is populated with &quot;one nightly&quot;" classname="basic-navegavility;a-user-can-select-a-nightly-to-be-check" time="0.058724059">
         </testcase>
-        <testcase name="And the database is empty" classname="basic-navegavility;a-user-will-be-adviced-of-the-db-is-empty" time="0.003229838">
+        <testcase name="And A user is in cucumber statistics" classname="basic-navegavility;a-user-can-select-a-nightly-to-be-check" time="1.269135998">
         </testcase>
-        <testcase name="Then the user is presented with an error message &quot;Not nightlies founded&quot; in the main menu" classname="basic-navegavility;a-user-will-be-adviced-of-the-db-is-empty" time="0.033664028">
+        <testcase name="When the nightly &quot;test-nightly&quot; is selected" classname="basic-navegavility;a-user-can-select-a-nightly-to-be-check" time="0.60184778">
         </testcase>
-    </testsuite>
-    <testsuite name="basic-navegavility;a-user-can-select-a-nightly-to-be-check" tests="5" failures="1" skipped="2">
-        <properties>
-            <property name="URI" value="/scrumdata/workspaces/tests/cucumberStatistics/cucumber-statistics/acceptanceTests/features/navegavility.feature">
-            </property>
-        </properties>
-        <testcase name="Given A user is in cucumber statistics" classname="basic-navegavility;a-user-can-select-a-nightly-to-be-check" time="0.923870722">
+        <testcase name="Then the &quot;Most unstables scenarios&quot; container is displayed" classname="basic-navegavility;a-user-can-select-a-nightly-to-be-check" time="0.042383395">
         </testcase>
-        <testcase name="And the database is populated with at least one nightly" classname="basic-navegavility;a-user-can-select-a-nightly-to-be-check" time="0.003196575">
-        </testcase>
-        <testcase name="When the nightly &quot;main&quot; is selected" classname="basic-navegavility;a-user-can-select-a-nightly-to-be-check" time="0.388812535">
-            <failure message="NoSuchElementError: {&quot;errorMessage&quot;:&quot;Unable to find element with xpath &apos;//*[contains(text(), &apos;main&apos;)]/..&apos;&quot;,&quot;request&quot;:{&quot;headers&quot;:{&quot;Accept&quot;:&quot;application/json; charset=utf-8&quot;,&quot;Connection&quot;:&quot;close&quot;,&quot;Content-Length&quot;:&quot;60&quot;,&quot;Content-Type&quot;:&quot;application/json;charset=UTF-8&quot;,&quot;Host&quot;:&quot;192.168.238.128:50308&quot;},&quot;httpVersion&quot;:&quot;1.1&quot;,&quot;method&quot;:&quot;POST&quot;,&quot;post&quot;:&quot;{\&quot;using\&quot;:\&quot;xpath\&quot;,\&quot;value\&quot;:\&quot;//*[contains(text(), &apos;main&apos;)]/..\&quot;}&quot;,&quot;url&quot;:&quot;/element&quot;,&quot;urlParsed&quot;:{&quot;anchor&quot;:&quot;&quot;,&quot;query&quot;:&quot;&quot;,&quot;file&quot;:&quot;element&quot;,&quot;directory&quot;:&quot;/&quot;,&quot;path&quot;:&quot;/element&quot;,&quot;relative&quot;:&quot;/element&quot;,&quot;port&quot;:&quot;&quot;,&quot;host&quot;:&quot;&quot;,&quot;password&quot;:&quot;&quot;,&quot;user&quot;:&quot;&quot;,&quot;userInfo&quot;:&quot;&quot;,&quot;authority&quot;:&quot;&quot;,&quot;protocol&quot;:&quot;&quot;,&quot;source&quot;:&quot;/element&quot;,&quot;queryKey&quot;:{},&quot;chunks&quot;:[&quot;element&quot;]},&quot;urlOriginal&quot;:&quot;/session/c15bc5e0-74b1-11e7-b881-e9abf8e708af/element/:wdc:1501369246352/element&quot;}}">NoSuchElementError: {&quot;errorMessage&quot;:&quot;Unable to find element with xpath &apos;//*[contains(text(), &apos;main&apos;)]/..&apos;&quot;,&quot;request&quot;:{&quot;headers&quot;:{&quot;Accept&quot;:&quot;application/json; charset=utf-8&quot;,&quot;Connection&quot;:&quot;close&quot;,&quot;Content-Length&quot;:&quot;60&quot;,&quot;Content-Type&quot;:&quot;application/json;charset=UTF-8&quot;,&quot;Host&quot;:&quot;192.168.238.128:50308&quot;},&quot;httpVersion&quot;:&quot;1.1&quot;,&quot;method&quot;:&quot;POST&quot;,&quot;post&quot;:&quot;{\&quot;using\&quot;:\&quot;xpath\&quot;,\&quot;value\&quot;:\&quot;//*[contains(text(), &apos;main&apos;)]/..\&quot;}&quot;,&quot;url&quot;:&quot;/element&quot;,&quot;urlParsed&quot;:{&quot;anchor&quot;:&quot;&quot;,&quot;query&quot;:&quot;&quot;,&quot;file&quot;:&quot;element&quot;,&quot;directory&quot;:&quot;/&quot;,&quot;path&quot;:&quot;/element&quot;,&quot;relative&quot;:&quot;/element&quot;,&quot;port&quot;:&quot;&quot;,&quot;host&quot;:&quot;&quot;,&quot;password&quot;:&quot;&quot;,&quot;user&quot;:&quot;&quot;,&quot;userInfo&quot;:&quot;&quot;,&quot;authority&quot;:&quot;&quot;,&quot;protocol&quot;:&quot;&quot;,&quot;source&quot;:&quot;/element&quot;,&quot;queryKey&quot;:{},&quot;chunks&quot;:[&quot;element&quot;]},&quot;urlOriginal&quot;:&quot;/session/c15bc5e0-74b1-11e7-b881-e9abf8e708af/element/:wdc:1501369246352/element&quot;}}
-    at WebDriverError (/scrumdata/workspaces/tests/cucumberStatistics/cucumber-statistics/acceptanceTests/node_modules/selenium-webdriver/lib/error.js:27:5)
-    at NoSuchElementError (/scrumdata/workspaces/tests/cucumberStatistics/cucumber-statistics/acceptanceTests/node_modules/selenium-webdriver/lib/error.js:168:5)
-    at Object.checkLegacyResponse (/scrumdata/workspaces/tests/cucumberStatistics/cucumber-statistics/acceptanceTests/node_modules/selenium-webdriver/lib/error.js:505:15)
-    at parseHttpResponse (/scrumdata/workspaces/tests/cucumberStatistics/cucumber-statistics/acceptanceTests/node_modules/selenium-webdriver/lib/http.js:509:13)
-    at doSend.then.response (/scrumdata/workspaces/tests/cucumberStatistics/cucumber-statistics/acceptanceTests/node_modules/selenium-webdriver/lib/http.js:440:13)
-    at process._tickCallback (internal/process/next_tick.js:109:7)
-From: Task: WebElement.findElement(By(xpath, //*[contains(text(), &apos;main&apos;)]/..))
-    at thenableWebDriverProxy.schedule (/scrumdata/workspaces/tests/cucumberStatistics/cucumber-statistics/acceptanceTests/node_modules/selenium-webdriver/lib/webdriver.js:815:17)
-    at WebElementPromise.schedule_ (/scrumdata/workspaces/tests/cucumberStatistics/cucumber-statistics/acceptanceTests/node_modules/selenium-webdriver/lib/webdriver.js:1914:25)
-    at WebElementPromise.findElement (/scrumdata/workspaces/tests/cucumberStatistics/cucumber-statistics/acceptanceTests/node_modules/selenium-webdriver/lib/webdriver.js:1961:17)
-    at Object.selectNightly (/scrumdata/workspaces/tests/cucumberStatistics/cucumber-statistics/acceptanceTests/page-objects/menuPO.js:12:14)
-    at World.&lt;anonymous&gt; (/scrumdata/workspaces/tests/cucumberStatistics/cucumber-statistics/acceptanceTests/step-definitions/home-menu-steps.js:4:15)
-From: Task: WebElement.click()
-    at thenableWebDriverProxy.schedule (/scrumdata/workspaces/tests/cucumberStatistics/cucumber-statistics/acceptanceTests/node_modules/selenium-webdriver/lib/webdriver.js:815:17)
-    at WebElementPromise.schedule_ (/scrumdata/workspaces/tests/cucumberStatistics/cucumber-statistics/acceptanceTests/node_modules/selenium-webdriver/lib/webdriver.js:1914:25)
-    at WebElementPromise.click (/scrumdata/workspaces/tests/cucumberStatistics/cucumber-statistics/acceptanceTests/node_modules/selenium-webdriver/lib/webdriver.js:1995:17)
-    at Object.selectNightly (/scrumdata/workspaces/tests/cucumberStatistics/cucumber-statistics/acceptanceTests/page-objects/menuPO.js:13:5)
-    at World.&lt;anonymous&gt; (/scrumdata/workspaces/tests/cucumberStatistics/cucumber-statistics/acceptanceTests/step-definitions/home-menu-steps.js:4:15)</failure>
-        </testcase>
-        <testcase name="Then the &quot;Most unstables scenarios&quot; container is displayed" classname="basic-navegavility;a-user-can-select-a-nightly-to-be-check">
-            <skipped message="">
-            </skipped>
-        </testcase>
-        <testcase name="And the &quot;Most time consuming scenarios&quot; container is displayed" classname="basic-navegavility;a-user-can-select-a-nightly-to-be-check">
-            <skipped message="">
-            </skipped>
-        </testcase>
-    </testsuite>
-    <testsuite name="basic-navegavility;a-user-can-select-the-last-executions-view" tests="5" failures="1" skipped="2">
-        <properties>
-            <property name="URI" value="/scrumdata/workspaces/tests/cucumberStatistics/cucumber-statistics/acceptanceTests/features/navegavility.feature">
-            </property>
-        </properties>
-        <testcase name="Given A user is in cucumber statistics" classname="basic-navegavility;a-user-can-select-the-last-executions-view" time="0.983394615">
-        </testcase>
-        <testcase name="And the database is populated with a few nightlies" classname="basic-navegavility;a-user-can-select-the-last-executions-view" time="0.001626185">
-        </testcase>
-        <testcase name="When the last executions are selected" classname="basic-navegavility;a-user-can-select-the-last-executions-view" time="0.182446035">
-            <failure message="ElementNotVisibleError: {&quot;errorMessage&quot;:&quot;Element is not currently visible and may not be manipulated&quot;,&quot;request&quot;:{&quot;headers&quot;:{&quot;Accept&quot;:&quot;application/json; charset=utf-8&quot;,&quot;Connection&quot;:&quot;close&quot;,&quot;Content-Length&quot;:&quot;2&quot;,&quot;Content-Type&quot;:&quot;application/json;charset=UTF-8&quot;,&quot;Host&quot;:&quot;192.168.238.128:58490&quot;},&quot;httpVersion&quot;:&quot;1.1&quot;,&quot;method&quot;:&quot;POST&quot;,&quot;post&quot;:&quot;{}&quot;,&quot;url&quot;:&quot;/click&quot;,&quot;urlParsed&quot;:{&quot;anchor&quot;:&quot;&quot;,&quot;query&quot;:&quot;&quot;,&quot;file&quot;:&quot;click&quot;,&quot;directory&quot;:&quot;/&quot;,&quot;path&quot;:&quot;/click&quot;,&quot;relative&quot;:&quot;/click&quot;,&quot;port&quot;:&quot;&quot;,&quot;host&quot;:&quot;&quot;,&quot;password&quot;:&quot;&quot;,&quot;user&quot;:&quot;&quot;,&quot;userInfo&quot;:&quot;&quot;,&quot;authority&quot;:&quot;&quot;,&quot;protocol&quot;:&quot;&quot;,&quot;source&quot;:&quot;/click&quot;,&quot;queryKey&quot;:{},&quot;chunks&quot;:[&quot;click&quot;]},&quot;urlOriginal&quot;:&quot;/session/c2451470-74b1-11e7-85b3-39db94e863c9/element/:wdc:1501369247877/click&quot;}}">ElementNotVisibleError: {&quot;errorMessage&quot;:&quot;Element is not currently visible and may not be manipulated&quot;,&quot;request&quot;:{&quot;headers&quot;:{&quot;Accept&quot;:&quot;application/json; charset=utf-8&quot;,&quot;Connection&quot;:&quot;close&quot;,&quot;Content-Length&quot;:&quot;2&quot;,&quot;Content-Type&quot;:&quot;application/json;charset=UTF-8&quot;,&quot;Host&quot;:&quot;192.168.238.128:58490&quot;},&quot;httpVersion&quot;:&quot;1.1&quot;,&quot;method&quot;:&quot;POST&quot;,&quot;post&quot;:&quot;{}&quot;,&quot;url&quot;:&quot;/click&quot;,&quot;urlParsed&quot;:{&quot;anchor&quot;:&quot;&quot;,&quot;query&quot;:&quot;&quot;,&quot;file&quot;:&quot;click&quot;,&quot;directory&quot;:&quot;/&quot;,&quot;path&quot;:&quot;/click&quot;,&quot;relative&quot;:&quot;/click&quot;,&quot;port&quot;:&quot;&quot;,&quot;host&quot;:&quot;&quot;,&quot;password&quot;:&quot;&quot;,&quot;user&quot;:&quot;&quot;,&quot;userInfo&quot;:&quot;&quot;,&quot;authority&quot;:&quot;&quot;,&quot;protocol&quot;:&quot;&quot;,&quot;source&quot;:&quot;/click&quot;,&quot;queryKey&quot;:{},&quot;chunks&quot;:[&quot;click&quot;]},&quot;urlOriginal&quot;:&quot;/session/c2451470-74b1-11e7-85b3-39db94e863c9/element/:wdc:1501369247877/click&quot;}}
-    at WebDriverError (/scrumdata/workspaces/tests/cucumberStatistics/cucumber-statistics/acceptanceTests/node_modules/selenium-webdriver/lib/error.js:27:5)
-    at ElementNotVisibleError (/scrumdata/workspaces/tests/cucumberStatistics/cucumber-statistics/acceptanceTests/node_modules/selenium-webdriver/lib/error.js:53:5)
-    at Object.checkLegacyResponse (/scrumdata/workspaces/tests/cucumberStatistics/cucumber-statistics/acceptanceTests/node_modules/selenium-webdriver/lib/error.js:505:15)
-    at parseHttpResponse (/scrumdata/workspaces/tests/cucumberStatistics/cucumber-statistics/acceptanceTests/node_modules/selenium-webdriver/lib/http.js:509:13)
-    at doSend.then.response (/scrumdata/workspaces/tests/cucumberStatistics/cucumber-statistics/acceptanceTests/node_modules/selenium-webdriver/lib/http.js:440:13)
-    at process._tickCallback (internal/process/next_tick.js:109:7)
-From: Task: WebElement.click()
-    at thenableWebDriverProxy.schedule (/scrumdata/workspaces/tests/cucumberStatistics/cucumber-statistics/acceptanceTests/node_modules/selenium-webdriver/lib/webdriver.js:815:17)
-    at WebElementPromise.schedule_ (/scrumdata/workspaces/tests/cucumberStatistics/cucumber-statistics/acceptanceTests/node_modules/selenium-webdriver/lib/webdriver.js:1914:25)
-    at WebElementPromise.click (/scrumdata/workspaces/tests/cucumberStatistics/cucumber-statistics/acceptanceTests/node_modules/selenium-webdriver/lib/webdriver.js:1995:17)
-    at Object.selectLastExecutions (/scrumdata/workspaces/tests/cucumberStatistics/cucumber-statistics/acceptanceTests/page-objects/menuPO.js:20:5)
-    at World.&lt;anonymous&gt; (/scrumdata/workspaces/tests/cucumberStatistics/cucumber-statistics/acceptanceTests/step-definitions/home-menu-steps.js:12:15)</failure>
-        </testcase>
-        <testcase name="Then the &quot;All failed scenarios in last execution&quot; container is displayed" classname="basic-navegavility;a-user-can-select-the-last-executions-view">
-            <skipped message="">
-            </skipped>
-        </testcase>
-        <testcase name="And the user is presented with the Filter Tags component" classname="basic-navegavility;a-user-can-select-the-last-executions-view">
-            <skipped message="">
-            </skipped>
+        <testcase name="And the &quot;Most time consuming scenarios&quot; container is displayed" classname="basic-navegavility;a-user-can-select-a-nightly-to-be-check" time="0.027746363">
         </testcase>
     </testsuite>
 </testsuites>
