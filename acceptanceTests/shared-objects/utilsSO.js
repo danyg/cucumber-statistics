@@ -10,9 +10,8 @@ until.elementIsNotPresent = function elementIsNotPresent(locator) {
 	});
 };
 
-By.testId = function(testid) {
-	return by.css(`[data-testid="${testid}"]`);
-}
+By.testId = (testid) => by.css(`[data-testid="${testid}"]`);
+By.testClass = (testClass) => by.css(`[data-testclass="${testClass}"]`);
 
 process.on('unhandledRejection', r => LOGGER.error('unhandledRejection\n\t', r));
 
@@ -22,9 +21,26 @@ process.on('unhandledRejection', r => LOGGER.error('unhandledRejection\n\t', r))
 // LOGGER.error('Error!!!')
 
 module.exports = {
-	camelize: function camelize(str) {
+	camelize: function camelize(str, firstUpper) {
 		return str.replace(/(?:^\w|[A-Z]|\b\w)/g, function(letter, index) {
-			return index == 0 ? letter.toLowerCase() : letter.toUpperCase();
+			return index == 0 ? letter[firstUpper ? 'toUpperCase' : 'toLowerCase']() : letter.toUpperCase();
 		}).replace(/\s+/g, '');
+	},
+
+	onShutdown: function(callback) {
+		process.on('SIGTERM', callback);
+		process.on('SIGINT', callback);
+
+		process.on('message', function(message) {
+			if (message == 'shutdown') {
+				callback();
+			}
+		});
+	},
+
+	resolvedPromise: function(retVal) {
+		return new Promise((resolve) => {
+			resolve(retVal);
+		});
 	}
 }

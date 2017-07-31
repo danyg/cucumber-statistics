@@ -3,13 +3,13 @@ module.exports = {
 	elements: {
 		nightliesList: by.testId('nightliesList'),
 		lastExecutionsBtn: by.testId('lastExecutions_Buton'),
-
+		getNigtlyBtnByName: (nighlyName) => by.xpath(`//*[contains(text(), '${nighlyName}')]/..`),
 		errMsg: By.css('#home .error-message')
 	},
 
 	selectNightly: function(nighlyName) {
 		var elm = driver.findElement(this.elements.nightliesList);
-		return elm.findElement(by.xpath(`//*[contains(text(), '${nighlyName}')]/..`))
+		return elm.findElement(this.elements.getNigtlyBtnByName(nighlyName))
 			.click()
 				.then(_ => page.appPO.waitForMainSpinner())
 		;

@@ -17,6 +17,10 @@ class RESTHTTPSO {
 		this.M = M;
 	}
 
+	_() {
+		return new Promise((resolve) => {resolve()});
+	}
+
 	get(uri) {
 		return this.call(
 			BASE_URL + uri,

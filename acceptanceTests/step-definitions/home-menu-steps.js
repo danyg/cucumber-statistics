@@ -8,12 +8,6 @@ module.exports = function() {
 		;
 	});
 
-	this.When(/^the last executions are selected$/, function(done) {
-		page.menuPO.selectLastExecutions()
-			.then(_ => done())
-		;
-	});
-
 	this.Then(/^the user is presented with an error message "([^"]+)" in the main menu$/, function(expectedMessage, done) {
 		page.menuPO.getErrMsg()
 			.then(elm => elm.getText())

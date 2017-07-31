@@ -1,4 +1,4 @@
-const {startTestServer, TEST_PORT} = require('../testServer');
+const {startTestServer, TEST_PORT, closeTestServer} = require('../testServer');
 
 class AppPO {
 	constructor() {
@@ -8,6 +8,7 @@ class AppPO {
 			mainLoadingSpinner: By.testId('mainLoading_spinner')
 		};
 		this.currentApp = null;
+		shared.utilsSO.onShutdown(this.closeApp.bind(this));
 	}
 
 	_printAppInitMarkers() {
@@ -32,10 +33,10 @@ class AppPO {
 	}
 
 	closeApp() {
-		return new Promise((resolve) => {
-			(this.currentApp) ? this.currentApp.close() : '';
-			setTimeout(resolve, 1000);
-		});
+		return this.currentApp ?
+			closeTestServer(this.currentApp) :
+			true
+		;
 	}
 
 	open() {
