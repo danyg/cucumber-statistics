@@ -8,27 +8,24 @@ Feature: Last Executions
 		Then the scenario gets hidden
 		And the counter of hidden scenarios gets increased
 
-	@ToDo
 	Scenario: The user can see hidden scenarios
 		Given A user in Last Executions with "one nightly"
-		And there are "2" hidden scenarios
-		When the user interact with the functionality to show the hidden scenarios
+		And there is "1" scenario that has been "Mark as fixed"
+		When the user show the hidden scenarios
 		Then the hidden scenarios are displayed in a faded way indicating that were hidden
 
-	@ToDo
 	Scenario: The user can Mark a scenario as not fixed yet
 		Given A user in Last Executions with "one nightly"
-		And there are "2" hidden scenarios
-		When the user interact with the functionality to show the hidden scenarios
+		And there is "1" scenario that has been "Mark as fixed"
+		When the user show the hidden scenarios
 		And expand a scenario that was previously "Mark as fixed"
 		Then the user "Mark as Not Fixed Yet" the scenario
-		And the scenario stop being hidden
+		And the scenario is visible again
 
-	@ToDo
 	Scenario: The user can Mark a scenario as not fixed yet
 		Given A user in Last Executions with "one nightly"
-		And there are "2" hidden scenarios
-		When the user interact with the functionality to show the hidden scenarios
+		And there is "1" scenario that has been "Locally hidden"
+		When the user show the hidden scenarios
 		And expand a scenario that was previously "Locally hidden"
-		Then the user Shows the scenario
-		And the scenario stop being hidden
+		Then the user "Show" the scenario
+		And the scenario is visible again

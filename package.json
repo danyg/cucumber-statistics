@@ -10,7 +10,7 @@
     "testServer": "cd acceptanceTests && node testServer && cd ..",
     "utest": "./node_modules/.bin/jasmine-node --color ./test",
     "autotest": "./node_modules/.bin/jasmine-node --autotest --color ./test",
-    "start": "node main mongodb"
+    "start": "node main -m"
   },
   "repository": {
     "type": "git",
@@ -26,14 +26,15 @@
     "url": "https://github.com/danyg/cucumber-statistics/issues"
   },
   "dependencies": {
-    "express": "~4.13.3",
-    "nedb": "~1.7.4",
     "body-parser": "~1.14.1",
-    "sanitize-filename": "~1.5.3",
-    "q": "~1.4.1",
+    "commander": "^2.11.0",
     "connect-gzip-static": "git+https://github.com/danyg/connect-gzip-static.git",
-    "mkpath": "~1.0.0",
+    "express": "~4.13.3",
     "express-logger": "0.0.3",
-    "mongodb": "latest"
+    "mkpath": "~1.0.0",
+    "mongodb": "latest",
+    "nedb": "~1.7.4",
+    "q": "~1.4.1",
+    "sanitize-filename": "~1.5.3"
   }
 }

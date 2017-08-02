@@ -1,4 +1,9 @@
 module.exports = function () {
+	var poh = shared.POHelper;
+	this.BeforeFeature(poh.beforeFeature.bind(poh));
+	this.BeforeScenario(poh.beforeScenario.bind(poh));
+	this.AfterScenario(poh.afterScenario.bind(poh));
+	this.AfterFeature(poh.afterFeature.bind(poh));
 
 	// add a before feature hook
 	this.BeforeFeature(function(feature) {

@@ -1,21 +1,115 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <testsuites>
-    <testsuite name="basic-navegavility;a-user-can-select-a-nightly-to-be-check" tests="5" failures="0" skipped="0">
+    <testsuite name="last-executions;a-user-can-mark-a-scenario-as-fixed,-this-will-hide-the-scenario-from-the-view" tests="6" failures="0" skipped="0">
         <properties>
-            <property name="@ToTest" value="true">
+            <property name="URI" value="/home/daniel/DEVEL/cucumberStatistics/cucumber-statistics/acceptanceTests/features/last-executions.feature">
             </property>
+        </properties>
+        <testcase name="Given A user in Last Executions with &quot;one nightly&quot;" classname="last-executions;a-user-can-mark-a-scenario-as-fixed,-this-will-hide-the-scenario-from-the-view" time="2.073381842">
+        </testcase>
+        <testcase name="When the user expands the &quot;A user can Mark a scenario as fixed, this will hide the scenario from the view&quot; scenario" classname="last-executions;a-user-can-mark-a-scenario-as-fixed,-this-will-hide-the-scenario-from-the-view" time="0.226157655">
+        </testcase>
+        <testcase name="Then the user is presented with the option to &quot;Mark as fixed&quot; the scenario" classname="last-executions;a-user-can-mark-a-scenario-as-fixed,-this-will-hide-the-scenario-from-the-view" time="0.173477299">
+        </testcase>
+        <testcase name="When the user &quot;Mark as Fixed&quot; the scenario" classname="last-executions;a-user-can-mark-a-scenario-as-fixed,-this-will-hide-the-scenario-from-the-view" time="0.16573941">
+        </testcase>
+        <testcase name="Then the scenario gets hidden" classname="last-executions;a-user-can-mark-a-scenario-as-fixed,-this-will-hide-the-scenario-from-the-view" time="0.114266842">
+        </testcase>
+        <testcase name="And the counter of hidden scenarios gets increased" classname="last-executions;a-user-can-mark-a-scenario-as-fixed,-this-will-hide-the-scenario-from-the-view" time="0.116275694">
+        </testcase>
+    </testsuite>
+    <testsuite name="last-executions;the-user-can-see-hidden-scenarios" tests="4" failures="0" skipped="0">
+        <properties>
+            <property name="URI" value="/home/daniel/DEVEL/cucumberStatistics/cucumber-statistics/acceptanceTests/features/last-executions.feature">
+            </property>
+        </properties>
+        <testcase name="Given A user in Last Executions with &quot;one nightly&quot;" classname="last-executions;the-user-can-see-hidden-scenarios" time="1.931305967">
+        </testcase>
+        <testcase name="And there is &quot;1&quot; scenario that has been &quot;Mark as fixed&quot;" classname="last-executions;the-user-can-see-hidden-scenarios" time="0.181336041">
+        </testcase>
+        <testcase name="When the user show the hidden scenarios" classname="last-executions;the-user-can-see-hidden-scenarios" time="0.156206325">
+        </testcase>
+        <testcase name="Then the hidden scenarios are displayed in a faded way indicating that were hidden" classname="last-executions;the-user-can-see-hidden-scenarios" time="0.131467657">
+        </testcase>
+    </testsuite>
+    <testsuite name="last-executions;the-user-can-mark-a-scenario-as-not-fixed-yet" tests="6" failures="0" skipped="0">
+        <properties>
+            <property name="URI" value="/home/daniel/DEVEL/cucumberStatistics/cucumber-statistics/acceptanceTests/features/last-executions.feature">
+            </property>
+        </properties>
+        <testcase name="Given A user in Last Executions with &quot;one nightly&quot;" classname="last-executions;the-user-can-mark-a-scenario-as-not-fixed-yet" time="1.931750657">
+        </testcase>
+        <testcase name="And there is &quot;1&quot; scenario that has been &quot;Mark as fixed&quot;" classname="last-executions;the-user-can-mark-a-scenario-as-not-fixed-yet" time="0.179887553">
+        </testcase>
+        <testcase name="When the user show the hidden scenarios" classname="last-executions;the-user-can-mark-a-scenario-as-not-fixed-yet" time="0.160282603">
+        </testcase>
+        <testcase name="And expand a scenario that was previously &quot;Mark as fixed&quot;" classname="last-executions;the-user-can-mark-a-scenario-as-not-fixed-yet" time="0.197953371">
+        </testcase>
+        <testcase name="Then the user &quot;Mark as Not Fixed Yet&quot; the scenario" classname="last-executions;the-user-can-mark-a-scenario-as-not-fixed-yet" time="0.170603581">
+        </testcase>
+        <testcase name="And the scenario is visible again" classname="last-executions;the-user-can-mark-a-scenario-as-not-fixed-yet" time="0.109385923">
+        </testcase>
+    </testsuite>
+    <testsuite name="last-executions;the-user-can-mark-a-scenario-as-not-fixed-yet" tests="6" failures="0" skipped="0">
+        <properties>
+            <property name="URI" value="/home/daniel/DEVEL/cucumberStatistics/cucumber-statistics/acceptanceTests/features/last-executions.feature">
+            </property>
+        </properties>
+        <testcase name="Given A user in Last Executions with &quot;one nightly&quot;" classname="last-executions;the-user-can-mark-a-scenario-as-not-fixed-yet" time="1.859231124">
+        </testcase>
+        <testcase name="And there is &quot;1&quot; scenario that has been &quot;Locally hidden&quot;" classname="last-executions;the-user-can-mark-a-scenario-as-not-fixed-yet" time="0.21259975">
+        </testcase>
+        <testcase name="When the user show the hidden scenarios" classname="last-executions;the-user-can-mark-a-scenario-as-not-fixed-yet" time="0.157120605">
+        </testcase>
+        <testcase name="And expand a scenario that was previously &quot;Locally hidden&quot;" classname="last-executions;the-user-can-mark-a-scenario-as-not-fixed-yet" time="0.216540751">
+        </testcase>
+        <testcase name="Then the user &quot;Show&quot; the scenario" classname="last-executions;the-user-can-mark-a-scenario-as-not-fixed-yet" time="0.159609447">
+        </testcase>
+        <testcase name="And the scenario is visible again" classname="last-executions;the-user-can-mark-a-scenario-as-not-fixed-yet" time="0.10071103">
+        </testcase>
+    </testsuite>
+    <testsuite name="basic-navegavility;a-user-will-be-adviced-of-empty-db" tests="3" failures="0" skipped="0">
+        <properties>
             <property name="URI" value="/home/daniel/DEVEL/cucumberStatistics/cucumber-statistics/acceptanceTests/features/navegavility.feature">
             </property>
         </properties>
-        <testcase name="Given the database is populated with &quot;one nightly&quot;" classname="basic-navegavility;a-user-can-select-a-nightly-to-be-check" time="0.058724059">
+        <testcase name="Given the database is empty" classname="basic-navegavility;a-user-will-be-adviced-of-empty-db" time="0.016525307">
         </testcase>
-        <testcase name="And A user is in cucumber statistics" classname="basic-navegavility;a-user-can-select-a-nightly-to-be-check" time="1.269135998">
+        <testcase name="And A user is in cucumber statistics" classname="basic-navegavility;a-user-will-be-adviced-of-empty-db" time="1.209748281">
         </testcase>
-        <testcase name="When the nightly &quot;test-nightly&quot; is selected" classname="basic-navegavility;a-user-can-select-a-nightly-to-be-check" time="0.60184778">
+        <testcase name="Then the user is presented with an error message &quot;Not nightlies founded&quot; in the main menu" classname="basic-navegavility;a-user-will-be-adviced-of-empty-db" time="0.057268796">
         </testcase>
-        <testcase name="Then the &quot;Most unstables scenarios&quot; container is displayed" classname="basic-navegavility;a-user-can-select-a-nightly-to-be-check" time="0.042383395">
+    </testsuite>
+    <testsuite name="basic-navegavility;a-user-can-select-a-nightly-to-be-check" tests="5" failures="0" skipped="0">
+        <properties>
+            <property name="URI" value="/home/daniel/DEVEL/cucumberStatistics/cucumber-statistics/acceptanceTests/features/navegavility.feature">
+            </property>
+        </properties>
+        <testcase name="Given the database is populated with &quot;one nightly&quot;" classname="basic-navegavility;a-user-can-select-a-nightly-to-be-check" time="0.010427682">
         </testcase>
-        <testcase name="And the &quot;Most time consuming scenarios&quot; container is displayed" classname="basic-navegavility;a-user-can-select-a-nightly-to-be-check" time="0.027746363">
+        <testcase name="And A user is in cucumber statistics" classname="basic-navegavility;a-user-can-select-a-nightly-to-be-check" time="1.274637844">
+        </testcase>
+        <testcase name="When the nightly &quot;test-nightly&quot; is selected" classname="basic-navegavility;a-user-can-select-a-nightly-to-be-check" time="0.632006993">
+        </testcase>
+        <testcase name="Then the &quot;Most unstables scenarios&quot; container is displayed" classname="basic-navegavility;a-user-can-select-a-nightly-to-be-check" time="0.028368469">
+        </testcase>
+        <testcase name="And the &quot;Most time consuming scenarios&quot; container is displayed" classname="basic-navegavility;a-user-can-select-a-nightly-to-be-check" time="0.029089625">
+        </testcase>
+    </testsuite>
+    <testsuite name="basic-navegavility;a-user-can-select-the-last-executions-view" tests="5" failures="0" skipped="0">
+        <properties>
+            <property name="URI" value="/home/daniel/DEVEL/cucumberStatistics/cucumber-statistics/acceptanceTests/features/navegavility.feature">
+            </property>
+        </properties>
+        <testcase name="Given A user is in cucumber statistics" classname="basic-navegavility;a-user-can-select-the-last-executions-view" time="1.222493169">
+        </testcase>
+        <testcase name="And the database is populated with &quot;a few nightlies&quot;" classname="basic-navegavility;a-user-can-select-the-last-executions-view" time="0.008516793">
+        </testcase>
+        <testcase name="When the last executions are selected" classname="basic-navegavility;a-user-can-select-the-last-executions-view" time="0.832591036">
+        </testcase>
+        <testcase name="Then the &quot;All failed scenarios in last execution&quot; container is displayed" classname="basic-navegavility;a-user-can-select-the-last-executions-view" time="0.053049141">
+        </testcase>
+        <testcase name="And the user is presented with the Filter Tags component" classname="basic-navegavility;a-user-can-select-the-last-executions-view" time="0.007972768">
         </testcase>
     </testsuite>
 </testsuites>

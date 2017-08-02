@@ -95,11 +95,25 @@ class Logger {
 		}
 	}
 
+	_getStackTrace(caller) {
+		this._sniffStdOut();
+		let err = {};
+		Error.captureStackTrace(err, caller);
+		let stack = '<unknown>';
+		try {
+			stack = err.stack.replace(new RegExp(process.cwd(), 'g'), '')
+			stack = err.stack.split('\n')
+			stack.splice(0,1);
+			stack = 'STACK TRACE:\n' + stack.join('\n')
+		} catch(e){}
+		return stack;
+	}
+
 	_getFileLine(caller) {
 		this._sniffStdOut();
 		let err = {};
 		Error.captureStackTrace(err, caller);
-		var fileLine = '<unknown>';
+		let fileLine = '<unknown>';
 		try {
 			fileLine = err.stack.split('\n')[1].trim();
 			fileLine = fileLine.replace(process.cwd(), '.');
@@ -115,11 +129,16 @@ class Logger {
 		}
 	}
 
-	debug (...args) { this._write(TYPE.DEBUG, this.debug, ...args); }
-	log   (...args) { this._write(TYPE.DEBUG, this.log  , ...args); }
-	info  (...args) { this._write(TYPE.INFO , this.info , ...args); }
-	warn  (...args) { this._write(TYPE.WARN , this.warn , ...args); }
-	error (...args) { this._write(TYPE.ERROR, this.error, ...args); }
+	trace () {
+		this._write(TYPE.DEBUG, this.trace, this._getStackTrace(this.trace));
+		return this;
+	}
+
+	debug (...args) { this._write(TYPE.DEBUG, this.debug, ...args); return this;}
+	log   (...args) { this._write(TYPE.DEBUG, this.log  , ...args); return this;}
+	info  (...args) { this._write(TYPE.INFO , this.info , ...args); return this;}
+	warn  (...args) { this._write(TYPE.WARN , this.warn , ...args); return this;}
+	error (...args) { this._write(TYPE.ERROR, this.error, ...args); return this;}
 }
 
 global.LOGGER = new Logger('global');

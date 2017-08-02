@@ -14,13 +14,13 @@
 
 	<div data-part="filters"></div>
 
-	<label class="checkbox">
-		<input type="checkbox" data-bind="checked: hidePassedElements" />
-		Hide passed scenarios (<span data-bind="text: passedScenariosLength()"></span>)
+	<label class="checkbox" data-bind="testId: [title(), 'passedScenarios', 'label']">
+		<input type="checkbox" data-bind="checked: hidePassedElements, testId: [title(), 'passedScenarios', 'checkbox']" />
+		Hide passed scenarios (<span data-bind="text: passedScenariosLength(), testId: [title(), 'passedScenarios', 'counter']"></span>)
 	</label>
-	<label class="checkbox" data-bind="visible: showCheckbox()">
-		<input type="checkbox" data-bind="checked: showHiddenElements" />
-		Show hidden/fixed scenarios (<span data-bind="text: hiddenScenariosLength()"></span>)
+	<label class="checkbox" data-bind="visible: showCheckbox(), testId: [title(), 'hiddenScenarios', 'label']">
+		<input type="checkbox" data-bind="checked: showHiddenElements, testId: [title(), 'hiddenScenarios', 'checkbox']" />
+		Show hidden/fixed scenarios (<span data-bind="text: hiddenScenariosLength(), testId: [title(), 'hiddenScenarios', 'counter']"></span>)
 	</label>
 
 	<ul class="itemised-list scenarios-container" data-bind="foreach: { data: scenarios, as: 'scenario' }">

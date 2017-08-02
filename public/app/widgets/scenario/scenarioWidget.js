@@ -100,6 +100,7 @@ define([
 		this.isInHiddenStatus = ko.computed((function() {
 			return this._isFixed() || this.isLocallyHidden();
 		}).bind(this));
+
 	}
 
 	ScenarioWidget.prototype.activate = function(settings) {

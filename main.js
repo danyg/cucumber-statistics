@@ -9,8 +9,6 @@ function start() {
 	var forkArgs = process.argv.slice(0);
 	forkArgs.splice(0,2);
 
-	console.log('initiating server with args', forkArgs.join(' '));
-
 	server = fork('./server', forkArgs);
 
 	server.on('close', function(code, signal) {

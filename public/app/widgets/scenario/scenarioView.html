@@ -1,6 +1,10 @@
 <li >
-	<div class="item scenario expandable" data-bind="attr: {id: id}, css: cssClasses(), visible: visible">
-		<div class="title" data-bind="click: toggleExpand.bind($widget), attr: {title: name()}">
+	<div class="item scenario expandable" data-bind="
+		attr: {id: id},
+		css: cssClasses(), visible: visible,
+		testId: ['scenario',name()]
+	">
+		<div class="title" data-testclass="handler"  data-bind="click: toggleExpand.bind($widget), attr: {title: name()}">
 			<div class="name" data-bind="text: name()"></div>
 			<!-- ko if: sideValue() === 'stability' -->
 			<div class="stability right" data-bind="text: stabilityLabel()"></div>
@@ -11,7 +15,7 @@
 		</div>
 		<!-- ko widget: { kind:'loading', enable: _isLoading(), hover: true } --><!-- /ko -->
 
-		<div class="panel" data-bind="css: {hidden: !expanded() }">
+		<div class="panel" data-testclass="contents" data-bind="css: {hidden: !expanded() }">
 
 			<!-- ko if: !_isFixed() && status() !== 'passed' -->
 			<button

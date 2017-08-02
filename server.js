@@ -8,6 +8,15 @@ const logger = require('express-logger');
 const app = express();
 const DEFAULT_DB_NAME = 'cucumberStatistics';
 const DEFAULT_PORT = 9088;
+const program = require('commander');
+
+program
+	.version('0.1.0')
+	.option('-m, --mongodb', 'Uses mongo as database, nedb (files) is use by default instead')
+	.option('-d, --database <databaseName>', 'name of the database')
+	.option('-p, --port <port>', `Defines the port to be used by the web server, ${DEFAULT_PORT} is used instead`, p => parseInt(p, 10))
+	.parse(process.argv)
+;
 
 function startHttpServer(port) {
 	port = !!port ? port : DEFAULT_PORT;
@@ -32,7 +41,7 @@ function startHttpServer(port) {
 					ifaces = os.networkInterfaces()
 				;
 
-				console.log('cucumber statistics listening in port ' + port + ' access:');
+				console.log('\nCucumber Statistics listening in port ' + port + ' access:');
 				resolve(app);
 				console.log('\t- http://localhost:' + port + '/');
 
@@ -68,11 +77,16 @@ function catchError(reject, e) {
  * @param  {Boolean|String}   mongodb if true will use mongo as database, if string will use the string as database name
  * @param  {int} port         port where the web server will be listening
  */
-function startApp(mongodb, port) {
+function startApp(mongo, databaseName, port) {
+	console.log('Starting Cucumber Statistics with:',
+		(mongo ? '\n\t- \u001b[1;33mMongoDB\u001b[0m as DBRMS':'NeDB as DBRMS'),
+		'\n\t- Database: "' + (databaseName ? databaseName: DEFAULT_DB_NAME) + '"',
+		'\n\t- Port: ' + (port ? port : DEFAULT_PORT)
+	);
 	return new Promise(function(resolve, reject) {
-		if(!!mongodb) {
-			let dbName = typeof(mongodb) === 'string' ? mongodb : DEFAULT_DB_NAME;
-			return mongoDB.connect(dbName)
+		if(!!mongo) {
+			databaseName = typeof(databaseName) === 'string' ? databaseName : DEFAULT_DB_NAME;
+			return mongoDB.connect(databaseName)
 				.catch(catchError.bind(null, reject))
 				.then(_ => startHttpServer(port))
 				.then(_ => {
@@ -96,7 +110,7 @@ function startApp(mongodb, port) {
 };
 
 if (require.main === module) {
-	startApp(process.argv.join(' ').toLowerCase().indexOf('mongodb') !== -1);
+	startApp(program.mongodb, program.database, program.port);
 } else {
 	module.exports = startApp;
 }
