@@ -3,7 +3,7 @@ db
 test/db
 assets
 logs
-./reports
+reports
 acceptanceTests/node_modules
 acceptanceTests/logs
 **/public/bower_components

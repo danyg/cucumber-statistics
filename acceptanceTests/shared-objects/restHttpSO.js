@@ -11,6 +11,11 @@ const M = {
 	DELETE: 'DELETE'
 };
 
+const mathDates={
+	calculateDateDiff:function(e,t,a){e=e instanceof Date?e.getTime():e,t=t instanceof Date?t.getTime():t;var n=1,s=0;return e>t?(s=e-t,n=-1):s=t>e?t-e:0,this.msToHuman(s,n,a)},
+	msToHuman:function(e,t,a){t=void 0===t?0>e?-1:1:t;var n=new Date;n.setTime(Math.abs(e));var s=["Y","M","D","h","m","s"];a&&s.push("ms");var i=[n.getUTCFullYear()-1970,n.getUTCMonth(),n.getUTCDate()-1,n.getUTCHours(),n.getUTCMinutes(),n.getUTCSeconds(),n.getUTCMilliseconds()];return s.map(function(e,t){return i[t]>0?i[t]+e:""}).join(" ").trim()+(0>t?" ago":"")}
+};
+
 class RESTHTTPSO {
 	constructor() {
 		this.METHODS = M;
@@ -70,13 +75,16 @@ class RESTHTTPSO {
 		}
 
 		LOGGER.info(`<-- ${method} [${url}]` + (body ? ` sending [${body.length}] bytes` : ''));
+		let startTime = Date.now();
 		return rp(opt)
 			.catch(err => {
-				LOGGER.info(`--x ${method} [${url}] error: [${err}]`);
+				let endTime = Date.now();
+				LOGGER.info(`--x ${method} [${url}] error: [${err}] in [${mathDates.calculateDateDiff(startTime, endTime, true)}]`);
 				return err;
 			})
 			.then(r => {
-				LOGGER.info(`--> ${method} [${url}] status:[${r.status}]`);
+				let endTime = Date.now();
+				LOGGER.info(`--> ${method} [${url}] status:[${r.statusCode}] in [${mathDates.calculateDateDiff(startTime, endTime, true)}]`);
 				return r;
 			})
 		;
