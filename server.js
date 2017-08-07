@@ -5,10 +5,10 @@ const loadServlets = require('./core/loadServlets');
 const mongoDB = require('./core/mongoDB');
 const express = require('express');
 const logger = require('express-logger');
-const app = express();
 const DEFAULT_DB_NAME = 'cucumberStatistics';
 const DEFAULT_PORT = 9088;
 const program = require('commander');
+const http = require('http');
 
 program
 	.version('0.1.0')
@@ -18,24 +18,36 @@ program
 	.parse(process.argv)
 ;
 
+process.on('unhandledRejection', r => LOGGER.error('unhandledRejection\n\t', r));
+
 function startHttpServer(port) {
 	port = !!port ? port : DEFAULT_PORT;
 	return new Promise(function(resolve, reject) {
-
-		LOGGER.info('Loading Servlets ...');
-
-		var servelets = loadServlets(__dirname + '/servlets');
+		const app = express();
+		const server = http.createServer(app);
 
 		app.use(logger({path: process.cwd() + '/logs/access.log'}));
 
-		servelets.forEach(function(servelet) {
-			app.use(servelet.getRoute(), servelet.getServlet());
+		LOGGER.info('Loading Servlets ...');
+		var servlets = loadServlets(__dirname + '/servlets');
+		servlets.forEach(Servelet => {
+			let servlet;
+			try {
+				servlet = new Servelet(app, server);
+				try {
+					servlet.serve();
+				} catch(serveError) {
+					LOGGER.error(`Error trying to serve ${Servelet.name}\n\tERROR: `, serveError);
+				}
+			} catch(instanceError) {
+				LOGGER.error(`Error trying to construct ${Servelet.name}\n\tERROR: `, instanceError);
+			}
 		});
 
 		LOGGER.info(`Starting HTTP Server in port ${port} ...`);
 
 		try{
-			app.listen(port, function() {
+			server.listen(port, function() {
 
 				var os = require('os'),
 					ifaces = os.networkInterfaces()

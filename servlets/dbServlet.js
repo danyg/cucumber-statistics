@@ -8,26 +8,32 @@ var Servlet = require('../core/Servlet'),
 	bodyParser = require('body-parser'),
 
 	express = require('express'),
-	app = express(),
 	LOGGER = new (require('../core/Logger'))('dbServlet')
 ;
 
-app.use(bodyParser.json({limit: '50mb'}));
+class DBServlet extends Servlet {
+	_createApp() {
+		this._route = '/db';
+		this._app = express();
 
-app.put(
-	[
-		'/set/:buildName/:buildId',
-		'/set/:buildName/:buildId/:sync'
-	],
-	function(req, res) {
+		this._app.use(bodyParser.json({limit: '50mb'}));
+		this._app.put(
+			[
+				'/set/:buildName/:buildId',
+				'/set/:buildName/:buildId/:sync'
+			],
+			this.set.bind(this)
+		);
+	}
 
+	set(req, res) {
 		if(req.is('application/json')) {
 			let sync = false;
 			var parser = new CucumberJSONParser(req.params.buildName, req.params.buildId);
 			if(req.params.hasOwnProperty('sync') && req.params.sync) {
 				sync = true;
 			}
-			let promise = updateNightly(req.params.buildName, req.params.buildId)
+			let promise = this.updateNightly(req.params.buildName, req.params.buildId)
 				.then(_ => { LOGGER.debug('Parsing new Nightly ' + req.params.buildName); return _; })
 				.then(_ => parser.parse(req.body))
 				.catch(e => restResponses.error400(res, e.message))
@@ -45,31 +51,31 @@ app.put(
 		} else {
 			restResponses.error405('Content-type not allowed only application/json is accepted');
 		}
-
 	}
-);
 
-function updateNightly(name, buildId) {
-	LOGGER.debug(`Upserting nighly ${name}...`);
-	return nightliesModel.update(
-			{
-				_id: name
-			},
-			{
-				$set: {
-					lastBuildId: buildId,
-					lastExecution: Date.now()
+	updateNightly(name, buildId) {
+		LOGGER.debug(`Upserting nighly ${name}...`);
+		return nightliesModel.update(
+				{
+					_id: name
+				},
+				{
+					$set: {
+						lastBuildId: buildId,
+						lastExecution: Date.now()
+					}
+				},
+				{
+					upsert: true
 				}
-			},
-			{
-				upsert: true
-			}
-		)
-		.then(_ => {
-			LOGGER.debug(`New Nighly Inserted ${name}.`);
-			return _;
-		})
-	;
+			)
+			.then(_ => {
+				LOGGER.debug(`New Nighly Inserted ${name}.`);
+				return _;
+			})
+		;
+	}
+
 }
 
-module.exports = new Servlet('/db', app);
+module.exports = DBServlet;

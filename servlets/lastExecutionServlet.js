@@ -4,81 +4,70 @@ var Servlet = require('../core/Servlet'),
 	nightliesModel = require('../app/models/nighltiesModel')(),
 	ScenariosSearchable = require('../app/modelsHandlers/ScenariosSearchable'),
 	restResponses = require('../core/servletRestResponses'),
-	Q = require('q'),
 
-	express = require('express'),
-	app = express()
+	express = require('express')
 ;
 
-app.get('/', function(req, res, next) {
+class LastExecutionsServlet extends Servlet {
+	_createApp() {
+		this._route = '/lastExecution';
+		this._app = express();
 
-	getNightlies()
-		.fail(function(err) {
-			restResponses.error500('Error retriving nightlies', err);
-		})
-		.then(processNightlies)
-		.then(function(data) {
-			restResponses.ok200(res, data);
-		})
-	;
+		this._app.get('/', (req, res, next) => {
 
-});
+			this.getNightlies()
+				.catch(err => restResponses.error500('Error retriving nightlies', err))
+				.then(this.processNightlies.bind(this))
+				.then(data => restResponses.ok200(res, data))
+			;
 
-function getNightlies() {
-	var dfd = Q.defer();
-	nightliesModel.find().toArray(function(err, docs) {
-		if(!!err) {
-			dfd.reject(err);
-		} else {
-
-			dfd.resolve(docs);
-		}
-	});
-	return dfd.promise;
-}
-
-function processNightlies(docs) {
-	var dfd = Q.defer(),
-		response = [],
-		promises = []
-	;
-
-	docs.forEach(function(nightly) {
-		var record = {
-			name: nightly._id,
-			build: nightly.lastBuildId,
-			date: nightly.lastExecution
-		};
-
-		promises.push(getLastFailedSteps(record));
-
-		response.push(record);
-	});
-
-	if(promises.length === 0) {
-		dfd.resolve(response);
-	} else {
-		Q.all(promises).finally(function(){
-			dfd.resolve(response);
 		});
 	}
 
-	return dfd.promise;
-};
+	getNightlies() {
+		return nightliesModel.find().toArray();
+	}
 
-function getLastFailedSteps(record) {
-	var dfd = Q.defer();
-	var nightlyScenarios = new ScenariosSearchable(record.name);
+	processNightlies(docs) {
+		return new Promise((resolve, reject) => {
+			let promises = [];
+			let response = [];
+			docs.forEach(nightly => {
+				var record = {
+					name: nightly._id,
+					build: nightly.lastBuildId,
+					date: nightly.lastExecution
+				};
 
-	nightlyScenarios.getFailedByBuildId(
-		record.build,
-		function(failedSteps){
-			record.scenarios = failedSteps
-			dfd.resolve();
-		}
-	);
+				promises.push(this.getLastFailedSteps(record));
 
-	return dfd.promise;
+				response.push(record);
+			});
+
+			if(promises.length === 0) {
+				resolve(response);
+			} else {
+				Promise.all(promises)
+					.catch(_ => resolve(response))
+					.then(_ => resolve(response))
+				;
+			}
+		});
+	}
+
+	getLastFailedSteps(record) {
+		return new Promise((resolve, reject) => {
+			var nightlyScenarios = new ScenariosSearchable(record.name);
+
+			nightlyScenarios.getFailedByBuildId(
+				record.build,
+				failedSteps => {
+					record.scenarios = failedSteps
+					resolve();
+				}
+			);
+		});
+	}
 }
 
-module.exports = new Servlet('/lastExecution', app);
+module.exports = LastExecutionsServlet;

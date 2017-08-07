@@ -1,6 +1,9 @@
 {
-	"logLevel": "DEBUG",
+	"level": "INFO",
+	"showTrace": false,
+	"showAllTraces": false,
 	"outputs": [
+		"stdout",
 		"file:./logs/cucumber-statistics.app.log"
 	]
 }

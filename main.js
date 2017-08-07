@@ -23,6 +23,14 @@ function start() {
 		start();
 	});
 
+	server.on('message', function(msg) {
+		if(msg.toString() === 'SHUTDOWN') {
+			console.log('Shutdown received, stoping server and watchdog...\n');
+			stop();
+			process.exit(0);
+		}
+	});
+
 	server.on('error', function(err) {
 		console.error(err);
 	});

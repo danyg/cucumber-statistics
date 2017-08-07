@@ -7,70 +7,94 @@ var Servlet = require('../core/Servlet'),
 	bodyParser = require('body-parser'),
 
 	express = require('express'),
-	app = express(),
 	LOGGER = new (require('../core/Logger'))('resultsServlet')
 ;
 
-app.use(bodyParser.json());
+class ResultsServlet extends Servlet {
+	_createApp() {
+		this._route = '/results';
+		this._app = express();
 
-var accepted = Object.keys(results.implementations);
+		this._app.use(bodyParser.json());
 
-function defaultDBDocumentHandler(res, next, data) {
-	if(data instanceof Error) {
-		restResponses.error500(res, data);
-	} else {
-		restResponses.ok200(res, data);
-	}
+		let accepted = Object.keys(results.implementations);
 
-	next();
-}
-
-function defaultRequestHandler (methodName, req, res, next) {
-	var type = req.params.type;
-	var nightlyId = req.params.nightlyId;
-
-	if(accepted.indexOf(type) !== -1) {
-		try {
-			var Ctor = results.implementations[type],
-				impl = new Ctor(nightlyId),
-				args = []
-			;
-
-			if(!!req.params.id) {
-				args.push(req.params.id);
+		let defaultDBDocumentHandler = (res, next, data) => {
+			if(data instanceof Error) {
+				restResponses.error500(res, data);
+			} else {
+				restResponses.ok200(res, data);
 			}
-			if(methodName.indexOf('update') === 0) {
-				args.push(req.body);
-			}
-			args.push(defaultDBDocumentHandler.bind(app, res, next));
 
-			impl[methodName].apply(impl, args);
-
-		} catch(e) {
-			restResponses.error500(res, e);
-			LOGGER.error(e, e.stack);
+			next();
 		}
 
-	} else {
-		restResponses.error404(res, type);
-		next();
+		let defaultRequestHandler = (methodName, req, res, next) => {
+			var type = req.params.type;
+			var nightlyId = req.params.nightlyId;
+
+			if(accepted.indexOf(type) !== -1) {
+				try {
+					var Ctor = results.implementations[type],
+						impl = new Ctor(nightlyId),
+						args = []
+					;
+
+					if(!!req.params.id) {
+						args.push(req.params.id);
+					}
+					if(methodName.indexOf('update') === 0) {
+						args.push(req.body);
+					}
+					args.push(defaultDBDocumentHandler.bind(this._app, res, next));
+
+					impl[methodName].apply(impl, args);
+
+				} catch(e) {
+					restResponses.error500(res, e);
+					LOGGER.error(e, e.stack);
+				}
+
+			} else {
+				restResponses.error404(res, type);
+				next();
+			}
+		}
+
+		var methods = Object.keys(results.iface.prototype);
+		accepted.forEach(item => {
+			methods = methods.concat(Object.keys(results.implementations[item].prototype));
+		});
+		var BASE_MATCHER = '/:nightlyId/:type/';
+
+		methods.forEach(methodName => {
+			if(methodName.indexOf('getBy') === 0) {
+				this._app.get(
+					BASE_MATCHER + methodName + '/:id',
+					defaultRequestHandler.bind(
+						this._app,
+						methodName
+					)
+				);
+			} else if(methodName.indexOf('update') === 0) {
+				this._app.post(
+					BASE_MATCHER + methodName + '/:id',
+					defaultRequestHandler.bind(
+						this._app,
+						methodName
+					)
+				);
+			} else {
+				this._app.get(
+					BASE_MATCHER + methodName,
+					defaultRequestHandler.bind(
+						this._app,
+						methodName
+					)
+				);
+			}
+		});
 	}
 }
 
-var methods = Object.keys(results.iface.prototype);
-accepted.forEach(function(item) {
-	methods = methods.concat(Object.keys(results.implementations[item].prototype));
-});
-var BASE_MATCHER = '/:nightlyId/:type/';
-
-methods.forEach(function(methodName) {
-	if(methodName.indexOf('getBy') === 0) {
-		app.get(BASE_MATCHER + methodName + '/:id', defaultRequestHandler.bind(app, methodName));
-	} else if(methodName.indexOf('update') === 0) {
-		app.post(BASE_MATCHER + methodName + '/:id', defaultRequestHandler.bind(app, methodName));
-	} else {
-		app.get(BASE_MATCHER + methodName, defaultRequestHandler.bind(app, methodName));
-	}
-});
-
-module.exports = new Servlet('/results', app);
+module.exports = ResultsServlet;

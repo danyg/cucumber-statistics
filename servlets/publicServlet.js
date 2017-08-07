@@ -1,9 +1,20 @@
 'use strict';
 
 var Servlet = require('../core/Servlet'),
-	express = require('express'),
 	path = require('path'),
 	gzipStatic = require('connect-gzip-static');
 ;
 
-module.exports = new Servlet('/', gzipStatic(path.resolve(__dirname + '/../public'), {gzCached: false} ) );
+class PublicServlet extends Servlet {
+	_createApp() {
+		this._route = '/';
+		this._app = gzipStatic(
+			path.resolve(__dirname + '/../public'),
+			{
+				gzCached: false
+			}
+		);
+	}
+}
+
+module.exports = PublicServlet;

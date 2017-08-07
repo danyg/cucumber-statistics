@@ -13,10 +13,12 @@ module.exports = function loadServlets(dirPath){
 
 		servletsFiles.forEach(function(servletFileName) {
 			if(servletFileName.indexOf('Servlet.js')) {
-				var filePath = path.resolve(dirPath + '/' + servletFileName);
-				var servelet = require(filePath);
-				if(servelet instanceof Servlet) {
-					toReturn.push(servelet);
+				let filePath = path.resolve(dirPath + '/' + servletFileName);
+				let ServeletCtor = require(filePath);
+				if(Servlet.isPrototypeOf(ServeletCtor) ) {
+					toReturn.push(ServeletCtor);
+				} else {
+					LOGGER.error(`${filePath} must return an Servlet`)
 				}
 			}
 		});
