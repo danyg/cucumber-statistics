@@ -32,15 +32,25 @@ let where = (fileLine) => fileLine ? ` \u001b[36m(${fileLine})\u001b[0m` : '';
 class Logger {
 	constructor(scope) {
 		this._config = {
-			level: DEFAULT_LEVEL
+			level: DEFAULT_LEVEL,
+			scopes: {}
 		};
 		let configFile = path.resolve(process.cwd() + '/.logger.json');
 		if(fs.existsSync(configFile)) {
 			this._config = JSON.parse(fs.readFileSync(configFile));
-			if(this._config.hasOwnProperty('level')) {
-				this._config.level = LEVEL[this._config.level.toUpperCase()];
+
+			this._config.level = (this._config.hasOwnProperty('level')) ?
+				LEVEL[this._config.level.toUpperCase()] :
+				DEFAULT_LEVEL
+			;
+			if(this._config.hasOwnProperty('scopes')) {
+				let scopes = Object.keys(this._config.scopes);
+				scopes.forEach((scope) => {
+					let str = this._config.scopes[scope];
+					this._config.scopes[scope] = LEVEL[str.toUpperCase()];
+				})
 			} else {
-				this._config.level = DEFAULT_LEVEL;
+				this._config.scopes = {};
 			}
 		}
 
@@ -121,16 +131,25 @@ class Logger {
 		return fileLine;
 	}
 
+	_isOn(scope, type) {
+		let level = this._config.level;
+		if(this._config.scopes.hasOwnProperty(scope)) {
+			level = this._config.scopes[scope];
+		}
+		return isOn(type, level);
+	}
+
 	_write(type, caller, ...args) {
-		if(isOn(type, this._config.level)) {
+		if(this._isOn(this._config.scope, type)) {
 			let fileLine = (this._config.showTrace) ? this._getFileLine(caller) : '';
 			let msg = `${s(type)} [${this._config.scope}] ${util.format.apply(null, args)}${where(fileLine)}\n`;
 			this._outputs.forEach(out => out[ (out.hasOwnProperty('directWrite') ? 'directWrite' : 'write') ](msg));
 		}
 	}
 
-	trace () {
-		this._write(TYPE.DEBUG, this.trace, this._getStackTrace(this.trace));
+	trace (...args) {
+		args.length > 0 ? args.push('\n') : '';
+		this._write(TYPE.DEBUG, this.trace, `${util.format.apply(null, args)}${this._getStackTrace(this.trace)}`);
 		return this;
 	}
 

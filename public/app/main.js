@@ -33,7 +33,8 @@
 	) {
 		app.title = 'Cucumber Statistics';
 
-		system.debug(window.location.port === '7357');
+		// system.debug(window.location.port === '7357');
+		system.debug(false);
 
 		app.configurePlugins({
 		    router:true,

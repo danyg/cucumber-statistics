@@ -102,13 +102,53 @@ module.exports = function() {
 		;
 	});
 
-	this.Then(/^the scenario gets hidden$/, () => {
+	this.Then(/^the scenario (?:gets|remains) hidden$/, () => {
 		let scn = page.scenarioPO.currentScenario;
 
 		return scn.getElement()
 			.then(elm => elm.isDisplayed())
-			.then(v => assert.isFalse(v, `Scenario ${scn.getName} should be hidden`))
+			.then(v => assert.isFalse(v, `Scenario "${scn.getName()}" should be hidden.`))
 			.then(_ => shared.utilsSO.takeScreenshot())
+		;
+	});
+
+	let scenarioIsVisible = () => {
+		let scn = page.scenarioPO.currentScenario;
+
+		return scn.getElement()
+			.then(elm => elm.isDisplayed())
+			.then(v => assert.isTrue(v, `Scenario "${scn.getName()}" should be visible.`))
+			.then(_ => shared.utilsSO.takeScreenshot())
+		;
+	};
+	this.Then(/^the scenario is shown$/, scenarioIsVisible);
+
+	let checkScenarioFaded = (scn) => {
+		return scn.isVisible()
+			.then(v => expect(v, 'Scenario should be show').to.be.true)
+			.then(_ => scn.getElement())
+			.then(e => e.getCssValue('opacity'))
+			.then(opacity => expect(opacity).to.be.below(1))
+		;
+	};
+	this.Then(/^the hidden scenarios are displayed in a faded way indicating it is hidden$/, function () {
+		return page.scenarioPO.getCurrentScenario()
+			.then(scn => checkScenarioFaded(scn))
+			.then(_ => {
+				if(shared.scenarioStore.givenHiddenScenarios > 1) {
+					return page.scenarioPO.getLastScenario()
+						.then(scn => checkScenarioFaded(scn))
+				}
+				return;
+			})
+			.then(_ => shared.utilsSO.takeScreenshot())
+		;
+	});
+
+	this.Then(/^the scenario is shown in a faded way indicating it is hidden$/, () => {
+		let scn = page.scenarioPO.currentScenario;
+		return scenarioIsVisible()
+			.then(_ => checkScenarioFaded(scn))
 		;
 	});
 
@@ -140,29 +180,6 @@ module.exports = function() {
 					.then(iV => expect(iV, 'Scenario should be visible when the hidden scenarios are not shown').to.be.true)
 					.then(_ => page.lastExecutionsPO.restoreHiddenScenarioStatus())
 			})
-		;
-	});
-
-	this.Then(/^the hidden scenarios are displayed in a faded way indicating that were hidden$/, function () {
-		checkScenarioFaded = (scn) => {
-			return scn.isVisible()
-				.then(v => expect(v, 'Scenario should be show').to.be.true)
-				.then(_ => scn.getElement())
-				.then(e => e.getCssValue('opacity'))
-				.then(opacity => expect(opacity).to.be.below(1))
-			;
-		}
-
-		return page.scenarioPO.getCurrentScenario()
-			.then(scn => checkScenarioFaded(scn))
-			.then(_ => {
-				if(shared.scenarioStore.givenHiddenScenarios > 1) {
-					return page.scenarioPO.getLastScenario()
-						.then(scn => checkScenarioFaded(scn))
-				}
-				return;
-			})
-			.then(_ => shared.utilsSO.takeScreenshot())
 		;
 	});
 

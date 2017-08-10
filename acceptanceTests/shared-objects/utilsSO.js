@@ -9,6 +9,7 @@ global.LOGGER = new Logger('acceptanceTests');
 
 module.exports = {
 	camelize: testId.convertToTestId,
+	toTestId: testId.toTestId,
 
 	onShutdown(callback) {
 		process.on('SIGTERM', callback);

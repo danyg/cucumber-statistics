@@ -42,7 +42,7 @@ class DatabaseSO {
 
 	fillDatabaseWith (dataScript) {
 		let fillDB = require('../database-scripts/' + dataScript);
-		fillDB(this.db);
+		return fillDB(this.db);
 	}
 }
 

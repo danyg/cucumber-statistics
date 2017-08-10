@@ -33,21 +33,26 @@ class AppPO {
 	}
 
 	closePreviousServer() {
-		LOGGER.info(`Shuting down server in port ${TEST_PORT}`)
+		LOGGER.debug(`Shuting down server in port ${TEST_PORT}`)
 		shared.restHttpSO.get(`/admin/shutdown`)
 	}
 
 	closeApp() {
-		return this.currentApp ?
-			closeTestServer(this.currentApp) :
-			true
+		LOGGER.debug(`Closing Test Cucumber Statistics App...`);
+		return Promise.resolve(!!this.currentApp)
+			.then(c => c ? closeTestServer(this.currentApp) : true)
+			.then(_ => LOGGER.debug('Test Cucumber Statistics App Closed.'))
 		;
 	}
 
 	open() {
+		LOGGER.debug(`Opening Browser at ${this.url}...`);
 		return helpers.loadPage(this.url)
+			.then(_ => LOGGER.debug(`Browser at ${this.url}, Waiting for Spinners...`))
 			.then(_ => this.waitForInitialSpinner())
+			.then(_ => LOGGER.debug(`Initial Spinner dissapeared, Waiting for main page to be rendered.`))
 			.then(_ => this.waitForMainSpinnerToDissapear())
+			.then(_ => LOGGER.debug(`Main Page ready to be used.`))
 		;
 	}
 
@@ -84,37 +89,42 @@ class AppPO {
 	}
 
 	waitForMainSpinner() {
-		return driver.wait(
-				until.elementLocated( this.elements.mainLoadingSpinner )
-			)
-			.then(_ => this.waitForMainSpinnerToDissapear())
-		;
-		/*
-		spinner => {
-				spinner.isDisplayed().then(v => assert.isTrue(v, 'The spinner should be displayed.'));
-				driver.wait(until.elementIsNotVisible(spinner))
-			}
-		 */
+		return this.waitForMainSpinnerToDissapear();
 	}
 
 	waitForMainSpinnerToDissapear() {
-		return driver.findElements(this.elements.mainLoadingSpinner)
-			.then(elms => {
-				if(elms.length === 0) {
-					return true;
-				}
-
-				return new Promise((a,b) => {
-					try {
-						driver.wait(until.elementIsNotVisible(elms[0]))
-							.then(_ => a(_))
-							.catch(_ => a(_))
+		LOGGER.debug('Waiting for Main Spinner to be invisible.');
+		let retry = 1;
+		let waitForMainSpinner = (r) => {
+			retry += r;
+			return driver.wait(
+					until.elementLocated( this.elements.mainLoadingSpinner )
+				)
+				.then(elm => {
+					LOGGER.debug(`Waiting for Main Loading Spinner Attempt No:${retry}`);
+					if(!elm) {
+						LOGGER.warn('Main Loading Spinner not found?');
+						return shared.utilsSO.waits(500)
+							.then(_ => waitForMainSpinner(1))
 						;
-					} catch(e) {
-						a(_);
 					}
-				});
-			})
+
+					return new Promise((a,b) => {
+						try {
+							driver.wait(until.elementIsNotVisible(elm))
+								.then(_ => a(true))
+								.catch(_ => a(false))
+							;
+						} catch(e) {
+							a(false);
+						}
+					});
+				})
+			;
+		};
+
+		return waitForMainSpinner(0)
+			.then(r => !r ? waitForMainSpinner(1) : true)
 		;
 	}
 }

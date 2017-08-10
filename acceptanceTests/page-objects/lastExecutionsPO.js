@@ -74,8 +74,10 @@ class LastExecutionsPO {
 	}
 
 	_clickFilterCheckbox(add, tagName) {
-		return driver.findElement(By.testId( this._getTagFilterTestId() ))
-			.catch(_ => assert.fail(0,1, `No Filters for Tag ${tagName}`))
+		let testId = this._getTagFilterTestId(add, tagName);
+		// tagFilter_filterOut_Pellentesque
+		return driver.findElement(By.testId( testId ))
+			.catch(_ => assert.fail(0,1, `No Filters for Tag ${tagName}, element with testId "${testId}" not found.`))
 			.then(chkbx => {
 				return chkbx.isSelected()
 					.then(s => assert.isFalse(s, `Expecting Tag ${tagName} not to be ${(add ? 'Included' : 'Excluded')} already.`))
@@ -85,9 +87,8 @@ class LastExecutionsPO {
 	}
 
 	_getTagFilterTestId(add, tagName) {
-		tagName = shared.utilsSO.camelize(tagName.replace('@', ''));
 		let action = (add ? 'filterIn' : 'filterOut');
-		return `tagFilter_${action}_${tagName}`;
+		return shared.utilsSO.toTestId(['tagFilter', action, tagName]);
 	}
 }
 

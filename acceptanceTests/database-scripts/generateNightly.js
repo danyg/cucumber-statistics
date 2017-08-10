@@ -160,7 +160,19 @@ function getStatus() {
 	return parseInt(Math.sin(seed).toFixed(8)*10) > 0 ? 'passed' : 'failed';
 }
 
+function resetCounters() {
+	fIx = -1;
+	sIx = -1;
+	tgIx = 0;
+	gIx = -1;
+	wIx = -1;
+	tIx = -1;
+}
+
+
 function generateNightly(s) {
+	resetCounters();
+
 	if(undefined === s) {
 		s = 0;
 	}

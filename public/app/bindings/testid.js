@@ -12,8 +12,22 @@
 		;
 	}
 
+	function toTestId(data) {
+		var testId;
+		if(typeof data === 'string') {
+			testId = camelize(data);
+		} else {
+			data = data.map(function(item) {
+				return camelize(item);
+			});
+			testId = data.join('_');
+		}
+		return testId;
+	};
+
 	var testId = {
-		convertToTestId: camelize
+		convertToTestId: camelize,
+		toTestId: toTestId
 	};
 
 	var root;
@@ -28,17 +42,7 @@
 			ko.bindingHandlers.testId = testId;
 			testId.update = function update(element, valueAccessor) {
 				var data = ko.unwrap(valueAccessor());
-				var testId;
-				if(typeof data === 'string') {
-					testId = camelize(data);
-				} else {
-					data = data.map(function(item) {
-						return camelize(item);
-					});
-					testId = data.join('_');
-				}
-
-				element.setAttribute('data-testid', testId);
+				element.setAttribute('data-testid', toTestId(data));
 			};
 			return testId;
 		});

@@ -95,6 +95,12 @@ class ScenarioItem {
 		;
 	}
 
+	getHideBtn() {
+		return this.getElement()
+			.then(elm => elm.findElement(SHOW_HIDE_BTN))
+		;
+	}
+
 	_openClose(open) {
 		let c, w;
 		if(open) {

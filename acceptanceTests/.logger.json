@@ -1,9 +1,12 @@
 {
-	"level": "INFO",
+	"level": "DEBUG",
 	"showTrace": true,
 	"showAllTraces": false,
 	"outputs": [
 		"stdout",
 		"file:./logs/aceptanceTests.log"
-	]
+	],
+	"scopes": {
+		"CucumberJSONParser": "INFO"
+	}
 }

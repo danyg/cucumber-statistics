@@ -8,17 +8,21 @@ module.exports = {
 	},
 
 	selectNightly: function(nighlyName) {
+		LOGGER.debug(`Opening Nightly page for "${nighlyName}"...`);
 		var elm = driver.findElement(this.elements.nightliesList);
 		return elm.findElement(this.elements.getNigtlyBtnByName(nighlyName))
 			.click()
 				.then(_ => page.appPO.waitForMainSpinner())
+				.then(_ => LOGGER.debug(`Nightly page for "${nighlyName}" ready to be used.`));
 		;
 	},
 
 	selectLastExecutions: function() {
+		LOGGER.debug('Opening Last Executions page...');
 		return driver.findElement(this.elements.lastExecutionsBtn)
 			.click()
 				.then(_ => page.appPO.waitForMainSpinner())
+				.then(_ => LOGGER.debug(`Last Executions page ready to used.`));
 		;
 	},
 

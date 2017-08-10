@@ -47,10 +47,7 @@ define([
 		this.nightlyId = ko.observable();
 
 		this.isLocallyHidden = ko.observable(false);
-		this.hidden = ko.observable(false);
-
-		this.isForcedToBeHidden = ko.observable(false);
-		this.isForcedToBeShown = ko.observable(false);
+		this.isFiltered = ko.observable(false);
 
 		this.cssClasses = ko.computed((function() {
 			var klasses = [
@@ -70,14 +67,7 @@ define([
 		});
 
 		this.visible = ko.computed((function() {
-			var forceSubscription = this.isForcedToBeHidden() || this.isForcedToBeShown || this.hidden() || this._isFixed() || this.isLocallyHidden() || this.status() || this.hidePassed() || this.showHidden();
-
-			if(this.isForcedToBeShown()) {
-				return true;
-			}
-			if(this.isForcedToBeHidden()) {
-				return false;
-			}
+			var forceSubscription = this.isFiltered() || this._isFixed() || this.isLocallyHidden() || this.status() || this.hidePassed() || this.showHidden();
 
 			if(this.status() === 'passed') {
 				if(this.hidePassed()) {
@@ -90,6 +80,10 @@ define([
 				if(this.showHidden()) {
 					return true;
 				}
+				return false;
+			}
+
+			if(this.isFiltered()) {
 				return false;
 			}
 
@@ -210,27 +204,12 @@ define([
 
 	};
 
-	/**
-	 * Will mark it to be shown, but other features might make it hidden,
-	 * check how the computable visible works
-	 * @see  ScenarioWidget.visible
-	 *
-	 * @return void
-	 */
-	ScenarioWidget.prototype.show = function() {
-		this.isForcedToBeHidden(false);
-		this.isForcedToBeShown(true);
+	ScenarioWidget.prototype.filterIn = function() {
+		this.isFiltered(false);
 	}
-	/**
-	 * Will mark it to be hidden, this will override any other logic and it
-	 * will be dissapear
-	 * @see  ScenarioWidget.visible
-	 *
-	 * @return void
-	 */
-	ScenarioWidget.prototype.hide = function() {
-		this.isForcedToBeShown(false);
-		this.isForcedToBeHidden(true);
+
+	ScenarioWidget.prototype.filterOut = function() {
+		this.isFiltered(true);
 	}
 
 	ScenarioWidget.prototype._formatStability = function(stability) {

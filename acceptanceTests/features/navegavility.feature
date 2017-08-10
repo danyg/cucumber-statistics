@@ -5,7 +5,7 @@ Feature: Basic Navegavility
 		And A user is in cucumber statistics
 		Then the user is presented with an error message "Not nightlies founded" in the main menu
 
-	Scenario: A user can select a nightly to be check
+	Scenario: A user can select a nightly to be checked
 		Given the database is populated with "one nightly"
 		And A user is in cucumber statistics
 		When the nightly "test-nightly" is selected

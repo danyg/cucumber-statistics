@@ -116,7 +116,7 @@ define([
 	ContainerWidget.prototype.showAllScenarios = function() {
 		this.scenarios().forEach(function(scenario) {
 			if(!!scenario._widget) {
-				scenario._widget.show();
+				scenario._widget.filterIn();
 			}
 		});
 	};
@@ -155,21 +155,21 @@ define([
 
 					if(isIn) {
 						// console.log('is in white: show');
-						scenario._widget.show();
+						scenario._widget.filterIn();
 					}
 					if(isOut) {
-						scenario._widget.hide();
+						scenario._widget.filterOut();
 						// console.log('isOUT: hide');
 					}
 					if(!isIn && !isOut) {
 						// is not present in any list
-						scenario._widget.hide();
+						scenario._widget.filterOut();
 						// console.log('not filter?: hide');
 					}
 
 				} else {
 					// console.log('NoTags: hide');
-					scenario._widget.hide(); // if no tags, no shown
+					scenario._widget.filterOut(); // if no tags, no shown
 				}
 				// console.groupEnd();
 			}
