@@ -6,12 +6,33 @@
 	">
 		<div class="title" data-testclass="handler"  data-bind="click: toggleExpand.bind($widget), attr: {title: name()}">
 			<div class="name" data-bind="text: name()"></div>
-			<!-- ko if: sideValue() === 'stability' -->
-			<div class="stability right" data-bind="text: stabilityLabel()"></div>
-			<!-- /ko -->
-			<!-- ko if: sideValue() === 'time' -->
-			<div class="time right" data-bind="text: timeAvg()"></div>
-			<!-- /ko -->
+			<div class="right modificators">
+				<!-- ko foreach: { data: users, as: 'user' } -->
+				<div class="modificator" data-bind="
+					css: 'user user-' + user.color,
+					attr: {
+						title: user.name
+					},
+					text: user.name
+				"></div>
+				<!-- /ko -->
+
+				<!-- ko foreach: { data: modificators, as: 'mod' } -->
+				<div class="modificator" data-bind="
+					css: mod,
+					attr: {
+						title: $widget.dictionary('titleFor ' + mod)
+					}
+				">&nbsp;</div>
+				<!-- /ko -->
+
+				<!-- ko if: sideValue() === 'stability' -->
+				<div class="modificator stability" data-bind="text: stabilityLabel(), css: 'stability-'+parseInt(stability()), attr: {title: $widget.dictionary('Stability: ') + stabilityLabel()}"></div>
+				<!-- /ko -->
+				<!-- ko if: sideValue() === 'time' -->
+				<div class="modificator time" data-bind="text: timeAvg(), attr: {title:  $widget.dictionary(Time Avg: ') + timeAvg()}"></div>
+				<!-- /ko -->
+			</div>
 		</div>
 		<!-- ko widget: { kind:'loading', enable: _isLoading(), hover: true } --><!-- /ko -->
 

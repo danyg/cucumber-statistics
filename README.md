@@ -21,7 +21,7 @@ You can see some [Screenshots](http://danyg.github.io/cucumber-statistics/) foll
 
 In order to use Cucumber Statistics you will need the following prerequisites
 
-- A PC with node.js >= 0.12 installed and git(optional).
+- A PC with node.js >= v4 installed and git(optional).
 - Control of the firewall, cucumber-statistics uses the port 9088, to serve the
 web page and the REST service to push and get information of cucumber.
 - (optional) be able to inject bash commands or similar in your nightly/automated

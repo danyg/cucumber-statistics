@@ -2,6 +2,8 @@ define([
 	'knockout',
 	'jquery',
 
+	'config/dictionary',
+
 	'plugins/http',
 	'modules/nightly/nightly',
 
@@ -9,6 +11,8 @@ define([
 ], function(
 	ko,
 	$,
+
+	dictionary,
 
 	http,
 	nightlyController,
@@ -20,6 +24,8 @@ define([
 
 	function ScenarioWidget() {
 		var me = this;
+		this.dictionary = dictionary;
+
 		this.id = ko.observable();
 		this.name = ko.observable();
 		this.file = ko.observable();
@@ -42,18 +48,19 @@ define([
 		this.expanded = ko.observable(false);
 		this.status = ko.observable('');
 		this.userStatus = ko.observable('');
-		this.isNew = ko.observable(false);
 
 		this.nightlyId = ko.observable();
 
 		this.isLocallyHidden = ko.observable(false);
 		this.isFiltered = ko.observable(false);
+		this.modificators = ko.observableArray();
+		this.users = ko.observableArray();
 
 		this.cssClasses = ko.computed((function() {
 			var klasses = [
 				(this.expanded() ? 'expanded': this.status()),
 				('marked-as-' + this.userStatus()),
-				(this.isNew() ? 'marked-as-new' : ''),
+				// (this.isNew() ? 'marked-as-new' : ''),
 				(this.isLocallyHidden() ? 'is-locally-hidden' : '')
 			];
 			return klasses.join(' ');
@@ -132,11 +139,21 @@ define([
 
 		if(!!scenario.results) {
 			if(scenario.results.length > 1) {
-				this.isNew(scenario.results[scenario.results.length-1].status === 'failed' && scenario.results[scenario.results.length-2].status === 'passed');
+				if(
+					scenario.results[scenario.results.length-1].status === 'failed'
+					&& scenario.results[scenario.results.length-2].status === 'passed'
+				) {
+					this.modificators.push('new');
+				}
+
 			} else {
-				this.isNew(true);
+				this.modificators.push('new');
 			}
 		}
+		if(this.userStatus().indexOf('recidivist') !== -1) {
+			this.modificators.push(this.userStatus());
+		}
+
 
 		if(scenario.hasOwnProperty('_parent')) {
 			this.nightlyId(scenario._parent.name);
@@ -159,7 +176,7 @@ define([
 		this.results(scenario.results);
 
 		this.stability(this._formatStability(scenario.stability));
-		this.stabilityLabel('Stability: ' + this.stability());
+		this.stabilityLabel(this.stability());
 
 		this.timeAvg(!!scenario.timeAvg ?
 			this._formatTime(scenario.timeAvg) :

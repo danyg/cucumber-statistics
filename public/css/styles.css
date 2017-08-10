@@ -356,7 +356,7 @@ button[disabled] {
 .item.marked-as-fix.expanded	{
 	opacity: 1;
 }
-
+/*
 .item.marked-as-auto-recidivist,
 .item.marked-as-recidivist {
 	opacity: 1;
@@ -375,11 +375,9 @@ button[disabled] {
 }
 
 .item.marked-as-new {
-       	background-position: 4px .3em;
-        background-repeat: no-repeat;
-        background-origin: padding-box;
-/*	border: solid 2px #eee;
-        box-shadow: inset 0px 0px 2px 2px #eee;*/
+   	background-position: 4px .3em;
+    background-repeat: no-repeat;
+    background-origin: padding-box;
 	position: relative;
 }
 .item.marked-as-new:before {
@@ -399,7 +397,7 @@ button[disabled] {
 .item.marked-as-new > .title {
         padding-left: 23px;
 }
-
+*/
 
 label.checkbox {
 	line-height: 2em;
@@ -615,3 +613,161 @@ li:last-child .scenario.expandable.expanded { margin-bottom: 0px; }
 	width: 150px;
 	overflow: initial;
 }
+
+.modificators .modificator {
+	display: inline-block;
+	border-radius: 8px;
+	padding: 0px 4px;
+	font-size: .9em;
+	font-weight: bold;
+	background: #222;
+	color: #fff;
+	text-align: center;
+	text-shadow: 1px 1px black;
+}
+
+.modificator.time:before {
+	font-family: FontAwesome;
+	font-weight: normal;
+	content: "\f017";
+	padding-right: 5px;
+}
+
+.modificator.new {background: orange;}
+.modificator.new:before {
+	font-family: FontAwesome;
+	font-weight: normal;
+	content: "\f12a";
+	padding: 0px 2px 0px 3px;
+}
+.modificator.new:after {content: "NEW!";}
+
+.modificator.auto-recidivist,
+.modificator.recidivist { background: orange; }
+.modificator.auto-recidivist:before,
+.modificator.recidivist:before {
+	font-family: FontAwesome;
+	font-weight: normal;
+	content: "\f071";
+}
+
+.modificator.user:before {
+	font-family: FontAwesome;
+	font-weight: normal;
+	content: "\f007";
+	padding-right: 5px;
+}
+
+.modificator.user.user-blue {background: blue;}
+.modificator.user.user-coral {background: coral;}
+.modificator.user.user-cyan {background: skyblue;}
+.modificator.user.user-yellow {background: yellow;}
+.modificator.user.user-gold {background: DarkGoldenRod;}
+.modificator.user.user-green {background: DarkGreen;}
+.modificator.user.user-violet {background: DarkViolet;}
+.modificator.user.user-green2 {background: GreenYellow;}
+.modificator.user.user-indigo {background: Indigo;}
+
+
+
+.stability.stability-0 { background: #ff0000;}
+.stability.stability-1 { background: linear-gradient(to right,#00d000 0%,#00ff00 1%,#ff0000 1%,#ff0000 100%);}
+.stability.stability-2 { background: linear-gradient(to right,#00d000 0%,#00ff00 2%,#ff0000 2%,#ff0000 100%);}
+.stability.stability-3 { background: linear-gradient(to right,#00d000 0%,#00ff00 3%,#ff0000 3%,#ff0000 100%);}
+.stability.stability-4 { background: linear-gradient(to right,#00d000 0%,#00ff00 4%,#ff0000 4%,#ff0000 100%);}
+.stability.stability-5 { background: linear-gradient(to right,#00d000 0%,#00ff00 5%,#ff0000 5%,#ff0000 100%);}
+.stability.stability-6 { background: linear-gradient(to right,#00d000 0%,#00ff00 6%,#ff0000 6%,#ff0000 100%);}
+.stability.stability-7 { background: linear-gradient(to right,#00d000 0%,#00ff00 7%,#ff0000 7%,#ff0000 100%);}
+.stability.stability-8 { background: linear-gradient(to right,#00d000 0%,#00ff00 8%,#ff0000 8%,#ff0000 100%);}
+.stability.stability-9 { background: linear-gradient(to right,#00d000 0%,#00ff00 9%,#ff0000 9%,#ff0000 100%);}
+.stability.stability-10 { background: linear-gradient(to right,#00d000 0%,#00ff00 10%,#ff0000 10%,#ff0000 100%);}
+.stability.stability-11 { background: linear-gradient(to right,#00d000 0%,#00ff00 11%,#ff0000 11%,#ff0000 100%);}
+.stability.stability-12 { background: linear-gradient(to right,#00d000 0%,#00ff00 12%,#ff0000 12%,#ff0000 100%);}
+.stability.stability-13 { background: linear-gradient(to right,#00d000 0%,#00ff00 13%,#ff0000 13%,#ff0000 100%);}
+.stability.stability-14 { background: linear-gradient(to right,#00d000 0%,#00ff00 14%,#ff0000 14%,#ff0000 100%);}
+.stability.stability-15 { background: linear-gradient(to right,#00d000 0%,#00ff00 15%,#ff0000 15%,#ff0000 100%);}
+.stability.stability-16 { background: linear-gradient(to right,#00d000 0%,#00ff00 16%,#ff0000 16%,#ff0000 100%);}
+.stability.stability-17 { background: linear-gradient(to right,#00d000 0%,#00ff00 17%,#ff0000 17%,#ff0000 100%);}
+.stability.stability-18 { background: linear-gradient(to right,#00d000 0%,#00ff00 18%,#ff0000 18%,#ff0000 100%);}
+.stability.stability-19 { background: linear-gradient(to right,#00d000 0%,#00ff00 19%,#ff0000 19%,#ff0000 100%);}
+.stability.stability-20 { background: linear-gradient(to right,#00d000 0%,#00ff00 20%,#ff0000 20%,#ff0000 100%);}
+.stability.stability-21 { background: linear-gradient(to right,#00d000 0%,#00ff00 21%,#ff0000 21%,#ff0000 100%);}
+.stability.stability-22 { background: linear-gradient(to right,#00d000 0%,#00ff00 22%,#ff0000 22%,#ff0000 100%);}
+.stability.stability-23 { background: linear-gradient(to right,#00d000 0%,#00ff00 23%,#ff0000 23%,#ff0000 100%);}
+.stability.stability-24 { background: linear-gradient(to right,#00d000 0%,#00ff00 24%,#ff0000 24%,#ff0000 100%);}
+.stability.stability-25 { background: linear-gradient(to right,#00d000 0%,#00ff00 25%,#ff0000 25%,#ff0000 100%);}
+.stability.stability-26 { background: linear-gradient(to right,#00d000 0%,#00ff00 26%,#ff0000 26%,#ff0000 100%);}
+.stability.stability-27 { background: linear-gradient(to right,#00d000 0%,#00ff00 27%,#ff0000 27%,#ff0000 100%);}
+.stability.stability-28 { background: linear-gradient(to right,#00d000 0%,#00ff00 28%,#ff0000 28%,#ff0000 100%);}
+.stability.stability-29 { background: linear-gradient(to right,#00d000 0%,#00ff00 29%,#ff0000 29%,#ff0000 100%);}
+.stability.stability-30 { background: linear-gradient(to right,#00d000 0%,#00ff00 30%,#ff0000 30%,#ff0000 100%);}
+.stability.stability-31 { background: linear-gradient(to right,#00d000 0%,#00ff00 31%,#ff0000 31%,#ff0000 100%);}
+.stability.stability-32 { background: linear-gradient(to right,#00d000 0%,#00ff00 32%,#ff0000 32%,#ff0000 100%);}
+.stability.stability-33 { background: linear-gradient(to right,#00d000 0%,#00ff00 33%,#ff0000 33%,#ff0000 100%);}
+.stability.stability-34 { background: linear-gradient(to right,#00d000 0%,#00ff00 34%,#ff0000 34%,#ff0000 100%);}
+.stability.stability-35 { background: linear-gradient(to right,#00d000 0%,#00ff00 35%,#ff0000 35%,#ff0000 100%);}
+.stability.stability-36 { background: linear-gradient(to right,#00d000 0%,#00ff00 36%,#ff0000 36%,#ff0000 100%);}
+.stability.stability-37 { background: linear-gradient(to right,#00d000 0%,#00ff00 37%,#ff0000 37%,#ff0000 100%);}
+.stability.stability-38 { background: linear-gradient(to right,#00d000 0%,#00ff00 38%,#ff0000 38%,#ff0000 100%);}
+.stability.stability-39 { background: linear-gradient(to right,#00d000 0%,#00ff00 39%,#ff0000 39%,#ff0000 100%);}
+.stability.stability-40 { background: linear-gradient(to right,#00d000 0%,#00ff00 40%,#ff0000 40%,#ff0000 100%);}
+.stability.stability-41 { background: linear-gradient(to right,#00d000 0%,#00ff00 41%,#ff0000 41%,#ff0000 100%);}
+.stability.stability-42 { background: linear-gradient(to right,#00d000 0%,#00ff00 42%,#ff0000 42%,#ff0000 100%);}
+.stability.stability-43 { background: linear-gradient(to right,#00d000 0%,#00ff00 43%,#ff0000 43%,#ff0000 100%);}
+.stability.stability-44 { background: linear-gradient(to right,#00d000 0%,#00ff00 44%,#ff0000 44%,#ff0000 100%);}
+.stability.stability-45 { background: linear-gradient(to right,#00d000 0%,#00ff00 45%,#ff0000 45%,#ff0000 100%);}
+.stability.stability-46 { background: linear-gradient(to right,#00d000 0%,#00ff00 46%,#ff0000 46%,#ff0000 100%);}
+.stability.stability-47 { background: linear-gradient(to right,#00d000 0%,#00ff00 47%,#ff0000 47%,#ff0000 100%);}
+.stability.stability-48 { background: linear-gradient(to right,#00d000 0%,#00ff00 48%,#ff0000 48%,#ff0000 100%);}
+.stability.stability-49 { background: linear-gradient(to right,#00d000 0%,#00ff00 49%,#ff0000 49%,#ff0000 100%);}
+.stability.stability-50 { background: linear-gradient(to right,#00d000 0%,#00ff00 50%,#ff0000 50%,#ff0000 100%);}
+.stability.stability-51 { background: linear-gradient(to right,#00d000 0%,#00ff00 51%,#ff0000 51%,#ff0000 100%);}
+.stability.stability-52 { background: linear-gradient(to right,#00d000 0%,#00ff00 52%,#ff0000 52%,#ff0000 100%);}
+.stability.stability-53 { background: linear-gradient(to right,#00d000 0%,#00ff00 53%,#ff0000 53%,#ff0000 100%);}
+.stability.stability-54 { background: linear-gradient(to right,#00d000 0%,#00ff00 54%,#ff0000 54%,#ff0000 100%);}
+.stability.stability-55 { background: linear-gradient(to right,#00d000 0%,#00ff00 55%,#ff0000 55%,#ff0000 100%);}
+.stability.stability-56 { background: linear-gradient(to right,#00d000 0%,#00ff00 56%,#ff0000 56%,#ff0000 100%);}
+.stability.stability-57 { background: linear-gradient(to right,#00d000 0%,#00ff00 57%,#ff0000 57%,#ff0000 100%);}
+.stability.stability-58 { background: linear-gradient(to right,#00d000 0%,#00ff00 58%,#ff0000 58%,#ff0000 100%);}
+.stability.stability-59 { background: linear-gradient(to right,#00d000 0%,#00ff00 59%,#ff0000 59%,#ff0000 100%);}
+.stability.stability-60 { background: linear-gradient(to right,#00d000 0%,#00ff00 60%,#ff0000 60%,#ff0000 100%);}
+.stability.stability-61 { background: linear-gradient(to right,#00d000 0%,#00ff00 61%,#ff0000 61%,#ff0000 100%);}
+.stability.stability-62 { background: linear-gradient(to right,#00d000 0%,#00ff00 62%,#ff0000 62%,#ff0000 100%);}
+.stability.stability-63 { background: linear-gradient(to right,#00d000 0%,#00ff00 63%,#ff0000 63%,#ff0000 100%);}
+.stability.stability-64 { background: linear-gradient(to right,#00d000 0%,#00ff00 64%,#ff0000 64%,#ff0000 100%);}
+.stability.stability-65 { background: linear-gradient(to right,#00d000 0%,#00ff00 65%,#ff0000 65%,#ff0000 100%);}
+.stability.stability-66 { background: linear-gradient(to right,#00d000 0%,#00ff00 66%,#ff0000 66%,#ff0000 100%);}
+.stability.stability-67 { background: linear-gradient(to right,#00d000 0%,#00ff00 67%,#ff0000 67%,#ff0000 100%);}
+.stability.stability-68 { background: linear-gradient(to right,#00d000 0%,#00ff00 68%,#ff0000 68%,#ff0000 100%);}
+.stability.stability-69 { background: linear-gradient(to right,#00d000 0%,#00ff00 69%,#ff0000 69%,#ff0000 100%);}
+.stability.stability-70 { background: linear-gradient(to right,#00d000 0%,#00ff00 70%,#ff0000 70%,#ff0000 100%);}
+.stability.stability-71 { background: linear-gradient(to right,#00d000 0%,#00ff00 71%,#ff0000 71%,#ff0000 100%);}
+.stability.stability-72 { background: linear-gradient(to right,#00d000 0%,#00ff00 72%,#ff0000 72%,#ff0000 100%);}
+.stability.stability-73 { background: linear-gradient(to right,#00d000 0%,#00ff00 73%,#ff0000 73%,#ff0000 100%);}
+.stability.stability-74 { background: linear-gradient(to right,#00d000 0%,#00ff00 74%,#ff0000 74%,#ff0000 100%);}
+.stability.stability-75 { background: linear-gradient(to right,#00d000 0%,#00ff00 75%,#ff0000 75%,#ff0000 100%);}
+.stability.stability-76 { background: linear-gradient(to right,#00d000 0%,#00ff00 76%,#ff0000 76%,#ff0000 100%);}
+.stability.stability-77 { background: linear-gradient(to right,#00d000 0%,#00ff00 77%,#ff0000 77%,#ff0000 100%);}
+.stability.stability-78 { background: linear-gradient(to right,#00d000 0%,#00ff00 78%,#ff0000 78%,#ff0000 100%);}
+.stability.stability-79 { background: linear-gradient(to right,#00d000 0%,#00ff00 79%,#ff0000 79%,#ff0000 100%);}
+.stability.stability-80 { background: linear-gradient(to right,#00d000 0%,#00ff00 80%,#ff0000 80%,#ff0000 100%);}
+.stability.stability-81 { background: linear-gradient(to right,#00d000 0%,#00ff00 81%,#ff0000 81%,#ff0000 100%);}
+.stability.stability-82 { background: linear-gradient(to right,#00d000 0%,#00ff00 82%,#ff0000 82%,#ff0000 100%);}
+.stability.stability-83 { background: linear-gradient(to right,#00d000 0%,#00ff00 83%,#ff0000 83%,#ff0000 100%);}
+.stability.stability-84 { background: linear-gradient(to right,#00d000 0%,#00ff00 84%,#ff0000 84%,#ff0000 100%);}
+.stability.stability-85 { background: linear-gradient(to right,#00d000 0%,#00ff00 85%,#ff0000 85%,#ff0000 100%);}
+.stability.stability-86 { background: linear-gradient(to right,#00d000 0%,#00ff00 86%,#ff0000 86%,#ff0000 100%);}
+.stability.stability-87 { background: linear-gradient(to right,#00d000 0%,#00ff00 87%,#ff0000 87%,#ff0000 100%);}
+.stability.stability-88 { background: linear-gradient(to right,#00d000 0%,#00ff00 88%,#ff0000 88%,#ff0000 100%);}
+.stability.stability-89 { background: linear-gradient(to right,#00d000 0%,#00ff00 89%,#ff0000 89%,#ff0000 100%);}
+.stability.stability-90 { background: linear-gradient(to right,#00d000 0%,#00ff00 90%,#ff0000 90%,#ff0000 100%);}
+.stability.stability-91 { background: linear-gradient(to right,#00d000 0%,#00ff00 91%,#ff0000 91%,#ff0000 100%);}
+.stability.stability-92 { background: linear-gradient(to right,#00d000 0%,#00ff00 92%,#ff0000 92%,#ff0000 100%);}
+.stability.stability-93 { background: linear-gradient(to right,#00d000 0%,#00ff00 93%,#ff0000 93%,#ff0000 100%);}
+.stability.stability-94 { background: linear-gradient(to right,#00d000 0%,#00ff00 94%,#ff0000 94%,#ff0000 100%);}
+.stability.stability-95 { background: linear-gradient(to right,#00d000 0%,#00ff00 95%,#ff0000 95%,#ff0000 100%);}
+.stability.stability-96 { background: linear-gradient(to right,#00d000 0%,#00ff00 96%,#ff0000 96%,#ff0000 100%);}
+.stability.stability-97 { background: linear-gradient(to right,#00d000 0%,#00ff00 97%,#ff0000 97%,#ff0000 100%);}
+.stability.stability-98 { background: linear-gradient(to right,#00d000 0%,#00ff00 98%,#ff0000 98%,#ff0000 100%);}
+.stability.stability-99 { background: linear-gradient(to right,#00d000 0%,#00ff00 99%,#ff0000 99%,#ff0000 100%);}
+.stability.stability-100 { background: #00d000;}
