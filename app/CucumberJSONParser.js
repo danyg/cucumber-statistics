@@ -45,7 +45,11 @@ CucumberJSONParser.prototype._processTags = function(tags) {
 		return [];
 	}
 	return tags.map(function(item) {
-		return item.name;
+		if(typeof item === 'string') {
+			return item;
+		} else if(item.hasOwnProperty('name')) {
+			return item.name;
+		}
 	});
 };
 
