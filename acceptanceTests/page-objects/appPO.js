@@ -9,20 +9,20 @@ class AppPO {
 		};
 		this.currentApp = null;
 		shared.utilsSO.onShutdown(this.closeApp.bind(this));
+
+		this.closePreviousServer();
 	}
 
 	_printAppInitMarkers() {
-		LOGGER.info('\n\n\n────────────────────────────────────────────────────────────────────────────────\n');
+		console.log('\n\n\n────────────────────────────────────────────────────────────────────────────────\n');
 	}
 
 	_printAppEndInitMarkers() {
-		LOGGER.info('\n────────────────────────────────────────────────────────────────────────────────\n\n\n');
+		console.log('\n────────────────────────────────────────────────────────────────────────────────\n\n\n');
 	}
 
 	startApp() {
 		this._printAppInitMarkers();
-		LOGGER.info('Wiping Testing DB...');
-
 		return startTestServer()
 			.then(app => {
 				this.currentApp = app;
@@ -30,6 +30,11 @@ class AppPO {
 				return true;
 			})
 		;
+	}
+
+	closePreviousServer() {
+		LOGGER.info(`Shuting down server in port ${TEST_PORT}`)
+		shared.restHttpSO.get(`/admin/shutdown`)
 	}
 
 	closeApp() {

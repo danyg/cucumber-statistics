@@ -28,7 +28,11 @@ class AdminServlet extends Servlet {
 		restResponses.ok200(res, {'message': 'Shuting down'});
 
 		if(process.send) {
-			process.send('SHUTDOWN');
+			try {
+				process.send('SHUTDOWN');
+			} catch(e) {
+				process.exit(0);
+			}
 		} else {
 			process.exit(0);
 		}

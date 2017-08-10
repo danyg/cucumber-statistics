@@ -45,14 +45,14 @@ module.exports = function() {
 	this.When(/the user expands the "([^"]+)" scenario/, (scenarioName) => {
 		return page.scenarioPO.getScenario(scenarioName)
 			.then(scn => scn.expand())
-			.then(_ => driver.takeScreenshot())
+			.then(_ => shared.utilsSO.takeScreenshot())
 		;
 	});
 
 	this.When(/the user colapses the "([^"]+)" scenario/, (scenarioName) => {
 		return page.scenarioPO.getScenario(scenarioName)
 			.then(scn => scn.collapse())
-			.then(_ => driver.takeScreenshot())
+			.then(_ => shared.utilsSO.takeScreenshot())
 		;
 	});
 
@@ -69,7 +69,7 @@ module.exports = function() {
 		return promise
 			.then(_ => scn.getBtn(optionName))
 			.then(btn => btn.click())
-			.then(_ => driver.takeScreenshot())
+			.then(_ => shared.utilsSO.takeScreenshot())
 		;
 	});
 
@@ -77,7 +77,7 @@ module.exports = function() {
 	this.When(/^expand a scenario that was previously "([^"]+)"$/, (optionName) => {
 		return page.scenarioPO.getFirstScenario(optionName)
 			.then(scn => scn.expand())
-			.then(_ => driver.takeScreenshot())
+			.then(_ => shared.utilsSO.takeScreenshot())
 		;
 	});
 
@@ -98,7 +98,7 @@ module.exports = function() {
 				optionName,
 				"Button has not the expected label"
 			))
-			.then(_ => driver.takeScreenshot())
+			.then(_ => shared.utilsSO.takeScreenshot())
 		;
 	});
 
@@ -108,7 +108,7 @@ module.exports = function() {
 		return scn.getElement()
 			.then(elm => elm.isDisplayed())
 			.then(v => assert.isFalse(v, `Scenario ${scn.getName} should be hidden`))
-			.then(_ => driver.takeScreenshot())
+			.then(_ => shared.utilsSO.takeScreenshot())
 		;
 	});
 
@@ -122,7 +122,7 @@ module.exports = function() {
 						'current count should be above the initial counter'
 					)
 			})
-			.then(_ => driver.takeScreenshot())
+			.then(_ => shared.utilsSO.takeScreenshot())
 
 		;
 	});
@@ -162,7 +162,7 @@ module.exports = function() {
 				}
 				return;
 			})
-			.then(_ => driver.takeScreenshot())
+			.then(_ => shared.utilsSO.takeScreenshot())
 		;
 	});
 

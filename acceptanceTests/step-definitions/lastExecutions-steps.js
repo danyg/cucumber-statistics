@@ -11,13 +11,13 @@ module.exports = function() {
 
 	this.When(/^the user show the hidden scenarios$/, () => {
 		return page.lastExecutionsPO.showHiddenScenarios()
-			.then(_ => driver.takeScreenshot())
+			.then(_ => shared.utilsSO.takeScreenshot())
 		;
 	});
 
 	this.When(/^the user hide the hidden scenarios$/, () => {
 		return page.lastExecutionsPO.hideHiddenScenarios()
-			.then(_ => driver.takeScreenshot())
+			.then(_ => shared.utilsSO.takeScreenshot())
 		;
 	});
 

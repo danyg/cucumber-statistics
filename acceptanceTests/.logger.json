@@ -1,6 +1,6 @@
 {
 	"level": "INFO",
-	"showTrace": false,
+	"showTrace": true,
 	"showAllTraces": false,
 	"outputs": [
 		"stdout",

@@ -17,8 +17,10 @@ module.exports = function () {
 	});
 
 	// add before scenario hook
-	this.BeforeScenario(function(scenario) {
-		shared.scenarioStore = {};
+	this.BeforeScenario(scenario => {
+		shared.scenarioStore.clean();
+		shared.scenarioStore.scenario = scenario;
+		shared.scenarioStore.world = this;
 		page.scenarioPO.cleanScenarios();
 
 		LOGGER.info('Starting Scenario: ' + scenario.getName());
