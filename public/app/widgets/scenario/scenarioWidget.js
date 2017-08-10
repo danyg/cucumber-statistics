@@ -7,7 +7,8 @@ define([
 	'plugins/http',
 	'modules/nightly/nightly',
 
-	'modules/contextMenu/contextMenu'
+	'modules/contextMenu/contextMenu',
+	'durandal/events'
 ], function(
 	ko,
 	$,
@@ -17,14 +18,21 @@ define([
 	http,
 	nightlyController,
 
-	contextMenu
+	contextMenu,
+	Events
 ) {
 
 	'use strict';
 
+	var scenariosComms = {};
+	Events.includeIn(scenariosComms);
+
+	var RECENTLY_COLLAPSED = 'recently-collapsed';
+
 	function ScenarioWidget() {
 		var me = this;
 		this.dictionary = dictionary;
+		this._subscriptions = [];
 
 		this.id = ko.observable();
 		this.name = ko.observable();
@@ -55,16 +63,20 @@ define([
 		this.isFiltered = ko.observable(false);
 		this.modificators = ko.observableArray();
 		this.users = ko.observableArray();
+		this.extraKlasses = ko.observableArray();
 
 		this.cssClasses = ko.computed((function() {
 			var klasses = [
 				(this.expanded() ? 'expanded': this.status()),
 				('marked-as-' + this.userStatus()),
-				// (this.isNew() ? 'marked-as-new' : ''),
 				(this.isLocallyHidden() ? 'is-locally-hidden' : '')
 			];
-			return klasses.join(' ');
+			return klasses.join(' ') + ' ' + this.extraKlasses().join(' ');
 		}).bind(this));
+
+		this._subscriptions.push(
+			scenariosComms.on('collapsed', this._onExtScnCollapsed.bind(this))
+		);
 
 		this._isFixed = ko.computed(function() {
 			return (
@@ -197,11 +209,17 @@ define([
 	};
 
 	ScenarioWidget.prototype.toggleExpand = function() {
+		var pre = this.expanded();
 		this.expanded(!this.expanded());
+
+		if(pre && !this.expanded()) {
+			this.extraKlasses.push(RECENTLY_COLLAPSED);
+			scenariosComms.trigger('collapsed', this);
+		}
+
 		var panel = $('>.panel', this.$element);
 
 		if(this.expanded()) {
-
 
 			if(this.steps().length === 0) {
 				this.steps(this._settings.scenario.steps);
@@ -292,6 +310,15 @@ define([
 		}
 
 		return layout;
+	};
+
+	ScenarioWidget.prototype._onExtScnCollapsed = function(scn){
+		if(scn !== this) {
+			var pos = this.extraKlasses().indexOf(RECENTLY_COLLAPSED);
+			if(pos >= 0) {
+				this.extraKlasses.splice(pos,1);
+			}
+		}
 	};
 
 	var textarea;

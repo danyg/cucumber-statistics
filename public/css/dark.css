@@ -26,19 +26,16 @@ h1, h2, h3, h4, h5, h6 {
 }
 .passed,
 .item.passed {
-	background-color: #98A771;
 	color: #000;
 }
 
 .failed,
 .item.failed {
-	background-color: #B57675;
 	color: #000;
 }
 
 .skipped,
 .item.skipped {
-	background-color: #56AAC5;
 	color: #000;
 }
 

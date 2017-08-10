@@ -71,14 +71,7 @@ h1, h2, h3, h4, h5, h6 {
 .item {
 	padding: 2px;
 	position: relative;
-	opacity: .8;
-
 	background: rgba(0,0,0,.05);
-}
-
-.item.expanded,
-.item.expandable:hover {
-	opacity: 1;
 }
 
 .item .title {
@@ -108,17 +101,29 @@ h1, h2, h3, h4, h5, h6 {
 
 .passed,
 .item.passed {
-	background-color: #C4D88D;
+	background-color: rgba(152,167,113,.8);
+}
+.passed:hover,
+.item.passed:hover {
+	background-color: rgba(152,167,113,1);
 }
 
 .failed,
 .item.failed {
-	background-color: #D98B89;
+	background-color: rgba(181,118,117,.8);
+}
+.failed:hover,
+.item.failed:hover {
+	background-color: rgba(181,118,117,1);
 }
 
 .skipped,
 .item.skipped {
-	background-color: #63CBED;
+	background-color: rgba(86,170,197,.8);
+}
+.skipped:hover,
+.item.skipped:hover {
+	background-color: rgba(86,170,197,1);
 }
 
 .itemised-list {
@@ -130,9 +135,6 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .item.nightly {
-
-
-
 	position: relative;
 	top: 0px;
 	left: 0px;
@@ -143,6 +145,19 @@ h1, h2, h3, h4, h5, h6 {
 	line-height: 2em;
 	display: block;
 	text-decoration: none;
+}
+
+.recently-collapsed >.title {
+	animation-name: recentlyCollapsed;
+	animation-duration: 5s;
+	animation-iteration-count: 1;
+}
+.recently-collapsed >.title:hover {
+	box-shadow: inset 0px 0px 5px 2px rgba(255,255,255,1);
+}
+@keyframes recentlyCollapsed {
+	0%   {box-shadow: inset 0px 0px 5px 2px rgba(255,255,255,1);}
+	100%  {box-shadow: inset 0px 0px 5px 2px rgba(255,255,255,0);}
 }
 
 .panel {
