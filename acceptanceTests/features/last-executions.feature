@@ -1,5 +1,22 @@
 Feature: Last Executions
 
+	@ToTest
+	Scenario: A hidden scenario remains hidden when tags filter is activated
+		Given A user in Last Executions with "a sample nightly"
+
+		When the user expands the "Aenean at orci in eros sodales scelerisque at ac erat." scenario
+		And the user adds "@Pellentesque" tag to "excluded" tags
+		Then the scenario gets hidden
+
+		When the user expands the "Etiam eget libero placerat, sollicitudin diam eu, hendrerit nisl." scenario
+		And the user "Mark as Fixed" the scenario
+		Then the scenario gets hidden
+
+		When the user show the hidden scenarios
+		Then the hidden scenarios are displayed in a faded way indicating that were hidden
+		When the user hide the hidden scenarios
+		Then the scenario gets hidden
+
 	Scenario: A user can Mark a scenario as fixed, this will hide the scenario from the view
 		Given A user in Last Executions with "one nightly"
 		When the user expands the "A user can Mark a scenario as fixed, this will hide the scenario from the view" scenario

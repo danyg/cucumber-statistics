@@ -21,9 +21,15 @@ module.exports = function() {
 		;
 	});
 
+	this.When(/^the user adds "([^"]+)" tag to "([^"]+)" tags$/, (tagName, action) => {
+		let methodName = (action === 'included' ? 'includeTag' : 'excludeTag');
+		return page.lastExecutionsPO[methodName](tagName);
+	});
+
 	this.Given(/^A user in Last Executions with "([^"]+)"$/, (dataScript) => {
-		return shared.genericSteps.userInApp()
+		return Promise.resolve()
 			.then(_ => shared.genericSteps.populateDB(dataScript))
+			.then(_ => shared.genericSteps.userInApp())
 			.then(_ => userGoesToLastExecutions())
 		;
 	});

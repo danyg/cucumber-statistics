@@ -9,7 +9,7 @@ class GenericSteps {
 
 	populateDB (dataScript) {
 		return this.wipeDB()
-			.then(shared.databaseSO.fillDatabaseWith(
+			.then(_ => shared.databaseSO.fillDatabaseWith(
 				shared.utilsSO.camelize(dataScript)
 			))
 		;

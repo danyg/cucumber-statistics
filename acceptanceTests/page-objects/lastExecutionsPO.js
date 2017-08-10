@@ -40,7 +40,7 @@ class LastExecutionsPO {
 
 	restoreHiddenScenarioStatus() {
 		if(this._lastHiddenScenarioStatus === null) {
-			throw new Error('trying to restoreHiddenScenarioStatus without caling storeHiddenScenarioStatus in beforehand');
+			throw new Error('trying to restoreHiddenScenarioStatus without caling storeHiddenScenarioStatus add beforehand');
 		}
 		return this._lastHiddenScenarioStatus ? this.showHiddenScenarios() : this.hideHiddenScenarios();
 	}
@@ -63,6 +63,31 @@ class LastExecutionsPO {
 					.then(_ => chkbx.click())
 			})
 		;
+	}
+
+	includeTag(tagName) {
+		return this._clickFilterCheckbox(true, tagName)
+	}
+
+	excludeTag(tagName) {
+		return this._clickFilterCheckbox(false, tagName)
+	}
+
+	_clickFilterCheckbox(add, tagName) {
+		return driver.findElement(By.testId( this._getTagFilterTestId() ))
+			.catch(_ => assert.fail(0,1, `No Filters for Tag ${tagName}`))
+			.then(chkbx => {
+				return chkbx.isSelected()
+					.then(s => assert.isFalse(s, `Expecting Tag ${tagName} not to be ${(add ? 'Included' : 'Excluded')} already.`))
+					.then(_ => chkbx.click())
+			})
+		;
+	}
+
+	_getTagFilterTestId(add, tagName) {
+		tagName = shared.utilsSO.camelize(tagName.replace('@', ''));
+		let action = (add ? 'filterIn' : 'filterOut');
+		return `tagFilter_${action}_${tagName}`;
 	}
 }
 

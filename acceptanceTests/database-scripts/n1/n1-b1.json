@@ -101,7 +101,7 @@
             }
           }
         ],
-        "tags": [],
+        "tags": ["@lastExecutions"],
         "type": "scenario"
       }
     ],
@@ -172,7 +172,7 @@
             }
           }
         ],
-        "tags": [],
+        "tags": ["@basicNavegavility"],
         "type": "scenario"
       },
       {

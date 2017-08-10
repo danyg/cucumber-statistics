@@ -37,7 +37,7 @@ or you can use wget...
 ```
 git clone https://github.com/danyg/cucumber-statistics.git
 npm install
-node main mongodb
+node main --mongodb
 ```
 
 Now cucumber-statistics is working (assuming you don't have a firewall need to
@@ -51,7 +51,7 @@ generated cucumber.json to your server.
 
 #### Using curl
 ```
-curl -i -X PUT <YOUR_SERVER_URL>:9088/db/set/$BUILD_NAME/$BUILD_NUMBER -H "Content-Type: application/json" --data-binary "@./trunk/myProject/target/cucumber/cucumber.json" >/dev/null 2>&1 | exit 0;
+curl -i -X PUT http://<YOUR_SERVER_URL>:9088/db/set/$BUILD_NAME/$BUILD_NUMBER -H "Content-Type: application/json" --data-binary "@./trunk/myProject/target/cucumber/cucumber.json" >/dev/null 2>&1 | exit 0;
 ```
 
 - ```<YOUR_SERVER_URL>``` the ip of your server or a domain if you have one.
@@ -69,15 +69,13 @@ could cause a failure in your nightly/automated job.
 
 ### How To stop it?
 You probably don't want to :P.
+```wget http://<YOUR_SERVER_URL>:9088/admin/shutdown```
 
-Well for the moment I did't spend many time doing bash script to start / stop
-the server (if you can do it, please share).
+## Develop
 
-If you are in linux you can:
-``` ps -ax | grep node ``` you will see 2 process (among other if the case)
-one is ```node main``` and the other something like this
-```/usr/local/bin/node ./server```.
+### Run acceptance tests
+- ```sudo apt-get install xvfb firefox``` or ```sudo yum install Xvfb firefox```
+- ```npm test```
 
-The first one is the watchdog, it's checking if the second one (the actual
-server) is still running, if not it will restart it. So you need to kill first
-the watchdog then the server itself.
+run tests marked as @ToTest
+- ```npm run toTest```

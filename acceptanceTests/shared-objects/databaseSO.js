@@ -7,10 +7,11 @@ class DatabaseSO {
 	}
 
 	wipeDatabase() {
+		LOGGER.info('Wipeing Test DB out...')
 		return mongoDB.connect(TEST_DB_NAME)
 			.then(db => this.db = db)
 			.then(this._cleanDB.bind(this))
-			.then(_ => LOGGER.info('Testing DB wiped out...'))
+			.then(_ => LOGGER.info('Test DB wiped out...'))
 		;
 	}
 
