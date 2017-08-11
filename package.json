@@ -35,7 +35,9 @@
     "mongodb": "latest",
     "nedb": "~1.7.4",
     "q": "~1.4.1",
+    "require-css": "^0.1.10",
     "sanitize-filename": "~1.5.3",
+    "toastr": "^2.1.2",
     "ws": "^3.1.0"
   }
 }

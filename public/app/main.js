@@ -3,6 +3,7 @@
 	'use strict';
 
 	var BCDIR = '../bower_components';
+	var VDIR = '../vendor';
 	requirejs.config({
 		baseUrl: '/app',
 		paths: {
@@ -13,27 +14,35 @@
 			knockout: BCDIR + '/knockout.js/knockout.debug',
 			jquery: BCDIR + '/jquery/jquery.min',
 
-			text: BCDIR + '/requirejs-text/text'
+			text: BCDIR + '/requirejs-text/text',
+
+			css: VDIR + '/require-css/css.min',
+
+			toastr: VDIR + '/toastr/build/toastr.min'
 		}
 	});
 
 	define([
+		'lib/fixConsoleLogging',
 		'durandal/system',
 		'durandal/app',
 		'durandal/viewLocator',
 
 		'config/widgetConvention',
-		'bindings/testid'
+		'bindings/testid',
+		'services/realtimeService'
 	], function(
+		fixConsoleLogging,
 		system,
 		app,
 		viewLocator,
 
 		widgetConvention
 	) {
+		system.debug(true);
+		fixConsoleLogging();
 		app.title = 'Cucumber Statistics';
 
-		system.debug(true);
 
 		app.configurePlugins({
 		    router:true,
