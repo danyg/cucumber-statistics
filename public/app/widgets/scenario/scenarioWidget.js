@@ -78,15 +78,27 @@ define([
 			scenariosComms.on('collapsed', this._onExtScnCollapsed.bind(this))
 		);
 
-		this._isFixed = ko.computed(function() {
+		this._isFixed = ko.computed((function() {
 			return (
-				me.userStatus() === 'auto-fix'
-				|| me.userStatus() === 'fix'
+				this.userStatus() === 'auto-fix'
+				|| this.userStatus() === 'fix'
 			);
-		});
+		}).bind(this));
+
+		// to be used in container to list the amount of hidden elements
+		this.isInHiddenStatus = ko.computed((function() {
+			return this._isFixed() || this.isLocallyHidden();
+		}).bind(this));
 
 		this.visible = ko.computed((function() {
-			var forceSubscription = this.isFiltered() || this._isFixed() || this.isLocallyHidden() || this.status() || this.hidePassed() || this.showHidden();
+			var forceSubscription = this.isFiltered() || this._isFixed() || this.isInHiddenStatus() || this.isLocallyHidden() || this.status() || this.hidePassed() || this.showHidden();
+
+			if(this.isInHiddenStatus()) {
+				if(this.showHidden()) {
+					return true;
+				}
+				return false;
+			}
 
 			if(this.status() === 'passed') {
 				if(this.hidePassed()) {
@@ -95,25 +107,12 @@ define([
 				return true;
 			}
 
-			if(this._isFixed() || this.isLocallyHidden()) {
-				if(this.showHidden()) {
-					return true;
-				}
-				return false;
-			}
-
 			if(this.isFiltered()) {
 				return false;
 			}
 
 			return true;
 		}).bind(this));
-
-		// to be used in container to list the amount of hidden elements
-		this.isInHiddenStatus = ko.computed((function() {
-			return this._isFixed() || this.isLocallyHidden();
-		}).bind(this));
-
 	}
 
 	ScenarioWidget.prototype.activate = function(settings) {
@@ -215,6 +214,8 @@ define([
 		if(pre && !this.expanded()) {
 			this.extraKlasses.push(RECENTLY_COLLAPSED);
 			scenariosComms.trigger('collapsed', this);
+		} else if(!pre && this.expanded()) {
+			this._removeRecentlyCollapsed();
 		}
 
 		var panel = $('>.panel', this.$element);
@@ -314,10 +315,14 @@ define([
 
 	ScenarioWidget.prototype._onExtScnCollapsed = function(scn){
 		if(scn !== this) {
-			var pos = this.extraKlasses().indexOf(RECENTLY_COLLAPSED);
-			if(pos >= 0) {
-				this.extraKlasses.splice(pos,1);
-			}
+			this._removeRecentlyCollapsed();
+		}
+	};
+
+	ScenarioWidget.prototype._removeRecentlyCollapsed = function(){
+		var pos = this.extraKlasses().indexOf(RECENTLY_COLLAPSED);
+		if(pos >= 0) {
+			this.extraKlasses.splice(pos,1);
 		}
 	};
 

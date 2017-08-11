@@ -34,9 +34,9 @@
 				<!-- /ko -->
 			</div>
 		</div>
-		<!-- ko widget: { kind:'loading', enable: _isLoading(), hover: true } --><!-- /ko -->
 
-		<div class="panel" data-testclass="contents" data-bind="css: {hidden: !expanded() }">
+		<div class="panel" data-testclass="contents" data-bind="if:expanded(), css: {hidden: !expanded() }">
+			<!-- ko widget: { kind:'loading', enable: _isLoading(), hover: true } --><!-- /ko -->
 
 			<!-- ko if: !_isFixed() && status() !== 'passed' -->
 			<button

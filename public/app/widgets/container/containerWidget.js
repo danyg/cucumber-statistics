@@ -30,7 +30,7 @@ define([
 		this.showHiddenElements = ko.observable(false);
 		this.hidePassedElements = ko.observable(false);
 
-		this._scenariosWidgets = ko.observableArray();;
+		this._scenariosWidgets = ko.observableArray();
 
 		this._scenariosWidgets.subscribe((function() {
 			var lPassed = 0,
