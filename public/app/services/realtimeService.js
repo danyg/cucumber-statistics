@@ -82,7 +82,11 @@ define(['durandal/events'], function(Events){
 	}
 
 	Realtime.prototype._processMessage = function(json) {
-		this.trigger(json.e, json.d);
+		try {
+			this.trigger(json.e, json.d);
+		} catch(e) {
+			console.error('Error in listener for event ' + json.e, e);
+		}
 	};
 
 	Realtime.prototype._sayHello = function(data) {

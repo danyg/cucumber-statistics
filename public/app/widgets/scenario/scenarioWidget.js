@@ -8,7 +8,8 @@ define([
 	'modules/nightly/nightly',
 
 	'modules/contextMenu/contextMenu',
-	'durandal/events'
+	'durandal/events',
+	'services/realtimeService'
 ], function(
 	ko,
 	$,
@@ -19,7 +20,8 @@ define([
 	nightlyController,
 
 	contextMenu,
-	Events
+	Events,
+	realtimeService
 ) {
 
 	'use strict';
@@ -42,7 +44,10 @@ define([
 		this.steps = ko.observableArray();
 		this.results = ko.observableArray();
 		this.tags = ko.observableArray();
-		this.nightlyParent = ko.observable();
+		this.nightlyId = ko.observable();
+		this.UID = ko.computed((function(){
+			return this.nightlyId() + '_' + this.id();
+		}).bind(this));
 
 		this.stability = ko.observable();
 		this.stabilityLabel = ko.observable();
@@ -57,7 +62,6 @@ define([
 		this.status = ko.observable('');
 		this.userStatus = ko.observable('');
 
-		this.nightlyId = ko.observable();
 
 		this.isLocallyHidden = ko.observable(false);
 		this.isFiltered = ko.observable(false);
@@ -75,7 +79,7 @@ define([
 		}).bind(this));
 
 		this._subscriptions.push(
-			scenariosComms.on('collapsed', this._onExtScnCollapsed.bind(this))
+			scenariosComms.on('collapsed', this._onSiblingScnCollapsed.bind(this))
 		);
 
 		this._isFixed = ko.computed((function() {
@@ -138,8 +142,14 @@ define([
 			this.fileRaw(scenario.file);
 		}
 		this.tags(scenario.tags || []);
+
 		if(scenario.hasOwnProperty('_parent')) {
-			this.nightlyParent(scenario._parent.name);
+			this.nightlyId(scenario._parent.name);
+		} else {
+			this.nightlyId(!!this._settings.nightlyId ?
+				this._settings.nightlyId :
+				nightlyController.nightlyId()
+			);
 		}
 
 		if(!!scenario.userStatus) {
@@ -166,14 +176,6 @@ define([
 		}
 
 
-		if(scenario.hasOwnProperty('_parent')) {
-			this.nightlyId(scenario._parent.name);
-		} else {
-			this.nightlyId(!!this._settings.nightlyId ?
-				this._settings.nightlyId :
-				nightlyController.nightlyId()
-			);
-		}
 
 
 		this.status(scenario.lastStatus);
@@ -198,6 +200,7 @@ define([
 			this._settings.onActivate(this);
 		}
 
+		this._subscribeExternals();
 
 		return true;
 	};
@@ -274,15 +277,20 @@ define([
 		this._markAs('none');
 	};
 
-	ScenarioWidget.prototype._markAs = function(userStatus) {
+	ScenarioWidget.prototype._markAs = function(userStatus, external) {
 		if(this.expanded()){
 			this.toggleExpand();
 		}
 		this.userStatus(userStatus);
 
-		http.post('/results/' + this.nightlyId() + '/scenarios/updateUserStatus/' + this.id(), {
-			'userStatus': userStatus
-		});
+		if(external !== true) {
+			http.post('/results/' + this.nightlyId() + '/scenarios/updateUserStatus/' + this.id(), {
+				'userStatus': userStatus
+			});
+			realtimeService.broadcast('markScenario-' + this.UID(), {
+				userStatus: userStatus
+			});
+		}
 	};
 
 	ScenarioWidget.prototype._createContextMenu = function(element) {
@@ -313,7 +321,7 @@ define([
 		return layout;
 	};
 
-	ScenarioWidget.prototype._onExtScnCollapsed = function(scn){
+	ScenarioWidget.prototype._onSiblingScnCollapsed = function(scn){
 		if(scn !== this) {
 			this._removeRecentlyCollapsed();
 		}
@@ -324,6 +332,12 @@ define([
 		if(pos >= 0) {
 			this.extraKlasses.splice(pos,1);
 		}
+	};
+
+	ScenarioWidget.prototype._subscribeExternals = function() {
+		realtimeService.on('markScenario-' + this.UID(), (function(data) {
+			this._markAs(data.userStatus, true);
+		}).bind(this));
 	};
 
 	var textarea;

@@ -5,8 +5,9 @@ var fs = require('fs'),
 	Servlet = require('./Servlet')
 ;
 
-module.exports = function loadServlets(dirPath){
+module.exports = function loadServlets(dirPath) {
 	var toReturn = [];
+
 	if (fs.statSync(dirPath).isDirectory()) {
 
 		var servletsFiles = fs.readdirSync(dirPath);
@@ -14,11 +15,14 @@ module.exports = function loadServlets(dirPath){
 		servletsFiles.forEach(function(servletFileName) {
 			if(servletFileName.indexOf('Servlet.js')) {
 				let filePath = path.resolve(dirPath + '/' + servletFileName);
-				let ServeletCtor = require(filePath);
-				if(Servlet.isPrototypeOf(ServeletCtor) ) {
-					toReturn.push(ServeletCtor);
-				} else {
-					LOGGER.error(`${filePath} must return an Servlet`)
+				let stats = fs.lstatSync(filePath)
+				if(stats.isFile()) {
+					let ServeletCtor = require(filePath);
+					if(Servlet.isPrototypeOf(ServeletCtor) ) {
+						toReturn.push(ServeletCtor);
+					} else {
+						LOGGER.error(`${filePath} must return an Servlet`)
+					}
 				}
 			}
 		});

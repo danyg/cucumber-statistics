@@ -1,6 +1,6 @@
 <li >
 	<div class="item scenario expandable" data-bind="
-		attr: {id: id},
+		attr: {id: UID},
 		css: cssClasses(), visible: visible,
 		testId: ['scenario',name()]
 	">
@@ -65,7 +65,7 @@
 			<div class="description tags" >
 				<p data-bind="click: _clipboard.bind($root,fileRaw()), attr: {title: file() }" class="copy-clipboard">
 					<span data-bind="text: fileRaw()"></span>
-					<span data-bind="html: !!nightlyParent() ? ' at <b>' + nightlyParent() + '</b> nigthly build' : ''"></span>
+					<span data-bind="html: !!nightlyId() ? ' at <b>' + nightlyId() + '</b> nigthly build' : ''"></span>
 				</p>
 				<p data-bind="text: tags().join(' ')"></p>
 			</div>
