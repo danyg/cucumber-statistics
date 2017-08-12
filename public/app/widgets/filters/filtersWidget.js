@@ -14,7 +14,7 @@ define([
 
 	function Filters() {
 		this.tags = null; // borrowed;
-		this._theirsFilterActivated = null; // borrowed;
+		this._theirsFilterActivated = ko.observable(true); // borrowed;
 		this._filterActivated = ko.observable(false); // borrowed;
 		this.filterActivated = ko.computed({
 			read: (function(){
@@ -42,7 +42,9 @@ define([
 		settings.bindingContext.$widget = this;
 
 		this.tags = settings.tags;
-		this._theirsFilterActivated = settings.filterActivated;
+		if(settings.filterActivated){
+			this._theirsFilterActivated = settings.filterActivated;
+		}
 	};
 
 	Filters.prototype.detached = function() {
@@ -51,8 +53,13 @@ define([
 
 	Filters.prototype.addContainerWidget = function(containerWidget) {
 		this._containerWidget.push(containerWidget);
+		return this;
+	};
+
+	Filters.prototype.start = function() {
 		this._filterActivated(true);
 		this._filterByTags();
+		return this;
 	};
 
 	Filters.prototype._filterByTags = function() {

@@ -1,10 +1,18 @@
 <div id="nightly">
+	<div class="container-widget panel full" data-bind="widget: {
+		kind: 'filters',
+		tags: $root.tags,
+		filterActivated: $root.filterActivated,
+		attached : $root._onWidgetAttached.bind($root, 'filters')
+	}"/>
 
 	<!-- ko widget: {
 		kind: 'container',
 		title: 'Most unstables scenarios',
 		type: 'scenarios',
 		method: 'getMostUnstables',
+		tags: $root.tags,
+		attached : $root._onWidgetAttached.bind($root, 'unstables')
 	} -->
 	<!-- /ko -->
 
@@ -13,6 +21,8 @@
 		title: 'Most time consuming scenarios',
 		type: 'scenarios',
 		method: 'getMostTimeConsuming',
+		tags: $root.tags,
+		attached : $root._onWidgetAttached.bind($root, 'timeConsuming')
 	} -->
 	<!-- /ko -->
 

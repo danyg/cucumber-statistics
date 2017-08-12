@@ -56,6 +56,9 @@ define([
 		settings.bindingContext.$widget = this;
 
 		this._settings = settings;
+		if(this._settings.tags) {
+			this.tags = this._settings.tags;
+		}
 		this._frameless(!!this._settings.frameless);
 
 		this.scenarios(null);
@@ -73,12 +76,11 @@ define([
 		}
 
 		this.title(this._settings.title);
-	};
 
-	ContainerWidget.prototype.attached = function() {
 		if(this.scenarios() === null) {
-			return this._call(this._settings.type, this._settings.method).promise();
+			return this._call(this._settings.type, this._settings.method);
 		}
+		return true;
 	};
 
 	ContainerWidget.prototype.compositionComplete = function() {
@@ -97,6 +99,23 @@ define([
 
 	ContainerWidget.prototype._onData = function(data) {
 		this.scenarios(data);
+
+		if(this.tags) {
+			var forEachTag = (function(tag){
+				if(this.tags.indexOf(tag) === -1) {
+					this.tags.push(tag);
+				}
+			}).bind(this);
+
+			data.forEach((function(scenario){
+				if(scenario.hasOwnProperty('tags')) {
+					scenario.tags.forEach(forEachTag);
+				}
+			}).bind(this));
+
+			this.tags.sort();
+		}
+		return true;
 	};
 
 	ContainerWidget.prototype._onError = function() {

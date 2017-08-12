@@ -108,6 +108,10 @@ define([
 				return false;
 			}
 
+			if(this.isFiltered()) {
+				return false;
+			}
+
 			if(this.status() === 'passed') {
 				if(this.hidePassed()) {
 					return false;
@@ -115,9 +119,6 @@ define([
 				return true;
 			}
 
-			if(this.isFiltered()) {
-				return false;
-			}
 
 			return true;
 		}).bind(this);

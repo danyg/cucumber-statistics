@@ -111,7 +111,10 @@ define([
 	};
 
 	LastExecution.prototype._startFilters = function() {
-		this._filterWidget.addContainerWidget(this._containerWidget);
+		this._filterWidget
+			.addContainerWidget(this._containerWidget)
+			.start()
+		;
 	};
 
 

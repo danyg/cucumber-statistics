@@ -27,11 +27,11 @@
 		<!-- ko widget: {
 			kind: 'scenario',
 			scenario: scenario,
-			sideValue: $widget._settings.method,
-			showHidden: $widget.showHiddenElements,
-			hidePassed: $widget.hidePassedElements,
-			nightlyId: $widget.nightlyId(),
-			onActivate: $widget.onActivateScenario.bind($widget, scenario)
+			sideValue: $parent._settings.method,
+			showHidden: $parent.showHiddenElements,
+			hidePassed: $parent.hidePassedElements,
+			nightlyId: $parent.nightlyId(),
+			onActivate: $parent.onActivateScenario.bind($parent, scenario)
 		} -->
 		<!-- /ko -->
 	</ul>
