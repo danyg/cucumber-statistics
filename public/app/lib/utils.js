@@ -1,5 +1,49 @@
-define([], function() {
+define([
+	'jquery'
+], function(
+	$
+) {
 	return {
+
+		disposeSubscriptions: function(subscriptions) {
+			subscriptions.forEach(function(sub){
+				if(sub.dispose) {
+					sub.dispose();
+				}
+				if(sub.off) {
+					sub.off();
+				}
+			});
+		},
+
+		bindObservables: function(observA, observB) {
+			var itsMe,
+				subs = [
+					observA.subscribe((function(){
+						if(!itsMe) {
+							itsMe = true;
+							observB(observA());
+							itsMe = false;
+						}
+					}).bind(this)),
+					observB.subscribe((function(){
+						if(!itsMe) {
+							itsMe = true;
+							observA(observB());
+							itsMe = false;
+						}
+					}).bind(this))
+				]
+			;
+
+			observA(observB());
+
+			return {
+				dispose: (function() {
+					this.disposeSubscriptions(subs);
+				}).bind(this)
+			};
+		},
 
 		bytes: function bytes(v) {
 			v = parseFloat(v);

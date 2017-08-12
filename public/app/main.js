@@ -18,12 +18,14 @@
 
 			css: VDIR + '/require-css/css.min',
 
-			toastr: VDIR + '/toastr/build/toastr.min'
+			toastr: VDIR + '/toastr/build/toastr.min',
+			'knockout-sortable': VDIR + '/knockout-sortable/build/knockout-sortable.min'
 		}
 	});
 
 	define([
 		'lib/fixConsoleLogging',
+		'lib/Promise',
 		'durandal/system',
 		'durandal/app',
 		'durandal/viewLocator',
@@ -32,9 +34,10 @@
 
 		'services/usersService',
 
-		'bindings/testid'
+		'bindings/bindings'
 	], function(
 		fixConsoleLogging,
+		Promise,
 		system,
 		app,
 		viewLocator,
@@ -43,7 +46,8 @@
 
 		usersService
 	) {
-		system.debug(false);
+		window.Promise = Promise;
+		system.debug(true);
 		fixConsoleLogging();
 		app.title = 'Cucumber Statistics';
 

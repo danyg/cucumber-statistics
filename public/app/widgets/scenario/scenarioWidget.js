@@ -3,6 +3,7 @@ define([
 	'jquery',
 
 	'config/dictionary',
+	'lib/utils',
 
 	'plugins/http',
 	'modules/nightly/nightly',
@@ -11,11 +12,13 @@ define([
 	'durandal/events',
 	'services/realtimeService',
 	'services/usersService'
+
 ], function(
 	ko,
 	$,
 
 	dictionary,
+	utils,
 
 	http,
 	nightlyController,
@@ -468,14 +471,7 @@ define([
 				usersService.getMe()
 			);
 		}
-		this._subscriptions.forEach((function(sub){
-			if(sub.dispose) {
-				sub.dispose();
-			}
-			if(sub.off) {
-				sub.off();
-			}
-		}).bind(this))
+		utils.disposeSubscriptions(this._subscriptions);
 	};
 
 	var textarea;

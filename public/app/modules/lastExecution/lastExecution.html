@@ -10,21 +10,14 @@
 			data: scenarios(),
 			frameless: false,
 			nightlyId: 'lastExecution',
-			attached : $root._onWidgetActivated.bind($root)
+			attached : $root._onContainerAttached.bind($root)
 		} -->
-			<div data-part="filters" class="tag-filters" data-testid="filters_container">
-				<input data-bind="value: $root.filterFilter,valueUpdate:'keyup'" placeholder="Filter Tags">
-
-				<ul class="tags-list" data-bind="foreach: {data: $root.tags, as: 'tag'}, visible: $root._filterActivated">
-					<li data-bind="attr: {rel: tag.substr(1)}">
-						<label class="checkbox" data-bind="attr: {title: tag, for: 'checkbox_' + tag.substr(1) + '_in'}">
-							<input type="checkbox" class="filter-checkbox include-checkbox" data-bind="testId: ['tagFilter', 'filterIn', tag], checkedValue: tag, checked: $root.includedTags, attr: {id: 'checkbox_' + tag.substr(1) + '_in'}" />
-							<input type="checkbox" class="filter-checkbox exclude-checkbox" data-bind="testId: ['tagFilter', 'filterOut', tag], checkedValue: tag, checked: $root.excludedTags" />
-							<span data-bind="text: tag"></span>
-						</label>
-					</li>
-				</ul>
-			</div>
+			<div data-part="filters" data-bind="widget: {
+				kind: 'filters',
+				tags: $root.tags,
+				filterActivated: $root.filterActivated,
+				attached : $root._onFiltersAttached.bind($root)
+			}"></div>
 		<!-- /ko -->
 
 </div>

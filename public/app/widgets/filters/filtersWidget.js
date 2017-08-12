@@ -1,0 +1,95 @@
+define([
+	'knockout',
+	// 'knockout-sortable',
+
+	'lib/utils'
+], function (
+	ko,
+	// sortable,
+
+	utils
+) {
+
+	'use strict';
+
+	function Filters() {
+		this.tags = null; // borrowed;
+		this._theirsFilterActivated = null; // borrowed;
+		this._filterActivated = ko.observable(false); // borrowed;
+		this.filterActivated = ko.computed({
+			read: (function(){
+				return this._filterActivated() && this._theirsFilterActivated();
+			}).bind(this),
+			write: (function(val){
+				this._filterActivated(val);
+			}).bind(this)
+		});
+
+		this.filterFilter = ko.observable('');
+
+		this.includedTags = ko.observableArray();
+		this.excludedTags = ko.observableArray();
+
+		this.includedTags.subscribe(this._filterByTags.bind(this));
+		this.excludedTags.subscribe(this._filterByTags.bind(this));
+
+		this.filterFilter.subscribe(this._filterShownTags.bind(this));
+		this._subscriptions = [];
+	}
+
+	Filters.prototype.activate = function(settings) {
+		this._containerWidget = [];
+		settings.bindingContext.$widget = this;
+
+		this.tags = settings.tags;
+		this._theirsFilterActivated = settings.filterActivated;
+	};
+
+	Filters.prototype.detached = function() {
+		utils.disposeSubscriptions(this._subscriptions);
+	};
+
+	Filters.prototype.addContainerWidget = function(containerWidget) {
+		this._containerWidget.push(containerWidget);
+		this._filterActivated(true);
+		this._filterByTags();
+	};
+
+	Filters.prototype._filterByTags = function() {
+		if(this.filterActivated()) {
+			this._filterActivated(false);
+			// clean tags that are in both lists
+			var dual = this.includedTags()
+				.filter((function(item){
+					return this.excludedTags().indexOf(item) !== -1
+				}).bind(this))
+			;
+
+			dual.forEach((function(item){
+				this.includedTags.splice( this.includedTags.indexOf(item) ,1);
+				this.excludedTags.splice( this.excludedTags.indexOf(item) ,1);
+			}).bind(this));
+
+			this._containerWidget.forEach((function(container){
+				container.showScenariosByTags(
+					this.includedTags(),
+					this.excludedTags()
+				)
+			}).bind(this));
+
+			this._filterActivated(true);
+		}
+	};
+
+	Filters.prototype._filterShownTags = function() {
+		var search = this.filterFilter().replace('@', '');
+		if(search.trim() !== '') {
+			$('.tag-filters .tags-list li', this._viewElm).hide();
+			$('.tag-filters .tags-list li[rel*="' + search + '"]', this._viewElm).show();
+		} else {
+			$('.tag-filters .tags-list li', this._viewElm).show();
+		}
+	};
+
+	return Filters;
+});

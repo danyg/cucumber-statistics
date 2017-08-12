@@ -16,26 +16,33 @@ define([
 		this.nightlies = ko.observableArray();
 		this.scenarios = ko.observableArray();
 		this.tags = ko.observableArray();
-		this.includedTags = ko.observableArray();
-		this.excludedTags = ko.observableArray();
+		this.filterActivated = ko.observable(false);
+
 		this._isLoading = ko.observable(false);
-		this._filterActivated = ko.observable(false);
-		this.filterFilter = ko.observable('');
-
-		this.includedTags.subscribe(this._filterByTags.bind(this));
-		this.excludedTags.subscribe(this._filterByTags.bind(this));
-
-		this.filterFilter.subscribe(this._filterShownTags.bind(this));
 	}
 
 	LastExecution.prototype.activate = function() {
-		this._filterActivated(false);
-		var dfd = system.defer();
+		this._dfds = {
+			container: Promise.deferred(),
+			filters: Promise.deferred(),
+			activate: Promise.deferred(),
+		};
+		this._dfds.all = Promise.all([
+				this._dfds.container.promise(),
+				this._dfds.filters.promise(),
+				this._dfds.activate.promise()
+			])
+			.then(
+				this._startFilters.bind(this)
+			)
+		;
+
+		this.filterActivated(false);
 		this._call().then(
-			this._onData.bind(this, dfd),
-			this._onError.bind(this, dfd)
+			this._onData.bind(this),
+			this._onError.bind(this)
 		);
-		return dfd.promise();
+		return this._dfds.activate.promise();
 	};
 
 	LastExecution.prototype.attached = function(view) {
@@ -47,8 +54,8 @@ define([
 		return http.get('/lastExecution');
 	};
 
-	LastExecution.prototype._onData = function(dfd, data) {
-		this._filterActivated(false);
+	LastExecution.prototype._onData = function(data) {
+		this.filterActivated(false);
 		this.scenarios.removeAll();
 		this.tags.removeAll();
 
@@ -81,50 +88,32 @@ define([
 		}).bind(this));
 
 		this.tags.sort();
+		this.filterActivated(true);
 
 		this._isLoading(false);
-		dfd.resolve();
+		this._dfds.activate.resolve();
 	};
 
-	LastExecution.prototype._onError = function(dfd) {
+	LastExecution.prototype._onError = function() {
 		// do something
 		this._isLoading(false);
-		dfd.reject();
+		this._dfds.activate.reject();
 	};
 
-	LastExecution.prototype._onWidgetActivated = function(child, parent, context) {
+	LastExecution.prototype._onContainerAttached = function(child, parent, context) {
 		this._containerWidget = context.model;
-		this._filterActivated(true);
-		this._filterByTags();
+		this._dfds.container.resolve();
 	};
 
-	LastExecution.prototype._filterByTags = function() {
-		if(this._filterActivated()) {
-			this._filterActivated(false);
-			// clean tags that are in both lists
-			var dual = this.includedTags().filter((function(item){
-				return this.excludedTags().indexOf(item) !== -1
-			}).bind(this));
-			dual.forEach((function(item){
-				this.includedTags.splice( this.includedTags.indexOf(item) ,1);
-				this.excludedTags.splice( this.excludedTags.indexOf(item) ,1);
-			}).bind(this));
-
-			this._containerWidget.showScenariosByTags(this.includedTags(), this.excludedTags());
-
-			this._filterActivated(true);
-		}
+	LastExecution.prototype._onFiltersAttached = function(child, parent, context) {
+		this._filterWidget = context.model;
+		this._dfds.filters.resolve();
 	};
 
-	LastExecution.prototype._filterShownTags = function() {
-		var search = this.filterFilter().replace('@', '');
-		if(search.trim() !== '') {
-			$('.tag-filters .tags-list li', this._viewElm).hide();
-			$('.tag-filters .tags-list li[rel*="' + search + '"]', this._viewElm).show();
-		} else {
-			$('.tag-filters .tags-list li', this._viewElm).show();
-		}
-	}
+	LastExecution.prototype._startFilters = function() {
+		this._filterWidget.addContainerWidget(this._containerWidget);
+	};
+
 
 	return new LastExecution();
 });
