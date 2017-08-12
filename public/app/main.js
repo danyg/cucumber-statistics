@@ -43,7 +43,7 @@
 
 		usersService
 	) {
-		system.debug(true);
+		system.debug(false);
 		fixConsoleLogging();
 		app.title = 'Cucumber Statistics';
 

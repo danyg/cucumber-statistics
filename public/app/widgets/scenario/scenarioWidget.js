@@ -96,9 +96,8 @@ define([
 			return this._isFixed() || this.isLocallyHidden();
 		}).bind(this));
 
-		this.visible = ko.computed((function() {
-			var forceSubscription = this.isFiltered() || this._isFixed() || this.isInHiddenStatus() || this.isLocallyHidden() || this.status() || this.hidePassed() || this.showHidden();
-
+		var lastVisibleState = null;
+		var isVisible = (function(){
 			if(this.isInHiddenStatus()) {
 				if(this.showHidden()) {
 					return true;
@@ -118,6 +117,20 @@ define([
 			}
 
 			return true;
+		}).bind(this);
+		this.visible = ko.computed((function() {
+			var forceSubscription = this.isFiltered() || this._isFixed() || this.isInHiddenStatus() || this.isLocallyHidden() || this.status() || this.hidePassed() || this.showHidden();
+			var visible = isVisible();
+
+			if(lastVisibleState === true && visible === false) {
+				if(this.expanded()) {
+					this.toggleExpand();
+				}
+			}
+
+			lastVisibleState = visible;
+
+			return visible;
 		}).bind(this));
 	}
 
@@ -282,10 +295,6 @@ define([
 
 	ScenarioWidget.prototype.toggleHide = function() {
 		this.isLocallyHidden(!this.isLocallyHidden());
-
-		if(this.expanded() && this.isLocallyHidden()){
-			this.toggleExpand();
-		}
 	};
 
 	ScenarioWidget.prototype.markAsNone = function() {
@@ -293,9 +302,6 @@ define([
 	};
 
 	ScenarioWidget.prototype._markAs = function(userStatus, external) {
-		if(this.expanded()){
-			this.toggleExpand();
-		}
 		this.userStatus(userStatus);
 
 		if(external !== true) {

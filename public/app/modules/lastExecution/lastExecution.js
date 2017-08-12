@@ -120,7 +120,7 @@ define([
 		var search = this.filterFilter().replace('@', '');
 		if(search.trim() !== '') {
 			$('.tag-filters .tags-list li', this._viewElm).hide();
-			$('.tag-filters .tags-list li[rel^="' + search + '"]', this._viewElm).show();
+			$('.tag-filters .tags-list li[rel*="' + search + '"]', this._viewElm).show();
 		} else {
 			$('.tag-filters .tags-list li', this._viewElm).show();
 		}

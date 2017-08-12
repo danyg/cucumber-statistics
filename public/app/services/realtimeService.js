@@ -10,6 +10,18 @@ define(['durandal/events'], function(Events){
 		this._wsServerUrl = 'ws://' + window.document.location.host + '/ws'
 		this.status = STATUS_DISCONNECTED;
 		this._queue = [];
+		this._bytesSent = 0;
+		this._bytesReceived = 0;
+
+		this.__defineGetter__('bytesSent', (function(){
+			return this._bytesSent;
+		}).bind(this));
+		this.__defineGetter__('bytesReceived', (function(){
+			return this._bytesReceived;
+		}).bind(this));
+		var ro = (function(){ throw new TypeError('READ ONLY'); }).bind(this);
+		this.__defineSetter__('bytesSent', ro);
+		this.__defineSetter__('bytesReceived', ro);
 
 		this.on('WELCOME', this._sayHello.bind(this));
 		this.on('hello', this._onNewSibling.bind(this));
@@ -34,13 +46,17 @@ define(['durandal/events'], function(Events){
 
 	Realtime.prototype.send = function(eventName, data) {
 		if(this._enqueueIfNotConnected('send', arguments)) {
-			this._ws.send(JSON.stringify({e: eventName, d: data}));
+			var toSend = JSON.stringify({e: eventName, d: data});
+			this._bytesSent += toSend.length;
+			this._ws.send(toSend);
 		}
 	};
 
 	Realtime.prototype.sendTo = function(CID, eventName, data) {
 		if(this._enqueueIfNotConnected('sendTo', arguments)) {
-			this._ws.send(JSON.stringify({e: eventName, d: data, to: CID}));
+			var toSend = JSON.stringify({e: eventName, d: data, to: CID});
+			this._bytesSent += toSend.length;
+			this._ws.send(toSend);
 		}
 	};
 	Realtime.prototype.talkTo = Realtime.prototype.sendTo;
@@ -109,6 +125,7 @@ define(['durandal/events'], function(Events){
 
 	Realtime.prototype._onMessage = function(msgEvent) {
 		try {
+			this._bytesReceived += msgEvent.data.length;
 			var json = JSON.parse(msgEvent.data);
 			if(json.e) {
 				this._processMessage(json);

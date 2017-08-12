@@ -6,14 +6,14 @@ define([
 	'use strict';
 
 	var COLORS = [
+		'red',
+		'green',
 		'blue',
 		'coral',
+		'lime',
 		'cyan',
-		'yellow',
 		'gold',
-		'green',
 		'violet',
-		'green2',
 		'indigo'
 	];
 

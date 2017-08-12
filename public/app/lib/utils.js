@@ -1,6 +1,17 @@
 define([], function() {
 	return {
 
+		bytes: function bytes(v) {
+			v = parseFloat(v);
+			var units = ['B', 'kB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
+			var c = 1024.0, r, i=0;
+			while(v >= c) {
+				v = v / c;
+				i++;
+			}
+			return (i === 0 ? v.toString() : v.toFixed(2)) + ' ' + units[i];
+		},
+
 		calculateDateDiff: function(a, b, withMs) {
 			a = a instanceof Date ? a.getTime() : a;
 			b = b instanceof Date ? b.getTime() : b;

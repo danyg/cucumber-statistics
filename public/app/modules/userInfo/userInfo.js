@@ -2,12 +2,15 @@ define([
 	'knockout',
 
 	'services/usersService',
-	'services/realtimeService'
+	'services/realtimeService',
+	'lib/utils'
 ], function (
 	ko,
 
 	usersService,
-	realtimeService
+	realtimeService,
+
+	utils
 ) {
 	'use strict';
 
@@ -28,6 +31,16 @@ define([
 			this._userSet();
 		} else {
 			this.me.subscribe(this._userSet.bind(this));
+		}
+	}
+
+	UserInfo.prototype.updateConnectionStatistics = function(_, e) {
+		if(e.currentTarget) {
+			e.currentTarget.title = 'Realtime connection:\n' +
+				'Transfered: ' + utils.bytes(realtimeService.bytesSent + realtimeService.bytesReceived) + '\n' +
+				'Uploaded: ' + utils.bytes(realtimeService.bytesSent) + '\n' +
+				'Downloaded: ' + utils.bytes(realtimeService.bytesReceived)
+			;
 		}
 	}
 

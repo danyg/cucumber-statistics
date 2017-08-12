@@ -766,14 +766,14 @@ li:last-child .scenario.expandable.expanded { margin-bottom: 0px; }
 	padding-right: 5px;
 }
 
+.red    {background: FireBrick !important;}
+.green  {background: DarkGreen !important;}
 .blue   {background: blue !important;}
 .coral  {background: coral !important;}
-.cyan   {background: skyblue !important;}
-.yellow {background: yellow !important;}
-.gold   {background: DarkGoldenRod !important;}
-.green  {background: DarkGreen !important;}
+.lime   {background: Lime !important;}
+.cyan   {background: CornflowerBlue !important;}
+.gold   {background: GoldenRod !important;}
 .violet {background: DarkViolet !important;}
-.green2 {background: GreenYellow !important;}
 .indigo {background: Indigo !important;}
 
 .stability.stability-0 { background: #ff0000;}

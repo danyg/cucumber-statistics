@@ -13,5 +13,10 @@
 		"></li>
 	</ul>
 	<input type="text" class="input-username" data-bind="value: username, valueUpdate: 'keyup'">
-	<div class="connection" data-bind="css: connectionStatus()"/>
+	<div class="connection" data-bind="
+		css: connectionStatus(),
+		event: {
+			mouseover: updateConnectionStatistics
+		}
+	"/>
 </div>
