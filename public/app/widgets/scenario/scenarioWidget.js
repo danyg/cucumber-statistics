@@ -455,7 +455,13 @@ define([
 		}
 	};
 
-	ScenarioWidget.prototype.deactivate = function() {
+	ScenarioWidget.prototype.detached = function() {
+		if(this.expanded()) {
+			realtimeService.broadcast(
+				'user-collapses-' + this.UID(),
+				usersService.getMe()
+			);
+		}
 		this._subscriptions.forEach((function(sub){
 			if(sub.dispose) {
 				sub.dispose();

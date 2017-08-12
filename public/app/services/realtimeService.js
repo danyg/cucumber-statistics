@@ -9,6 +9,7 @@ define(['durandal/events'], function(Events){
 	function Realtime() {
 		this._wsServerUrl = 'ws://' + window.document.location.host + '/ws'
 		this.status = STATUS_DISCONNECTED;
+		this._queue = [];
 
 		this.on('WELCOME', this._sayHello.bind(this));
 		this.on('hello', this._onNewSibling.bind(this));
@@ -19,21 +20,35 @@ define(['durandal/events'], function(Events){
 
 	Realtime.prototype.emit = Realtime.prototype.trigger;
 
+	Realtime.prototype._enqueueIfNotConnected = function(method, args) {
+		if(this.status !== STATUS_CONNECTED) {
+			this._queue.push([method, args]);
+			return false;
+		}
+		return true;
+	}
+
 	Realtime.prototype.getCID = function() {
 		return this._CID;
 	};
 
 	Realtime.prototype.send = function(eventName, data) {
-		this._ws.send(JSON.stringify({e: eventName, d: data}));
+		if(this._enqueueIfNotConnected('send', arguments)) {
+			this._ws.send(JSON.stringify({e: eventName, d: data}));
+		}
 	};
 
 	Realtime.prototype.sendTo = function(CID, eventName, data) {
-		this._ws.send(JSON.stringify({e: eventName, d: data, to: CID}));
+		if(this._enqueueIfNotConnected('sendTo', arguments)) {
+			this._ws.send(JSON.stringify({e: eventName, d: data, to: CID}));
+		}
 	};
 	Realtime.prototype.talkTo = Realtime.prototype.sendTo;
 
 	Realtime.prototype.broadcast = function(eventName, data) {
-		this.send('BROADCAST', {e: eventName, d:data});
+		if(this._enqueueIfNotConnected('broadcast', arguments)) {
+			this.send('BROADCAST', {e: eventName, d:data});
+		}
 	};
 
 	Realtime.prototype.getNextReconnectionTime = function() {
@@ -62,6 +77,16 @@ define(['durandal/events'], function(Events){
 	Realtime.prototype._onOpen = function() {
 		this.status = STATUS_CONNECTED;
 		this._connected = true;
+
+		if(this._queue.length > 0) {
+			this._queue.forEach((function(cmd) {
+				try {
+					this[cmd[0]].apply(this, cmd[1]);
+				} catch(e) {}
+			}).bind(this));
+			this._queue.splice(0, this._queue.length-1);
+		}
+
 		this.emit('CONNECTED');
 	};
 
