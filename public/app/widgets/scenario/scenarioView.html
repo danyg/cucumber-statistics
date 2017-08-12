@@ -9,11 +9,11 @@
 			<div class="right modificators">
 				<!-- ko foreach: { data: users, as: 'user' } -->
 				<div class="modificator" data-bind="
-					css: 'user user-' + user.color,
+					css: 'user ' + user.color,
 					attr: {
 						title: user.name
 					},
-					text: user.name
+					text: user.label()
 				"></div>
 				<!-- /ko -->
 

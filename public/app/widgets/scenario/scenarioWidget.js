@@ -9,7 +9,8 @@ define([
 
 	'modules/contextMenu/contextMenu',
 	'durandal/events',
-	'services/realtimeService'
+	'services/realtimeService',
+	'services/usersService'
 ], function(
 	ko,
 	$,
@@ -21,7 +22,8 @@ define([
 
 	contextMenu,
 	Events,
-	realtimeService
+	realtimeService,
+	usersService
 ) {
 
 	'use strict';
@@ -215,10 +217,23 @@ define([
 		this.expanded(!this.expanded());
 
 		if(pre && !this.expanded()) {
+			// expanded -> collapsed
 			this.extraKlasses.push(RECENTLY_COLLAPSED);
 			scenariosComms.trigger('collapsed', this);
+			this._removeUser(usersService.getMe().getCID());
+			realtimeService.broadcast(
+				'user-collapses-' + this.UID(),
+				usersService.getMe()
+			);
+
 		} else if(!pre && this.expanded()) {
+			// collapsed - > expanded
 			this._removeRecentlyCollapsed();
+			this._addUser(usersService.getMe().toJSON());
+			realtimeService.broadcast(
+				'user-expanses-' + this.UID(),
+				usersService.getMe()
+			);
 		}
 
 		var panel = $('>.panel', this.$element);
@@ -287,9 +302,10 @@ define([
 			http.post('/results/' + this.nightlyId() + '/scenarios/updateUserStatus/' + this.id(), {
 				'userStatus': userStatus
 			});
-			realtimeService.broadcast('markScenario-' + this.UID(), {
-				userStatus: userStatus
-			});
+			realtimeService.broadcast(
+				'mark-scenario-' + this.UID(),
+				{userStatus: userStatus}
+			);
 		}
 	};
 
@@ -335,9 +351,119 @@ define([
 	};
 
 	ScenarioWidget.prototype._subscribeExternals = function() {
-		realtimeService.on('markScenario-' + this.UID(), (function(data) {
-			this._markAs(data.userStatus, true);
-		}).bind(this));
+		this._subscriptions.push(
+			realtimeService.on('mark-scenario-' + this.UID(), (function(data) {
+				this._markAs(data.userStatus, true);
+			}).bind(this))
+		);
+		this._subscriptions.push(
+			realtimeService.on('user-expanses-' + this.UID(), (function(user) {
+
+				this._addUser(user);
+
+			}).bind(this))
+		);
+		this._subscriptions.push(
+			realtimeService.on('user-collapses-' + this.UID(), (function(user) {
+				this._removeUser(user.CID);
+			}).bind(this))
+		);
+		this._subscriptions.push(
+			realtimeService.on('byebye', (function(data) {
+				this._removeUser(data.CID);
+			}).bind(this))
+		);
+
+		var answerTo = {};
+		this._subscriptions.push(
+			realtimeService.on('scenario-data-for-' + this.UID(), (function(data, fromCID) {
+
+				// prevent to answer twice when sibling is rendering this twice
+				if(!answerTo.hasOwnProperty(fromCID)) {
+					if(this.expanded()) {
+						answerTo[fromCID] = true;
+						setTimeout((function(){
+							realtimeService.talkTo(
+								fromCID,
+								'user-expanses-' + this.UID(),
+								usersService.getMe()
+							);
+							delete answerTo[fromCID]
+						}).bind(this), 500);
+					}
+
+				}
+			}).bind(this))
+		);
+		realtimeService.broadcast('scenario-data-for-' + this.UID());
+	};
+
+	ScenarioWidget.prototype._getIxUserByCID = function(CID) {
+		var ix;
+		this.users().forEach(function(u, i){
+			ix = (u.CID.indexOf(CID) !== -1) ? i : -1;
+		});
+		return ix;
+	};
+
+	ScenarioWidget.prototype._getIxUserByName = function(name) {
+		var ix;
+		this.users().forEach(function(u, i){
+			ix = (u.name === name) ? i : -1;
+		});
+		return ix;
+	};
+
+	ScenarioWidget.prototype._addUser = function(user) {
+		var ix = this._getIxUserByName(user.name);
+		if(ix > -1) {
+			var u = this.users()[ix];
+			u.CID.push(user.CID);
+			u.m++;
+			u.label(u.alias + ' x'+u.m);
+		} else {
+			var alias = (usersService.getMe().getName() === user.name) ?
+				'You' :
+				user.name
+			;
+			this.users.push({
+				CID: [user.CID],
+				label: ko.observable(alias),
+				alias: alias,
+				name: user.name,
+				color: user.color,
+				m:1
+			});
+		}
+	};
+
+	ScenarioWidget.prototype._removeUser = function(CID) {
+		var ix = this._getIxUserByCID(CID);
+
+		if(ix > -1) {
+			var u = this.users()[ix];
+			if(u.m > 1) {
+				u.m--;
+				if(u.m > 1) {
+					u.label(u.alias + ' x'+u.m);
+				} else {
+					u.label(u.alias);
+				}
+			} else {
+				this.users.splice(ix, 1);
+			}
+		}
+	};
+
+	ScenarioWidget.prototype.deactivate = function() {
+		this._subscriptions.forEach((function(sub){
+			if(sub.dispose) {
+				sub.dispose();
+			}
+			if(sub.off) {
+				sub.off();
+			}
+		}).bind(this))
 	};
 
 	var textarea;

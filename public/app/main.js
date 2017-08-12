@@ -29,15 +29,19 @@
 		'durandal/viewLocator',
 
 		'config/widgetConvention',
-		'bindings/testid',
-		'services/realtimeService'
+
+		'services/usersService',
+
+		'bindings/testid'
 	], function(
 		fixConsoleLogging,
 		system,
 		app,
 		viewLocator,
 
-		widgetConvention
+		widgetConvention,
+
+		usersService
 	) {
 		system.debug(true);
 		fixConsoleLogging();

@@ -1,0 +1,17 @@
+<div id="user-info">
+	<button class="color-expander" data-bind="click: $root.toggleColorExpanded.bind($root)">
+		<i class="fa" data-bind="css: {
+			'fa-caret-right': colorsExpanded(),
+			'fa-caret-left': !colorsExpanded()
+		}"></i>
+	</button>
+	<ul class="color-selector" data-bind="foreach: { data: colors, as: 'color' }">
+		<li class="color" data-bind="
+			css: $root.getClassForColor.call($root, color),
+			click: $root.selectColor.bind($root, color),
+			visible: $root.colorsExpanded() || $root.currentColor() === color
+		"></li>
+	</ul>
+	<input type="text" class="input-username" data-bind="value: username, valueUpdate: 'keyup'">
+	<div class="connection" data-bind="css: connectionStatus()"/>
+</div>

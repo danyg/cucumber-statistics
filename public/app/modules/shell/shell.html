@@ -1,5 +1,7 @@
-<div id="shell">
+<div id="shell" data-bind="css: {'app-in-blackout': isAppBlocked}">
 	<h1 class="main-title">Cucumber Statistics</h1>
+
+	<!-- ko compose: 'modules/userInfo/userInfo' --><!-- /ko -->
 
 	<div data-bind="widget: {
 		kind:'loading',
@@ -14,4 +16,5 @@
 
 	<!-- ko compose: 'modules/contextMenu/contextMenu' --><!-- /ko -->
 
+	<div id="blackout" data-bind="visible: isAppBlocked"></div>
 </div>

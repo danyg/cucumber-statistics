@@ -14,7 +14,7 @@ define([
 	router,
 	config,
 
-	realtime,
+	realtimeService,
 	utils,
 	toastr
 ) {
@@ -30,10 +30,10 @@ define([
 				return !!router.activeInstruction().config.home;
 			}
 		});
+		this.isAppBlocked = ko.observable(false);
 
-		this._rtOff = false;
-		realtime.on('DISCONNECTED', this._onRTOff.bind(this))
-		realtime.on('CONNECTED', this._onRTOn.bind(this))
+		realtimeService.on('DISCONNECTED', this._onRTOff.bind(this))
+		realtimeService.on('CONNECTED', this._onRTOn.bind(this))
 	}
 
 	Shell.prototype.activate = function() {
@@ -47,29 +47,43 @@ define([
 	};
 
 	Shell.prototype.attached = function(view) {
+		realtimeService.connect();
 	};
 
 	Shell.prototype._onRTOn = function() {
 		clearInterval(this._rtOffInt);
+		this.isAppBlocked(false);
 		if(this._warnElm) {
+			this._disconnectedAt = null;
 			toastr.clear(this._warnElm);
 			delete this._warnElm;
 		}
 	};
 
 	Shell.prototype._onRTOff = function() {
-		this._rtOff = true;
-		var disconnectedAt = new Date();
-		function getWarnMsg() {
+		this.isAppBlocked(true);
+		if(!this._disconnectedAt) {
+			this._disconnectedAt = new Date();
+		}
+		var getWarnMsg = (function () {
 			return 'Cannot reach server<br/>'
-				+ 'Disconnected ' + utils.calculateDateDiff(Date.now(), disconnectedAt) + '<br/>'
-				+ 'Reconnection in ' + utils.calculateDateDiff((parseInt(Date.now()/1000,10)*1000), realtime.getNextReconnectionTime())
-		};
+				+ 'Disconnected ' + utils.calculateDateDiff(Date.now(), this._disconnectedAt) + '<br/>'
+				+ 'Reconnection in ' + utils.calculateDateDiff((parseInt(Date.now()/1000,10)*1000), realtimeService.getNextReconnectionTime())
+		}).bind(this);
 
 		this._warnElm = toastr.warning(
 			getWarnMsg(),
 			null,
-			{timeOut: 0}
+			{
+				timeOut: 0,
+				closeButton: true,
+				closeOnHover: false,
+				hideDuration: 500,
+				onHidden: (function(){
+					realtimeService.connect();
+					this._onRTOff();
+				}).bind(this)
+			}
 		);
 		this._rtOffInt = setInterval((function(){
 			$('.toast-message', this._warnElm).html(getWarnMsg());

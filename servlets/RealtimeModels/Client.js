@@ -36,7 +36,7 @@ class Client extends EventEmitter {
 	_onMessage(msgEvent) {
 		try {
 			let json = JSON.parse(msgEvent.data);
-			if(json.e && json.d) {
+			if(json.e) {
 				this._processMessage(json);
 			} else {
 				throw new TypeError('json not compatible, missing event property');
@@ -59,7 +59,7 @@ class Client extends EventEmitter {
 
 	_processMessage(json) {
 		if(json.hasOwnProperty('to')) {
-			handler.talkTo(json.to, json, this);
+			this._handler.talkTo(json.to, json, this);
 		} else {
 			this.emit(json.e, json.d);
 		}

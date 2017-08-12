@@ -422,6 +422,18 @@ label.checkbox input[type="checkbox"] {
 	position: relative;
 }
 
+.app-in-blackout {
+	filter: grayscale(75%);
+	transition: filter 1500ms
+}
+#blackout {
+	z-index: 30000;
+	width: 100%;
+	height: 100%;
+	position: fixed;
+	top: 0; left: 0;
+}
+
 #contextMenu {
 
 }
@@ -629,6 +641,87 @@ li:last-child .scenario.expandable.expanded { margin-bottom: 0px; }
 	overflow: initial;
 }
 
+#user-info {
+	position: fixed;
+	top:0;
+	right: 1%;
+	max-width: 40em;
+	height: 2em;
+	background: rgba(0,0,0,.6);
+	display: flex;
+	justify-content: flex-start;
+	flex-wrap: nowrap;
+	z-index: 15;
+	padding: .25em .5em;
+}
+
+#user-info >* {margin-right: .5em;}
+#user-info >*:last-child {margin-right: 0;}
+#user-info .color-expander {
+	background: transparent;
+	border: solid 1px black;
+	border-width: 3px 0px 3px 3px;
+	outline: solid 1px white;
+	margin: 0;
+	border-radius: 0;
+	box-shadow: none;
+	padding: 0px 12px 0px 6px;
+}
+#user-info .color-selector {
+	display: flex;
+	justify-content: flex-start;
+}
+
+#user-info .color-selector .color {
+	border: solid 3px white;
+	width: 1.5em;
+	height: 1.5em;
+	display: inline-block;
+	margin-right: 5px;
+}
+#user-info .color-selector .color:last-child {
+	margin-right: 0px;
+}
+#user-info .color-selector .color.selected {
+	outline: solid 2px red;
+	border: solid 3px white;
+}
+
+#user-info .connection {
+	position: relative;
+	display: inline-block;
+	width: 1em;
+	height: 1em;
+	font-size: 1.9em;
+	line-height: 1.1em;
+}
+#user-info .connection:before {
+	font-family: FontAwesome;
+	color: #222;
+	content: '\f1eb';
+}
+
+#user-info .connection.connected:before {
+	color: skyblue;
+}
+
+#user-info .connection.reconnecting:before {
+	animation: reconnectingIcon;
+	animation-duration: 4s;
+	animation-iteration-count: infinite;
+	color: orange;
+}
+
+.toast-top-right {
+	top: 3em;
+}
+
+@keyframes reconnectingIcon {
+	0% {color: orange;}
+	50% {color: red;}
+	0% {color: orange;}
+}
+
 .modificators .modificator {
 	display: inline-block;
 	border-radius: 8px;
@@ -644,7 +737,7 @@ li:last-child .scenario.expandable.expanded { margin-bottom: 0px; }
 .modificator.time:before {
 	font-family: FontAwesome;
 	font-weight: normal;
-	content: "\f017";
+	content: '\f017';
 	padding-right: 5px;
 }
 
@@ -673,17 +766,15 @@ li:last-child .scenario.expandable.expanded { margin-bottom: 0px; }
 	padding-right: 5px;
 }
 
-.modificator.user.user-blue {background: blue;}
-.modificator.user.user-coral {background: coral;}
-.modificator.user.user-cyan {background: skyblue;}
-.modificator.user.user-yellow {background: yellow;}
-.modificator.user.user-gold {background: DarkGoldenRod;}
-.modificator.user.user-green {background: DarkGreen;}
-.modificator.user.user-violet {background: DarkViolet;}
-.modificator.user.user-green2 {background: GreenYellow;}
-.modificator.user.user-indigo {background: Indigo;}
-
-
+.blue   {background: blue !important;}
+.coral  {background: coral !important;}
+.cyan   {background: skyblue !important;}
+.yellow {background: yellow !important;}
+.gold   {background: DarkGoldenRod !important;}
+.green  {background: DarkGreen !important;}
+.violet {background: DarkViolet !important;}
+.green2 {background: GreenYellow !important;}
+.indigo {background: Indigo !important;}
 
 .stability.stability-0 { background: #ff0000;}
 .stability.stability-1 { background: linear-gradient(to right,#00d000 0%,#00ff00 1%,#ff0000 1%,#ff0000 100%);}
