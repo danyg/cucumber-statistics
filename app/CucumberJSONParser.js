@@ -64,7 +64,7 @@ class CucumberJSONParser {
 			stat(dir)
 				.then(stat => !stat.isDirectory() ? mkdir(dir) : true)
 				.then(_ => JSON.stringify(json, null,'\t'))
-				.then(data => gzip(data))
+				.then(data => gzip(data, {level: zlib.Z_BEST_COMPRESSION}))
 				.then(gziped => writeFile(file, gziped, {flag: 'wx'}))
 				.then(_ => resolve())
 

@@ -14,16 +14,21 @@ util.inherits(ScenariosSearchable, Searchable);
 
 ScenariosSearchable.prototype.getFailedByBuildId = function(buildId, cbk) {
 	this.model.find({
-		'results.buildId': buildId.toString(),
-		'results.status': 'failed'
+		$or: [
+			{
+				'results.buildId': buildId.toString(),
+				'results.status': 'failed'
+			},
+			{
+				'results.buildId': buildId.toString(),
+				clon: true
+			}
+		]
 	}).toArray(function(err, docs) {
 		if(err) {
 			cbk(new Error(err));
 		} else {
 			Searchable.processDocs(docs);
-			docs = docs.filter(function(item) {
-				return item.lastStatus !== 'passed';
-			});
 			cbk(docs.sort(Searchable.sortByMoreFailed));
 		}
 	});
