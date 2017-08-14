@@ -2,7 +2,8 @@ define([], function(){
 	var dict = {
 		'titleForRecidivist': 'Recidivist scenario, has failed after get marked as fixed.',
 		'titleForAutoRecidivist': 'Recidivist scenario, has failed after get marked as fixed automaticly, previous execution was succesful.',
-		'titleForNew': 'Is a new scenario or previous execution was succesful and is failed now.'
+		'titleForNew': 'Previous execution was succesful and is failed now.',
+		'titleForBrandNew': 'Is a brand new scenario and has failed in its first execution.'
 	};
 
 	function camelize(str, firstUpper) {

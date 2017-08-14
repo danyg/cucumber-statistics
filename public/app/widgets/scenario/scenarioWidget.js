@@ -177,25 +177,24 @@ define([
 			this.userStatus('none');
 		}
 
-		if(!!scenario.results) {
+		if(!!scenario.results && scenario.results[scenario.results.length-1].status === 'failed') {
+			// current is failed
 			if(scenario.results.length > 1) {
-				if(
-					scenario.results[scenario.results.length-1].status === 'failed'
-					&& scenario.results[scenario.results.length-2].status === 'passed'
-				) {
+				// has more than 1 results (was executed in the past)
+				if(scenario.results[scenario.results.length-2].status === 'passed') {
+					// previous was green, then new failed scenario
 					this.modificators.push('new');
 				}
 
 			} else {
-				this.modificators.push('new');
+				// first time executed and failed
+				this.modificators.push('brand-new');
 			}
 		}
+
 		if(this.userStatus().indexOf('recidivist') !== -1) {
 			this.modificators.push(this.userStatus());
 		}
-
-
-
 
 		this.status(scenario.lastStatus);
 

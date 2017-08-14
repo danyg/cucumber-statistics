@@ -750,6 +750,15 @@ li:last-child .scenario.expandable.expanded { margin-bottom: 0px; }
 }
 .modificator.new:after {content: "NEW!";}
 
+.modificator.brand-new {background: orange;}
+.modificator.brand-new:before {
+	font-family: FontAwesome;
+	font-weight: normal;
+	content: "\f12a";
+	padding: 0px 2px 0px 3px;
+}
+.modificator.brand-new:after {content: "BRAND NEW!";}
+
 .modificator.auto-recidivist,
 .modificator.recidivist { background: orange; }
 .modificator.auto-recidivist:before,
