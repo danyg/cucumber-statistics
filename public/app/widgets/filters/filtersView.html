@@ -1,13 +1,13 @@
 <div class="tag-filters" data-testid="filters_container">
 	<input data-bind="value: $widget.filterFilter, valueUpdate:'keyup'" placeholder="Filter Tags">
 
-	<ul class="tags-list" data-bind="foreach: {data: $widget.tags, as: 'tag'}, visible: $widget.filterActivated">
-		<li data-bind="attr: {rel: tag.substr(1)}">
+	<dl class="tags-list" data-bind="foreach: {data: $widget.tags, as: 'tag'}, visible: $widget.filterActivated">
+		<dd data-bind="attr: {rel: tag.substr(1)}">
 			<label class="checkbox" data-bind="attr: {title: tag, for: 'checkbox_' + tag.substr(1) + '_in'}">
 				<input type="checkbox" class="filter-checkbox include-checkbox" data-bind="testId: ['tagFilter', 'filterIn', tag], checkedValue: tag, checked: $widget.includedTags, attr: {id: 'checkbox_' + tag.substr(1) + '_in'}" />
 				<input type="checkbox" class="filter-checkbox exclude-checkbox" data-bind="testId: ['tagFilter', 'filterOut', tag], checkedValue: tag, checked: $widget.excludedTags" />
 				<span data-bind="text: tag"></span>
 			</label>
-		</li>
-	</ul>
+		</dd>
+	</dl>
 </div>

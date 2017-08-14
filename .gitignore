@@ -4,6 +4,7 @@ test/db
 assets
 logs
 reports
+archive
 acceptanceTests/node_modules
 acceptanceTests/logs
 **/public/bower_components

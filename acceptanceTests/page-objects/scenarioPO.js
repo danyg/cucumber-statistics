@@ -2,7 +2,7 @@ const byScenarioName = (scenarioName) => {
 	return by.testId('scenario_' + shared.utilsSO.camelize(scenarioName));
 }
 const byScenarioNth = (nth) => by.css(
-	`.scenarios-container li:nth-child(${nth}) div.item.scenario`
+	`.scenarios-container dd:nth-child(${nth}) div.item.scenario`
 );
 const CONTENTS = by.testClass('contents')
 const HANDLER = by.testClass('handler')

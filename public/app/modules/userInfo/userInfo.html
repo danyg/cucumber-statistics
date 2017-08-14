@@ -5,13 +5,13 @@
 			'fa-caret-left': !colorsExpanded()
 		}"></i>
 	</button>
-	<ul class="color-selector" data-bind="foreach: { data: colors, as: 'color' }">
-		<li class="color" data-bind="
+	<dl class="color-selector" data-bind="foreach: { data: colors, as: 'color' }">
+		<dd class="color" data-bind="
 			css: $root.getClassForColor.call($root, color),
 			click: $root.selectColor.bind($root, color),
 			visible: $root.colorsExpanded() || $root.currentColor() === color
-		"></li>
-	</ul>
+		"></dd>
+	</dl>
 	<input type="text" class="input-username" data-bind="value: username, valueUpdate: 'keyup'">
 	<div class="connection" data-bind="
 		css: connectionStatus(),

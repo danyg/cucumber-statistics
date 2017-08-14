@@ -14,7 +14,6 @@ h1, h2, h3, h4, h5, h6 {
 	font-family: 'Ubuntu', sans-serif;
 }
 .error-message {
-	background-color: #D98B89;
 	color: #222;
 	box-shadow: 0px 0px 10px rgba(0,0,0,.3);
 }

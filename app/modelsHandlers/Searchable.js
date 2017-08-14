@@ -64,7 +64,10 @@ Searchable.prototype.getAll = function(cbk) {
 Searchable.prototype.getMostUnstables = function(cbk) {
 	this.model.find(
 		{
-			'results.status': 'failed'
+			$or: [
+				{'results.status': 'failed'},
+				{'clon':true}
+			]
 		}
 	).toArray(
 		function(err, docs) {

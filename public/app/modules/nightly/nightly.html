@@ -8,6 +8,17 @@
 
 	<!-- ko widget: {
 		kind: 'container',
+		title: 'All scenarios',
+		type: 'scenarios',
+		method: 'getAll',
+		tags: $root.tags,
+		expanded: false,
+		attached : $root._onWidgetAttached.bind($root, 'unstables')
+	} -->
+	<!-- /ko -->
+
+	<!-- ko widget: {
+		kind: 'container',
 		title: 'Most unstables scenarios',
 		type: 'scenarios',
 		method: 'getMostUnstables',

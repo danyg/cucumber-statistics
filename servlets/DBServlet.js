@@ -1,5 +1,7 @@
 'use strict';
 
+// const Promise = require('bluebird');
+
 var Servlet = require('../core/Servlet'),
 	restResponses = require('../core/servletRestResponses'),
 	CucumberJSONParser = require('../app/CucumberJSONParser'),
@@ -36,7 +38,11 @@ class DBServlet extends Servlet {
 			let promise = this.updateNightly(req.params.buildName, req.params.buildId)
 				.then(_ => { LOGGER.debug('Parsing new Nightly ' + req.params.buildName); return _; })
 				.then(_ => parser.parse(req.body))
-				.catch(e => restResponses.error400(res, e.message))
+				.catch(e => {
+					let err = !e ? 'unknown' : e;
+					LOGGER.error(`Error parsing JSON ERROR:\n\t${err}`);
+					restResponses.error400(res, err.hasOwnProperty('message') ? err.message : err);
+				} )
 			;
 
 			if(sync) {

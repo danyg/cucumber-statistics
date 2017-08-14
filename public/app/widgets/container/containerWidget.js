@@ -24,6 +24,8 @@ define([
 		this.showCheckbox = ko.observable(true);
 		this.nightlyId = ko.observable();
 
+		this.expanded = ko.observable(true);
+
 		this.passedScenariosLength = ko.observable(0);
 		this.hiddenScenariosLength = ko.observable(0);
 
@@ -77,14 +79,35 @@ define([
 
 		this.title(this._settings.title);
 
+		if(this._settings.hasOwnProperty('expanded')) {
+			if(ko.isObservable(this._settings.expanded)) {
+				this.expanded = this._settings.expanded;
+			} else {
+				this.expanded(this._settings.expanded);
+			}
+		}
+
 		if(this.scenarios() === null) {
-			return this._call(this._settings.type, this._settings.method);
+			if(this.expanded() !== false) {
+				return this._call(this._settings.type, this._settings.method);
+			} else {
+				// if initially collapsed then call when expanded first time
+				var sub;
+				sub = this.expanded.subscribe((function(){
+					sub.dispose();
+					this._call(this._settings.type, this._settings.method);
+				}).bind(this));
+			}
 		}
 		return true;
 	};
 
 	ContainerWidget.prototype.compositionComplete = function() {
 		this._isLoading(false);
+	};
+
+	ContainerWidget.prototype.toggleExpand = function() {
+		this.expanded(!this.expanded());
 	};
 
 	ContainerWidget.prototype._call = function(type, method) {
@@ -130,6 +153,9 @@ define([
 
 		scenarioWidget.isLocallyHidden.subscribe(forceNotify);
 		scenarioWidget.userStatus.subscribe(forceNotify);
+
+		clearTimeout(this._stl);
+		this._stl = setTimeout(this.compositionComplete.bind(this), 100);
 	};
 
 	ContainerWidget.prototype.showAllScenarios = function() {

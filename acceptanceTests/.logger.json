@@ -7,6 +7,8 @@
 		"file:./logs/aceptanceTests.log"
 	],
 	"scopes": {
-		"CucumberJSONParser": "INFO"
+		"CucumberJSONParser": "INFO",
+		"Realtime": "INFO",
+		"Realtime.Client": "INFO"
 	}
 }

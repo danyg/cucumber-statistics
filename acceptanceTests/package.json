@@ -18,6 +18,7 @@
     "url": "https://github.com/danyg/cucumber-statistics/issues"
   },
   "devDependencies": {
+    "bluebird": "^3.5.0",
     "selenium-cucumber-js": "git+https://github.com/danyg/selenium-cucumber-js.git"
   }
 }

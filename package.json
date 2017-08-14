@@ -26,12 +26,13 @@
     "url": "https://github.com/danyg/cucumber-statistics/issues"
   },
   "dependencies": {
+    "bluebird": "^3.5.0",
     "body-parser": "~1.14.1",
     "commander": "^2.11.0",
     "connect-gzip-static": "git+https://github.com/danyg/connect-gzip-static.git",
     "express": "~4.13.3",
     "express-logger": "0.0.3",
-    "knockout-sortable": "^1.1.0",
+    "knockout-sortablejs": "^0.1.0",
     "mkpath": "~1.0.0",
     "mongodb": "latest",
     "nedb": "~1.7.4",

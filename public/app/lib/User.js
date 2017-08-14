@@ -17,6 +17,14 @@ define([
 		'indigo'
 	];
 
+	function rand(l,h) {
+		return Math.floor(Math.random() * h) + l;
+	};
+
+	function getRandColor() {
+
+	}
+
 	function User(jsonOrCID, name, color) {
 		var json = jsonOrCID;
 		var CID = jsonOrCID;
@@ -55,7 +63,12 @@ define([
 	User.prototype.setColor = function(color){
 		color = color.toLowerCase();
 		if(COLORS.indexOf(color) === -1) {
-			throw new TypeError('unrecognized color, valid colors: ' + COLORS.join(', '));
+			console.error(
+				'unrecognized color <' + color + '> for user '+
+				'<' + this.getName() + '@' + this.getCID() + '>,'+
+				' valid colors: ' + COLORS.join(', ') +
+				'Setting to random color: ' + (color = COLORS[rand(0,COLORS.length-1)])
+			);
 		}
 		var oldColor = this._color;
 		this._color = color;

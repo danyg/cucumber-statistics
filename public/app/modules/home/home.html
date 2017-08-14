@@ -1,23 +1,23 @@
 <div id="home">
 
-	<div class="error-message" data-bind="css: {hidden: errorMsg() === ''}, text: errorMsg()"></div>
+	<div class="error error-message" data-bind="css: {hidden: errorMsg() === ''}, text: errorMsg()"></div>
 
 	<div class="panel full scrollable-contents" data-bind="css: {hidden: errorMsg() !== ''}">
 		<h2>Nightlies</h2>
 
-		<ul class="itemised-list nightlies-container" data-testid="nightliesList">
-			<li class="item nightly last-execution" data-bind="css: {active: $root.isRouteActive.call($root, 'lastExecution') }">
+		<dl class="itemised-list nightlies-container" data-testid="nightliesList">
+			<dd class="item nightly last-execution" data-bind="css: {active: $root.isRouteActive.call($root, 'lastExecution') }">
 				<a data-bind="attr: {href: '#lastExecution/'}" data-testid="lastExecutions_Buton">
 					<span class="name">Last Executions</span>
 				</a>
-			</li>
+			</dd>
 			<!-- ko foreach: { data: nightlies, as: 'name' } -->
-			<li class="item nightly" data-bind="css: {active: $root.isRouteActive.call($root, 'nightly/'+name) }">
+			<dd class="item nightly" data-bind="css: {active: $root.isRouteActive.call($root, 'nightly/'+name) }">
 				<a data-bind="attr: {href: '#nightly/' + name}" data-testclass="">
 					<span class="name" data-bind="text: name"></span>
 				</a>
-			</li>
+			</dd>
 			<!-- /ko -->
-		</ul>
+		</dl>
 	</div>
 </div>

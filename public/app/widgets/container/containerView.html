@@ -1,39 +1,45 @@
-<div class="container-widget" data-bind="
+<div class="container-widget expandable" data-bind="
 	css: {
-		'panel full': !_frameless()
+		'panel full': !_frameless(),
+		'expanded': expanded()
 	},
 	testId: [title(), 'container']
 	">
 
 	<!-- ko if: !_frameless() -->
-		<h2 data-bind="text: title(), testId: [title(), 'containerTitle']"></h2>
+		<h2 class="title" data-testclass="handler"  data-bind="
+			click: toggleExpand.bind($data),
+			text: title(),
+			testId: [title(), 'containerTitle']
+		"></h2>
 
 	<!-- /ko -->
 
 	<!-- ko widget: { kind:'loading', enable: _isLoading(), hover: true } --><!-- /ko -->
+	<div data-testclass="contents" data-bind="css: {hidden: !expanded() }">
+		<div data-part="filters"></div>
 
-	<div data-part="filters"></div>
+		<label class="checkbox" data-bind="testId: [title(), 'passedScenarios', 'label']">
+			<input type="checkbox" data-bind="checked: hidePassedElements, testId: [title(), 'passedScenarios', 'checkbox']" />
+			Hide passed scenarios (<span data-bind="text: passedScenariosLength(), testId: [title(), 'passedScenarios', 'counter']"></span>)
+		</label>
+		<label class="checkbox" data-bind="visible: showCheckbox(), testId: [title(), 'hiddenScenarios', 'label']">
+			<input type="checkbox" data-bind="checked: showHiddenElements, testId: [title(), 'hiddenScenarios', 'checkbox']" />
+			Show hidden/fixed scenarios (<span data-bind="text: hiddenScenariosLength(), testId: [title(), 'hiddenScenarios', 'counter']"></span>)
+		</label>
 
-	<label class="checkbox" data-bind="testId: [title(), 'passedScenarios', 'label']">
-		<input type="checkbox" data-bind="checked: hidePassedElements, testId: [title(), 'passedScenarios', 'checkbox']" />
-		Hide passed scenarios (<span data-bind="text: passedScenariosLength(), testId: [title(), 'passedScenarios', 'counter']"></span>)
-	</label>
-	<label class="checkbox" data-bind="visible: showCheckbox(), testId: [title(), 'hiddenScenarios', 'label']">
-		<input type="checkbox" data-bind="checked: showHiddenElements, testId: [title(), 'hiddenScenarios', 'checkbox']" />
-		Show hidden/fixed scenarios (<span data-bind="text: hiddenScenariosLength(), testId: [title(), 'hiddenScenarios', 'counter']"></span>)
-	</label>
+		<dl class="itemised-list scenarios-container" data-bind="foreach: { data: scenarios, as: 'scenario' }">
+			<!-- ko widget: {
+				kind: 'scenario',
+				scenario: scenario,
+				sideValue: $parent._settings.method,
+				showHidden: $parent.showHiddenElements,
+				hidePassed: $parent.hidePassedElements,
+				nightlyId: $parent.nightlyId(),
+				onActivate: $parent.onActivateScenario.bind($parent, scenario)
+			} -->
+			<!-- /ko -->
+		</dl>
 
-	<ul class="itemised-list scenarios-container" data-bind="foreach: { data: scenarios, as: 'scenario' }">
-		<!-- ko widget: {
-			kind: 'scenario',
-			scenario: scenario,
-			sideValue: $parent._settings.method,
-			showHidden: $parent.showHiddenElements,
-			hidePassed: $parent.hidePassedElements,
-			nightlyId: $parent.nightlyId(),
-			onActivate: $parent.onActivateScenario.bind($parent, scenario)
-		} -->
-		<!-- /ko -->
-	</ul>
-
+	</div>
 </div>

@@ -1,14 +1,14 @@
 define([
 	'./testid',
-	// 'knockout-sortable'
+	// 'knockout-sortablejs'
 ], function(
 	testid,
-	// knockoutSortable
+	// knockoutSortablejs
 ) {
 	'use strict';
 
 	return {
 		testid: testid,
-		// sortable: knockoutSortable
+		// sortable: knockoutSortablejs
 	};
 });

@@ -1,6 +1,5 @@
 define([
 	'knockout',
-	// 'knockout-sortable',
 
 	'lib/utils'
 ], function (
@@ -91,10 +90,10 @@ define([
 	Filters.prototype._filterShownTags = function() {
 		var search = this.filterFilter().replace('@', '');
 		if(search.trim() !== '') {
-			$('.tag-filters .tags-list li', this._viewElm).hide();
-			$('.tag-filters .tags-list li[rel*="' + search + '"]', this._viewElm).show();
+			$('.tag-filters .tags-list dd', this._viewElm).hide();
+			$('.tag-filters .tags-list dd[rel*="' + search + '"]', this._viewElm).show();
 		} else {
-			$('.tag-filters .tags-list li', this._viewElm).show();
+			$('.tag-filters .tags-list dd', this._viewElm).show();
 		}
 	};
 

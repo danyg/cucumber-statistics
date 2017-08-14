@@ -1,10 +1,10 @@
-<li >
+<dd>
 	<div class="item scenario expandable" data-bind="
 		attr: {id: UID},
 		css: cssClasses(), visible: visible,
 		testId: ['scenario',name()]
 	">
-		<div class="title" data-testclass="handler"  data-bind="click: toggleExpand.bind($widget), attr: {title: name()}">
+		<div class="title" data-testclass="handler"  data-bind="click: toggleExpand.bind($data), attr: {title: name()}">
 			<div class="name" data-bind="text: name()"></div>
 			<div class="right modificators">
 				<!-- ko foreach: { data: users, as: 'user' } -->
@@ -61,30 +61,40 @@
 			>Mark as not fixed yet</button>
 			<!-- /ko -->
 
+			<!-- ko if: modificators.indexOf('clon') !== -1 -->
+			<div class="warning panel">
+				<p>This scenario is duplicated, the arrangement of steps are exactly the same for the following scenarios:</p>
+				<ul data-bind="foreach: {data: aliases, as: 'alias'}">
+					<li class="copy-clipboard" data-bind="click: $parent._clipboard.bind($parent,alias.file)">
+						<span data-bind="text: alias.name"></span><br/>@ <span data-bind="text: alias.file"></span>
+					</li>
+				</ul>
+			</div>
+			<!-- /ko -->
 
-			<div class="description tags" >
-				<p data-bind="click: _clipboard.bind($root,fileRaw()), attr: {title: file() }" class="copy-clipboard">
+			<div class="description tags">
+				<p data-bind="click: _clipboard.bind($data, fileRaw()), attr: {title: file() }" class="copy-clipboard">
 					<span data-bind="text: fileRaw()"></span>
 					<span data-bind="html: !!nightlyId() ? ' at <b>' + nightlyId() + '</b> nigthly build' : ''"></span>
 				</p>
 				<p data-bind="text: tags().join(' ')"></p>
 			</div>
-			<ul class="description clearfix">
-				<li><strong>Executed: </strong><span data-bind="text: results().length"></span> times</li>
-				<li><strong>Passed: </strong><span data-bind="text: scenario().passed"></span> times</li>
-				<li><strong>Stability: </strong><span data-bind="text: stability()"></span></li>
-				<li><strong>Failed: </strong><span data-bind="text: scenario().failed"></span> times</li>
-				<li><strong>Average Time: </strong><span data-bind="text: timeAvg()"></span></li>
-				<li><strong>Skipped: </strong><span data-bind="text: scenario().skipped"></span> times</li>
-			</ul>
+			<dl class="description clearfix">
+				<dd><strong>Executed: </strong><span data-bind="text: results().length"></span> times</li>
+				<dd><strong>Passed: </strong><span data-bind="text: scenario().passed"></span> times</li>
+				<dd><strong>Stability: </strong><span data-bind="text: stability()"></span></li>
+				<dd><strong>Failed: </strong><span data-bind="text: scenario().failed"></span> times</li>
+				<dd><strong>Average Time: </strong><span data-bind="text: timeAvg()"></span></li>
+				<dd><strong>Skipped: </strong><span data-bind="text: scenario().skipped"></span> times</li>
+			</dl>
 
 			<!-- ko widget: { kind: 'timeGraph', results: results } --><!-- /ko -->
 
-			<ul class="itemised-list steps-container" data-bind="foreach: { data: steps, as: 'step' }">
+			<dl class="itemised-list steps-container" data-bind="foreach: { data: steps, as: 'step' }">
 				<!-- ko widget: { kind: 'scenarioStep', step: step } -->
 				<!-- /ko -->
-			</ul>
+			</dl>
 
 		</div>
 	</div>
-</li>
+</dd>

@@ -32,7 +32,6 @@ Feature: Last Executions
 
 	Scenario: A hidden scenario remains hidden when tags filter is activated
 		Given A user in Last Executions with "a sample nightly"
-
 		When the user expands the "Nullam quis lectus vel dolor dapibus feugiat." scenario
 		And the user adds "@Pellentesque" tag to "excluded" tags
 		Then the scenario gets hidden

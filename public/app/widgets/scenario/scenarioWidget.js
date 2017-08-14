@@ -48,6 +48,7 @@ define([
 		this.sideValue = ko.observable();
 		this.steps = ko.observableArray();
 		this.results = ko.observableArray();
+		this.aliases = ko.observableArray();
 		this.tags = ko.observableArray();
 		this.nightlyId = ko.observable();
 		this.UID = ko.computed((function(){
@@ -66,7 +67,6 @@ define([
 		this.expanded = ko.observable(false);
 		this.status = ko.observable('');
 		this.userStatus = ko.observable('');
-
 
 		this.isLocallyHidden = ko.observable(false);
 		this.isFiltered = ko.observable(false);
@@ -152,14 +152,39 @@ define([
 			this.hidePassed = this._settings.hidePassed;
 		}
 
+		this._setProperties();
+
+		this._processModificators();
+
+		this.sideValue(
+			this._settings.sideValue === 'getMostTimeConsuming' ?
+				'time' :
+				this._settings.sideValue === 'getMostUnstables' ?
+					'stability' :
+					''
+		);
+
+		if(!!this._settings.onActivate) {
+			this._settings.onActivate(this);
+		}
+
+		this._subscribeExternals();
+
+		return true;
+	};
+
+	ScenarioWidget.prototype._setProperties = function() {
+		var scenario = this.scenario();
 		this.id(scenario._id);
 		this.name(scenario.name);
+
 		if(scenario.hasOwnProperty('file')) {
 			var file = scenario.file.split(':');
 			var line = file.splice(-1)[0];
 			this.file(file.join(':') + ' @ line ' + line);
 			this.fileRaw(scenario.file);
 		}
+
 		this.tags(scenario.tags || []);
 
 		if(scenario.hasOwnProperty('_parent')) {
@@ -177,6 +202,25 @@ define([
 			this.userStatus('none');
 		}
 
+		this.status(scenario.lastStatus);
+
+		this.results(scenario.results);
+
+		this.stability(this._formatStability(scenario.stability));
+		this.stabilityLabel(this.stability());
+
+		this.timeAvg(!!scenario.timeAvg ?
+			this._formatTime(scenario.timeAvg) :
+			'unknown'
+		);
+
+		if(scenario.hasOwnProperty('aliases') && scenario.aliases.length > 1) {
+			this.aliases(scenario.aliases)
+		}
+	};
+
+	ScenarioWidget.prototype._processModificators = function() {
+		var scenario = this.scenario();
 		if(!!scenario.results && scenario.results[scenario.results.length-1].status === 'failed') {
 			// current is failed
 			if(scenario.results.length > 1) {
@@ -196,31 +240,9 @@ define([
 			this.modificators.push(this.userStatus());
 		}
 
-		this.status(scenario.lastStatus);
-
-		this.sideValue(
-			this._settings.sideValue === 'getMostTimeConsuming' ? 'time' :
-				this._settings.sideValue === 'getMostUnstables' ? 'stability' :
-				''
-			);
-
-		this.results(scenario.results);
-
-		this.stability(this._formatStability(scenario.stability));
-		this.stabilityLabel(this.stability());
-
-		this.timeAvg(!!scenario.timeAvg ?
-			this._formatTime(scenario.timeAvg) :
-			'unknown'
-		);
-
-		if(!!this._settings.onActivate) {
-			this._settings.onActivate(this);
+		if(scenario.hasOwnProperty('clon') && scenario.clon) {
+			this.modificators.push('clon');
 		}
-
-		this._subscribeExternals();
-
-		return true;
 	};
 
 	ScenarioWidget.prototype.attached = function(view) {
@@ -237,6 +259,11 @@ define([
 			this.extraKlasses.push(RECENTLY_COLLAPSED);
 			scenariosComms.trigger('collapsed', this);
 			this._removeUser(usersService.getMe().getCID());
+			scenariosComms.trigger(
+				'user-collapses-' + this.UID(),
+				usersService.getMe().toJSON(),
+				this
+			);
 			realtimeService.broadcast(
 				'user-collapses-' + this.UID(),
 				usersService.getMe()
@@ -246,6 +273,12 @@ define([
 			// collapsed - > expanded
 			this._removeRecentlyCollapsed();
 			this._addUser(usersService.getMe().toJSON());
+
+			scenariosComms.trigger(
+				'user-expanses-' + this.UID(),
+				usersService.getMe().toJSON(),
+				this
+			);
 			realtimeService.broadcast(
 				'user-expanses-' + this.UID(),
 				usersService.getMe()
@@ -365,11 +398,30 @@ define([
 				this._markAs(data.userStatus, true);
 			}).bind(this))
 		);
+
+		// user-expanses
+		this._subscriptions.push(
+			scenariosComms.on('user-expanses-' + this.UID(), (function(user, scn) {
+				if(scn !== this) {
+					this._addUser(user);
+				}
+
+			}).bind(this))
+		);
 		this._subscriptions.push(
 			realtimeService.on('user-expanses-' + this.UID(), (function(user) {
 
 				this._addUser(user);
 
+			}).bind(this))
+		);
+
+		// user-collapses-
+		this._subscriptions.push(
+			scenariosComms.on('user-collapses-' + this.UID(), (function(user, scn) {
+				if(scn !== this) {
+					this._removeUser(user.CID);
+				}
 			}).bind(this))
 		);
 		this._subscriptions.push(
@@ -404,6 +456,19 @@ define([
 				}
 			}).bind(this))
 		);
+
+		this._subscriptions.push(
+			scenariosComms.on('scenario-data-for-' + this.UID(), (function(data, fromCID, scn) {
+				if(scn !== this && this.expanded()) {
+					scenariosComms.trigger(
+						'user-expanses-' + this.UID(),
+						usersService.getMe().toJSON(),
+						this
+					);
+				}
+			}).bind(this))
+		);
+		scenariosComms.trigger('scenario-data-for-' + this.UID(), this);
 		realtimeService.broadcast('scenario-data-for-' + this.UID());
 	};
 

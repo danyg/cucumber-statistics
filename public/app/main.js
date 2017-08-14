@@ -19,7 +19,7 @@
 			css: VDIR + '/require-css/css.min',
 
 			toastr: VDIR + '/toastr/build/toastr.min',
-			'knockout-sortable': VDIR + '/knockout-sortable/build/knockout-sortable.min'
+			'knockout-sortablejs': VDIR + '/knockout-sortable/knockout-sortable'
 		}
 	});
 

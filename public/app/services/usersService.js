@@ -31,6 +31,9 @@ define([
 			color
 		);
 
+		localStorage.setItem('user.name', user.getName());
+		localStorage.setItem('user.color', user.getColor());
+
 		user.on('name:changed', function(newName, oldName) {
 			localStorage.setItem('user.name', newName);
 			realtimeService.broadcast('user-name-changed', {

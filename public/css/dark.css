@@ -16,7 +16,6 @@ h1, h2, h3, h4, h5, h6 {
 	padding-left: 0;
 }
 .error-message {
-	background-color: #D98B89;
 	color: #222;
 	box-shadow: 0px 0px 10px rgba(0,0,0,.3);
 }
@@ -176,8 +175,18 @@ ul.context-menu-container li {
 .panel.full >h4,
 .panel.full >h5,
 .panel.full >h6 {
+	font-size: 16px;
+	margin-bottom: 0;
+	padding-bottom: 0;
+}
+
+.panel.expanded.full >h1,
+.panel.expanded.full >h2,
+.panel.expanded.full >h3,
+.panel.expanded.full >h4,
+.panel.expanded.full >h5,
+.panel.expanded.full >h6 {
 	border-bottom: 1px solid #444;
 	padding-bottom: 8px;
 	margin-bottom: 10px;
-	font-size: 16px
 }

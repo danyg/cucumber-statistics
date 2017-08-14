@@ -1,10 +1,10 @@
-<ul class="context-menu-container" data-bind="
+<dl class="context-menu-container" data-bind="
 	foreach: {data: elements.items, as: 'element'},
 	style: {left: left, top: top, right: right, bottom: bottom}
 ">
 
 	<!-- ko if: !!element.items -->
-	<li class="context-menu-item context-menu-submenu">
+	<dd class="context-menu-item context-menu-submenu">
 		<span class="name" data-bind="text: element.label"></span>
 		<!-- ko widget: {
 			kind: 'contextMenu/contextMenuAtom',
@@ -12,13 +12,13 @@
 			director: $widget.director
 		} -->
 		<!-- /ko -->
-	</li>
+	</dd>
 	<!-- /ko -->
 	<!-- ko if: !element.items -->
-	<li class="context-menu-item" data-bind="
+	<dd class="context-menu-item" data-bind="
 		click: $widget.clickElement.bind($widget, element);
 	">
 		<span class="name" data-bind="text: element.label"></span>
-	</li>
+	</dd>
 	<!-- /ko -->
-</ul>
+</dl>
