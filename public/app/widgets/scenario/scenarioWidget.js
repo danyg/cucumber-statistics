@@ -11,7 +11,8 @@ define([
 	'modules/contextMenu/contextMenu',
 	'durandal/events',
 	'services/realtimeService',
-	'services/usersService'
+	'services/usersService',
+	'services/nightlies'
 
 ], function(
 	ko,
@@ -26,7 +27,8 @@ define([
 	contextMenu,
 	Events,
 	realtimeService,
-	usersService
+	usersService,
+	nightliesService
 ) {
 
 	'use strict';
@@ -156,13 +158,19 @@ define([
 
 		this._processModificators();
 
-		this.sideValue(
-			this._settings.sideValue === 'getMostTimeConsuming' ?
-				'time' :
-				this._settings.sideValue === 'getMostUnstables' ?
-					'stability' :
-					''
-		);
+		switch(this._settings.sideValue) {
+			case 'getMostTimeConsuming':
+				this.sideValue('time');
+				break;
+			case 'getMostUnstables':
+				this.sideValue('stability');
+				break;
+			case 'getAll':
+				this.sideValue('all');
+				break;
+			default:
+				this.sideValue('');
+		}
 
 		if(!!this._settings.onActivate) {
 			this._settings.onActivate(this);
@@ -210,7 +218,7 @@ define([
 		this.stabilityLabel(this.stability());
 
 		this.timeAvg(!!scenario.timeAvg ?
-			this._formatTime(scenario.timeAvg) :
+			utils.cucumberTimeToHuman(scenario.timeAvg) :
 			'unknown'
 		);
 
@@ -242,6 +250,17 @@ define([
 
 		if(scenario.hasOwnProperty('clon') && scenario.clon) {
 			this.modificators.push('clon');
+		}
+
+		if(this.nightlyId()) {
+			nightliesService.getNightlyById(this.nightlyId())
+				.then((function(nightly){
+					var lastResult = scenario.results[scenario.results.length-1];
+					if(lastResult.buildId !== nightly.lastBuildId) {
+						this.modificators.push('old');
+					}
+				}).bind(this))
+			;
 		}
 	};
 
@@ -318,11 +337,6 @@ define([
 	ScenarioWidget.prototype._formatStability = function(stability) {
 		stability = parseFloat(stability) * 100.0;
 		return (stability).toFixed(2) + '%';
-	};
-
-	ScenarioWidget.prototype._formatTime = function(time) {
-		time = parseFloat(time) / 1000000000.0;
-		return time.toFixed(3) + 's';
 	};
 
 	ScenarioWidget.prototype.markAsFixed = function() {

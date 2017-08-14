@@ -2,12 +2,14 @@ define([
 	'knockout',
 	'plugins/http',
 	'plugins/router',
+	'services/nightlies',
 
 	'modules/contextMenu/contextMenu'
 ], function(
 	ko,
 	http,
 	router,
+	nightlies,
 
 	contextMenu
 ) {
@@ -23,7 +25,7 @@ define([
 
 	Home.prototype.getData = function() {
 		this.errorMsg('');
-		http.get('/nightlies')
+		nightlies.get()
 			.then(
 				this._onData.bind(this),
 				this._onFailure.bind(this)

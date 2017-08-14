@@ -1,5 +1,5 @@
 {
-	"level": "INFO",
+	"level": "DEBUG",
 	"showTrace": false,
 	"showAllTraces": false,
 	"outputs": [

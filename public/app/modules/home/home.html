@@ -11,10 +11,10 @@
 					<span class="name">Last Executions</span>
 				</a>
 			</dd>
-			<!-- ko foreach: { data: nightlies, as: 'name' } -->
-			<dd class="item nightly" data-bind="css: {active: $root.isRouteActive.call($root, 'nightly/'+name) }">
-				<a data-bind="attr: {href: '#nightly/' + name}" data-testclass="">
-					<span class="name" data-bind="text: name"></span>
+			<!-- ko foreach: { data: nightlies, as: 'nightly' } -->
+			<dd class="item nightly" data-bind="css: {active: $root.isRouteActive.call($root, 'nightly/' + nightly.name) }">
+				<a data-bind="attr: {href: '#nightly/' + nightly.name}" data-testclass="">
+					<span class="name" data-bind="text: nightly.name"></span>
 				</a>
 			</dd>
 			<!-- /ko -->

@@ -116,12 +116,12 @@ button:active {
 label.checkbox {
 	color: #eee;
 }
-ul.context-menu-container {
+dl.context-menu-container {
 	background: linear-gradient(to bottom, #7d7e7d 0%,#0e0e0e 100%);
 	color: #eee;
 	box-shadow: 4px 4px 8px 0px #000;
 }
-ul.context-menu-container li {
+dl.context-menu-container dd {
 	color: #eee;
 }
 

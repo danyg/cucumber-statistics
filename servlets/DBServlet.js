@@ -40,7 +40,7 @@ class DBServlet extends Servlet {
 				.then(_ => parser.parse(req.body))
 				.catch(e => {
 					let err = !e ? 'unknown' : e;
-					LOGGER.error(`Error parsing JSON ERROR:\n\t${err}`);
+					LOGGER.error(`Error parsing JSON ERROR:\n\t${err}`, (err.stack ? '\n\tAT: ' + err.stack : '' ));
 					restResponses.error400(res, err.hasOwnProperty('message') ? err.message : err);
 				} )
 			;

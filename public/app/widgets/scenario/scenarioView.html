@@ -26,11 +26,11 @@
 				">&nbsp;</div>
 				<!-- /ko -->
 
-				<!-- ko if: sideValue() === 'stability' -->
-				<div class="modificator stability" data-bind="text: stabilityLabel(), css: 'stability-'+parseInt(stability()), attr: {title: $widget.dictionary('Stability: ') + stabilityLabel()}"></div>
-				<!-- /ko -->
-				<!-- ko if: sideValue() === 'time' -->
+				<!-- ko if: sideValue() === 'all' || sideValue() === 'time' -->
 				<div class="modificator time" data-bind="text: timeAvg(), attr: {title:  $widget.dictionary('Time Avg: ') + timeAvg()}"></div>
+				<!-- /ko -->
+				<!-- ko if: sideValue() === 'all' || sideValue() === 'stability' -->
+				<div class="modificator stability" data-bind="text: stabilityLabel(), css: 'stability-'+parseInt(stability()), attr: {title: $widget.dictionary('Stability: ') + stabilityLabel()}"></div>
 				<!-- /ko -->
 			</div>
 		</div>

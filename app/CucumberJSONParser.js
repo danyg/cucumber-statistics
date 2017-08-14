@@ -40,7 +40,6 @@ class CucumberJSONParser {
 			this.archive(json)
 				.catch(err => {
 					LOGGER.error(`Error archiving ${this.nighlyId}:${this.nighlyId} on ${file} ERROR:\n\t${err}`);
-					reject(err);
 				})
 			;
 
@@ -56,13 +55,14 @@ class CucumberJSONParser {
 			let dir = `${process.cwd()}/archive`;
 			let file = `${dir}/${this.nighlyId}_${this.buildId}.json.gz`;
 
-			const stat = Promise.promisify(fs.lstat);
+			const stat = Promise.promisify(fs.stat);
 			const mkdir = Promise.promisify(fs.mkdir);
 			const gzip = Promise.promisify(zlib.gzip);
 			const writeFile = Promise.promisify(fs.writeFile);
 
 			stat(dir)
-				.then(stat => !stat.isDirectory() ? mkdir(dir) : true)
+				.catch(_ => mkdir(dir))
+				// .then(stat => !stat.isDirectory() ? mkdir(dir) : true)
 				.then(_ => JSON.stringify(json, null,'\t'))
 				.then(data => gzip(data, {level: zlib.Z_BEST_COMPRESSION}))
 				.then(gziped => writeFile(file, gziped, {flag: 'wx'}))
@@ -133,11 +133,13 @@ class CucumberJSONParser {
 					this._concatResults(currentExecution, resultBefore);
 				}
 
+				let oldID = scenario.id;
 				let id = scenario.id;
 				if(!!scenario.steps) {
 					const resultSteps = this._processSteps(scenario.steps);
 					this._concatResults(currentExecution, resultSteps);
 					id = this._stepsHash;
+					oldID = this._OLDstepsHash;
 				}
 
 				if(!!scenario.after) {
@@ -156,22 +158,19 @@ class CucumberJSONParser {
 
 				LOGGER.debug('');
 				LOGGER.debug('---[ Scenario ] ----------------------------------------------------------------');
-				LOGGER.debug('id: ', id);
+				LOGGER.debug('id: ', scenarioToDB._id);
 				LOGGER.debug('name: ', scenario.name);
+				LOGGER.debug('oldID: ', oldID);
+				LOGGER.debug('status: ', currentExecution.status);
 				LOGGER.debug('');
 				LOGGER.debug(`scenarioTags: ${scenarioToDB.tags.join(', ')}`);
 
 				// LOGGER.debug('>?id', id);
 				this.promises.push(
-					this.scenariosModel.findOne({_id: id})
-						.then(oldScenario => {
-							if(!!oldScenario) {
-								scenarioToDB.userStatus = this._checkRecidivist(currentExecution, oldScenario);
-							}
-
-							return this._pushScenario(scenarioToDB, currentExecution)
-								.then(_ => { LOGGER.debug('Scenario Upserted ', id) ; return _;})
-							;
+					this._pushScenario(oldID, scenarioToDB, currentExecution)
+						.then(_ => {
+							LOGGER.debug('Scenario Upserted ', id) ;
+							return _;
 						})
 				);
 			} else {
@@ -220,7 +219,41 @@ class CucumberJSONParser {
 		// LOGGER.debug(oldScenario._id, '--> ', status, '| last5', last5, '| current', currentExecution.status, 'wasFailed', wasFailed, 'oldScenario.userStatus', oldScenario.userStatus||'UDEF');
 	}
 
-	_pushScenario(scenarioToDB, currentExecution) {
+	_pushScenario(oldID, scenarioToDB, currentExecution) {
+		return this.scenariosModel.findOne({_id: oldID})
+			.then(scenario => (scenario) ? this._replaceOldScenario(scenario, scenarioToDB) : true)
+			.then(_ => this.scenariosModel.findOne({_id: scenarioToDB._id}))
+			.then(storedScenario => {
+				if(storedScenario) {
+					scenarioToDB.userStatus = this._checkRecidivist(
+						currentExecution,
+						storedScenario
+					);
+				}
+			})
+			.then(_ => this._upsertScenario(scenarioToDB, currentExecution))
+		;
+	}
+
+	_replaceOldScenario(scenario, scenarioToDB) {
+		let oldID = scenario._id
+		LOGGER.debug(`OLD scenario found ${scenario.name} ${scenario._id} => ${scenarioToDB._id}`);
+
+		delete scenario._id;
+
+		LOGGER.debug(`Upserting new ID ${scenario._id}`)
+		return this.scenariosModel.update(
+				{_id: scenarioToDB._id},
+				{$set: scenario},
+				{upsert: true} // in case of clone in this execution
+			)
+			.then(_ => LOGGER.debug(`New Id inserted, removing oldID ${oldID}...`))
+			.then(_ => this.scenariosModel.remove({_id: oldID}))
+			.then(_ => LOGGER.debug(`Old Id ${oldID} removed`))
+		;
+	}
+
+	_upsertScenario(scenarioToDB, currentExecution) {
 		return new Promise((resolve, reject) => {
 
 			LOGGER.debug(`Pushing Scenario: ${scenarioToDB.name}`);
@@ -230,6 +263,7 @@ class CucumberJSONParser {
 			LOGGER.debug(`\t # file: ${scenarioToDB.file}`);
 			LOGGER.debug(`\n\t # result: ${JSON.stringify(currentExecution, null,'\t').replace(/\n/g, '\n\t #')}`);
 			LOGGER.debug('');
+
 			const id = scenarioToDB._id;
 			delete scenarioToDB._id;
 
@@ -253,13 +287,9 @@ class CucumberJSONParser {
 
 			this.scenariosModel
 				.update(
-					{
-						_id: id
-					},
+					{_id: id},
 					toSet,
-					{
-						upsert: true
-					}
+					{upsert: true}
 				)
 				.then(_ => resolve(_))
 				.catch(err => {
@@ -283,9 +313,11 @@ class CucumberJSONParser {
 			steps: []
 		};
 
+		this._OLDstepsHash = '';
 		this._stepsHash = '';
 		steps.forEach(this._processStep.bind(this, scenarioResult));
-		this._stepsHash = `dG${coreUtils.sha256(this._stepsHash)}`;
+		this._OLDstepsHash = `dG${coreUtils.sha256(this._OLDstepsHash)}`;
+		this._stepsHash = `dG${coreUtils.sha1(this._stepsHash)}`;
 
 		return scenarioResult;
 	}
@@ -299,14 +331,17 @@ class CucumberJSONParser {
 				step.result.status
 			);
 
-			this._stepsHash += `${id}-${step.name};`;
+			this._OLDstepsHash += `${id}-${step.name};`;
+			var stepArgs = step.hasOwnProperty('arguments') ? step.arguments : [];
+			this._stepsHash += `${step.name}-${JSON.stringify(stepArgs)};`;
 
 			scenarioResult.steps.push({
 				id: id,
 				name: step.name || id,
 				status: step.result.status,
 				keyword: step.keyword || '',
-				extraInfo: this._getStepExtraInfo(step, id)
+				extraInfo: this._getStepExtraInfo(step, id),
+				duration: step.result.duration
 			});
 
 			this.stepsModel.update(

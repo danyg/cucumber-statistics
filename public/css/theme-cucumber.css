@@ -106,7 +106,7 @@ button:active {
 label.checkbox {
 	color: #eee;
 }
-ul.context-menu-container /*li:hover*/ {
+ul.context-menu-container /*dd:hover*/ {
 	background: linear-gradient(to bottom, #0e0e0e 0%,#7d7e7d 100%);
 }
 ul.context-menu-container {
@@ -114,7 +114,7 @@ ul.context-menu-container {
 	color: #eee;
 	box-shadow: 4px 4px 8px 0px #000;
 }
-ul.context-menu-container li {
+ul.context-menu-container dd {
 	color: #eee;
 }
 label.checkbox {

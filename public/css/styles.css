@@ -61,7 +61,7 @@ h1, h2, h3, h4, h5, h6 {
 .clearfix { display: block; }
 /* close commented backslash hack */
 
-ul li {
+dl li {
 	list-style: outside disc;
 	margin-left: 1.5em;
 }
@@ -759,6 +759,10 @@ dd:last-child .scenario.expandable.expanded { margin-bottom: 0px; }
 	padding-right: 5px;
 }
 
+.modificator.stability {
+	min-width: 4em;
+    text-align: right;
+}
 .modificator.new {background: orange;}
 .modificator.new:before {
 	font-family: FontAwesome;
@@ -767,6 +771,15 @@ dd:last-child .scenario.expandable.expanded { margin-bottom: 0px; }
 	padding: 0px 2px 0px 3px;
 }
 .modificator.new:after {content: "NEW!";}
+
+.modificator.old {background: SaddleBrown;}
+.modificator.old:before {
+	font-family: FontAwesome;
+	font-weight: normal;
+	content: "\f187";
+	padding: 0px 2px 0px 3px;
+}
+.modificator.old:after {content: "OLD";}
 
 .modificator.brand-new {background: orange;}
 .modificator.brand-new:before {

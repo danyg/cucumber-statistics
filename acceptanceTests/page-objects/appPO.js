@@ -34,7 +34,9 @@ class AppPO {
 
 	closePreviousServer() {
 		LOGGER.debug(`Shuting down server in port ${TEST_PORT}`)
-		shared.restHttpSO.get(`/admin/shutdown`)
+		return shared.restHttpSO.get(`/admin/shutdown`)
+			.then(_ => shared.utilsSO.waits(500))
+		;
 	}
 
 	closeApp() {

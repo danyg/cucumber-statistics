@@ -29,6 +29,12 @@ ScenariosSearchable.prototype.getFailedByBuildId = function(buildId, cbk) {
 			cbk(new Error(err));
 		} else {
 			Searchable.processDocs(docs);
+			docs = docs.filter(function(item) {
+				return item.clone ||
+					item.lastStatus !== 'passed' // the query just return results
+					// with failed, doesn't check the last result therefore this filter
+				;
+			});
 			cbk(docs.sort(Searchable.sortByMoreFailed));
 		}
 	});

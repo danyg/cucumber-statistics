@@ -38,9 +38,9 @@ class NightliesServlet extends Servlet {
 		nighltiesModel.find().toArray()
 			.then(docs => {
 				if(docs.length > 0) {
-					let listOfNightlies = docs.map(function(item) {
+					let listOfNightlies = docs/*.map(function(item) {
 						return item._id;
-					});
+					});*/
 					LOGGER.debug('returning', listOfNightlies);
 
 					restResponses.ok200(res, listOfNightlies);

@@ -1,15 +1,23 @@
 define([
-	'knockout'
+	'knockout',
+
+	'config/dictionary',
+	'lib/utils'
 ], function(
-	ko
+	ko,
+
+	dictionary,
+	utils
 ) {
 
 	'use strict';
 
 	function ScenarioStepWidget() {
+		this.dictionary = dictionary;
 		this.id = ko.observable();
 		this.name = ko.observable();
 		this.status = ko.observable();
+		this.duration = ko.observable(false);
 		this.keyword = ko.observable();
 		this.images = ko.observableArray();
 		this.output = ko.observable('');
@@ -38,6 +46,7 @@ define([
 		this.id(step.id);
 		this.keyword(step.keyword);
 		this.name(step.name);
+		this.duration(!isNaN(step.duration) ? utils.cucumberTimeToHuman(step.duration,true) : false);
 		if(!!step.extraInfo) {
 			this.output(step.extraInfo.html || '');
 			this.images(step.extraInfo.imgs || []);

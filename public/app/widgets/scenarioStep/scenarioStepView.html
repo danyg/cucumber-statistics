@@ -2,6 +2,12 @@
 	<div class="title clearfix" data-bind="click: toggleExpand.bind($widget)">
 		<div class="keyword" data-bind="text: keyword"></div>
 		<div class="name" data-bind="text: name"></div>
+
+		<!-- ko if: duration() !== false -->
+		<div class="right modificators">
+			<div class="modificator time" data-bind="text: duration(), attr: {title:  $widget.dictionary('Duration: ') + duration()}"></div>
+		</div>
+		<!-- /ko -->
 	</div>
 	<!-- ko if: expandable() -->
 	<div class="panel" data-bind="css: {hidden: !expanded() }">

@@ -22,13 +22,18 @@ Searchable.processDoc = function(doc) {
 		return parseInt(a.buildId, 10) > parseInt(b.buildId, 10);
 	});
 
+	doc.timeAvg = 0;
+	let avgedItems = 0;
+
 	doc.results.forEach(function(item, index) {
 		doc.passed += (item.status === 'passed' ? 1 : 0);
 		doc.failed += (item.status === 'failed' ? 1 : 0);
 		doc.skipped += (item.status === 'skipped' ? 1 : 0);
 
-		timeSum += item.duration;
-		doc.timeAvg = Math.round(timeSum / (index+1));
+		if(!isNaN(item.duration)) {
+			timeSum += item.duration;
+			doc.timeAvg = Math.round(timeSum / (++avgedItems));
+		}
 
 		doc.stability = doc.passed / total;
 		doc.lastStatus = item.status;
@@ -36,7 +41,7 @@ Searchable.processDoc = function(doc) {
 };
 
 Searchable.processDocs = function(docs) {
-	docs.forEach(Searchable.processDoc.bind(null));
+	docs.forEach(Searchable.processDoc.bind(this));
 };
 
 Searchable.sortByMoreFailed = function(a, b) {

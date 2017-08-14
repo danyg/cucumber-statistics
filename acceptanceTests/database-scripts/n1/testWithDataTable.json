@@ -1,0 +1,100 @@
+[
+  {
+    "elements": [
+      {
+        "id": "a-feature-just-to-test-stuff;let-the-test-server-with-a-sample-nightly",
+        "keyword": "Scenario",
+        "line": 4,
+        "name": "let the test server with a sample nightly",
+        "steps": [
+          {
+            "arguments": [],
+            "keyword": "Given ",
+            "name": "the database is populated with \"a sample nightly\"",
+            "result": {
+              "status": "passed",
+              "duration": 554100489
+            },
+            "line": 5,
+            "match": {
+              "location": "/home/daniel/DEVEL/cucumberStatistics/cucumber-statistics/acceptanceTests/step-definitions/generic-givens-steps.js:7"
+            }
+          },
+          {
+            "arguments": [
+              {
+                "rows": [
+                  {
+                    "cells": [
+                      "Column1",
+                      "Column2"
+                    ]
+                  },
+                  {
+                    "cells": [
+                      "Row 1",
+                      "Data"
+                    ]
+                  },
+                  {
+                    "cells": [
+                      "Row 2",
+                      "Data"
+                    ]
+                  },
+                  {
+                    "cells": [
+                      "Row 3",
+                      "Data"
+                    ]
+                  },
+                  {
+                    "cells": [
+                      "Row 4",
+                      "Data"
+                    ]
+                  }
+                ]
+              }
+            ],
+            "keyword": "And ",
+            "name": "receive a data-table",
+            "result": {
+              "status": "passed",
+              "duration": 3902171
+            },
+            "line": 6,
+            "match": {
+              "location": "/home/daniel/DEVEL/cucumberStatistics/cucumber-statistics/acceptanceTests/step-definitions/setup.js:40"
+            }
+          },
+          {
+            "arguments": [],
+            "keyword": "After ",
+            "result": {
+              "status": "passed",
+              "duration": 3179668972
+            },
+            "hidden": true,
+            "match": {
+              "location": "/home/daniel/DEVEL/cucumberStatistics/cucumber-statistics/acceptanceTests/node_modules/selenium-cucumber-js/runtime/world.js:186"
+            }
+          }
+        ],
+        "tags": [
+          {
+            "name": "@ToTest",
+            "line": 3
+          }
+        ],
+        "type": "scenario"
+      }
+    ],
+    "id": "a-feature-just-to-test-stuff",
+    "keyword": "Feature",
+    "line": 1,
+    "name": "a feature just to test stuff",
+    "tags": [],
+    "uri": "/home/daniel/DEVEL/cucumberStatistics/cucumber-statistics/acceptanceTests/features/test.feature"
+  }
+]

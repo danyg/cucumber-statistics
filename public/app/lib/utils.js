@@ -104,6 +104,11 @@ define([
 			}
 
 			return str + (sign < 0 ? ' ago' : '');
+		},
+
+		cucumberTimeToHuman: function(time) {
+			var time = parseFloat(time) / 1000000.0;
+			return this.msToHuman(time, null, true);
 		}
 
 	};

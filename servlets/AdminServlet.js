@@ -30,8 +30,8 @@ class AdminServlet extends Servlet {
 		if(process.send) {
 			try {
 				process.send('SHUTDOWN');
-			} catch(e) {
 				process.exit(0);
+			} catch(e) {
 			}
 		} else {
 			process.exit(0);
