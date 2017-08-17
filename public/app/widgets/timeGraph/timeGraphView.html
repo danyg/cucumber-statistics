@@ -1,6 +1,9 @@
 <dl class="time-graph" data-bind="foreach: { data: results, as: 'execution' }">
 	<dd class="execution" data-bind="css: execution.status">
 		<span class="build-id" data-bind="text: '#'+ execution.buildId"></span>
-		<span class="date"data-bind="text: $parent._parseDate(execution.time)"></span>
+		<span class="date" data-bind="html: $parent._parseDate(execution.time)"></span>
+		<!-- ko if: $parent._formatTime(execution.duration) !== '' -->
+		<span class="modificator time" data-bind="text: $parent._formatTime(execution.duration)"></span>
+		<!-- /ko -->
 	</dd>
 </dl>

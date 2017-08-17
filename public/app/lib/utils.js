@@ -106,8 +106,11 @@ define([
 			return str + (sign < 0 ? ' ago' : '');
 		},
 
-		cucumberTimeToHuman: function(time) {
+		cucumberTimeToHuman: function(time, whenNaN) {
 			var time = parseFloat(time) / 1000000.0;
+			if(isNaN(time)) {
+				return whenNaN !== undefined ? whenNaN : 'unknown';
+			}
 			return this.msToHuman(time, null, true);
 		}
 

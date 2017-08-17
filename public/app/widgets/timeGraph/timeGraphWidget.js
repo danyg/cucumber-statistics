@@ -5,9 +5,13 @@
 * @Last Modified time: 2017-02-25 12:50:12
 */
 define([
-	'knockout'
+	'knockout',
+
+	'lib/utils'
 ], function(
-	ko
+	ko,
+
+	utils
 ) {
 
 	'use strict';
@@ -35,7 +39,11 @@ define([
 			return '';
 		}
 		var d = new Date(timestamp);
-		return DoW[d.getDay()] + ', ' + fZ(d.getDate()) + '/' + fZ(d.getMonth()+1) + '/' + d.getFullYear() + ' ' + fZ(d.getHours()) + ':' + fZ(d.getMinutes());
+		return DoW[d.getDay()] + '<br/> ' + fZ(d.getDate()) + '/' + fZ(d.getMonth()+1) + '/' + d.getFullYear() + ' ' + fZ(d.getHours()) + ':' + fZ(d.getMinutes());
+	};
+
+	TimeGraph.prototype._formatTime = function(time) {
+		return utils.cucumberTimeToHuman(time, '');
 	};
 
 	return TimeGraph;

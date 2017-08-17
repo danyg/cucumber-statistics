@@ -1,6 +1,7 @@
 define([
 	'knockout',
 	'durandal/system',
+	'durandal/events',
 	'jquery',
 	'plugins/http',
 
@@ -8,6 +9,7 @@ define([
 ], function(
 	ko,
 	system,
+	Events,
 	$,
 	http,
 
@@ -17,6 +19,8 @@ define([
 	'use strict';
 
 	function ContainerWidget() {
+		this._ready = false;
+
 		this.title = ko.observable();
 		this.scenarios = ko.observableArray();
 		this._isLoading = ko.observable(false);
@@ -53,6 +57,16 @@ define([
 			this.hiddenScenariosLength(lHidden);
 		}).bind(this));
 	}
+
+	Events.includeIn(ContainerWidget.prototype);
+
+	ContainerWidget.prototype.onReady = function(cbk) {
+		if(!this._ready) {
+			this.on('ready', cbk);
+		} else {
+			cbk();
+		}
+	};
 
 	ContainerWidget.prototype.activate = function(settings) {
 		settings.bindingContext.$widget = this;
@@ -104,6 +118,8 @@ define([
 
 	ContainerWidget.prototype.compositionComplete = function() {
 		this._isLoading(false);
+		this._ready = true;
+		this.trigger('ready');
 	};
 
 	ContainerWidget.prototype.toggleExpand = function() {
@@ -159,11 +175,13 @@ define([
 	};
 
 	ContainerWidget.prototype.showAllScenarios = function() {
-		this.scenarios().forEach(function(scenario) {
-			if(!!scenario._widget) {
-				scenario._widget.filterIn();
-			}
-		});
+		if(this.scenarios() !== null) {
+			this.scenarios().forEach(function(scenario) {
+				if(!!scenario._widget) {
+					scenario._widget.filterIn();
+				}
+			});
+		}
 	};
 
 	ContainerWidget.prototype.showScenariosByTags = function(includedTags, excludedTags) {

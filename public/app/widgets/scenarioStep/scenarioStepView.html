@@ -3,11 +3,16 @@
 		<div class="keyword" data-bind="text: keyword"></div>
 		<div class="name" data-bind="text: name"></div>
 
-		<!-- ko if: duration() !== false -->
-		<div class="right modificators">
-			<div class="modificator time" data-bind="text: duration(), attr: {title:  $widget.dictionary('Duration: ') + duration()}"></div>
-		</div>
-		<!-- /ko -->
+		<dl class="right modificators" data-bind="foreach: { data: modificators, as: 'mod' }">
+			<dd class="modificator" data-bind="
+				css: mod.getType(),
+				html: mod.getText(),
+				attr: {
+					title: mod.getTitle()
+				}
+			"></dd>
+		</dl>
+
 	</div>
 	<!-- ko if: expandable() -->
 	<div class="panel" data-bind="css: {hidden: !expanded() }">

@@ -77,10 +77,12 @@ define([
 			}).bind(this));
 
 			this._containerWidget.forEach((function(container){
-				container.showScenariosByTags(
-					this.includedTags(),
-					this.excludedTags()
-				)
+				container.onReady((function(){
+					container.showScenariosByTags(
+						this.includedTags(),
+						this.excludedTags()
+					);
+				}).bind(this))
 			}).bind(this));
 
 			this._filterActivated(true);

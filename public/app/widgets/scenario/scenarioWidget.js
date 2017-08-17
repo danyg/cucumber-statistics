@@ -217,10 +217,7 @@ define([
 		this.stability(this._formatStability(scenario.stability));
 		this.stabilityLabel(this.stability());
 
-		this.timeAvg(!!scenario.timeAvg ?
-			utils.cucumberTimeToHuman(scenario.timeAvg) :
-			'unknown'
-		);
+		this.timeAvg(utils.cucumberTimeToHuman(scenario.timeAvg));
 
 		if(scenario.hasOwnProperty('aliases') && scenario.aliases.length > 1) {
 			this.aliases(scenario.aliases)

@@ -1,11 +1,13 @@
 define([
 	'knockout',
 
+	'lib/Modificator',
 	'config/dictionary',
 	'lib/utils'
 ], function(
 	ko,
 
+	Modificator,
 	dictionary,
 	utils
 ) {
@@ -23,18 +25,17 @@ define([
 		this.output = ko.observable('');
 		this.expanded = ko.observable(false);
 
-		var me = this;
-		this.expandable = ko.computed(function() {
-			return (me.output().length || me.images().length > 0);
-		});
-		this.cssClasses = ko.computed(function() {
-			return me.status()
-				+ (me.images().length > 0 ? ' with-image' : '')
-				+ (me.output().length > 0 ? ' with-output' : '')
-				+ (me.expandable() ? ' expandable important' : ' not-important')
-				+ (me.expanded() ? ' expanded' : '')
+		this.modificators = ko.observableArray([]);
+
+		this.expandable = ko.computed((function() {
+			return (this.output().length || this.images().length > 0);
+		}).bind(this));
+		this.cssClasses = ko.computed((function() {
+			return this.status()
+				+ (this.expandable() ? ' expandable important' : ' not-important')
+				+ (this.expanded() ? ' expanded' : '')
 			;
-		});
+		}).bind(this));
 	}
 
 	ScenarioStepWidget.prototype.activate = function(settings) {
@@ -53,6 +54,8 @@ define([
 		}
 
 		this.status(step.status);
+
+		this._processModificators();
 
 		return true;
 	};
@@ -73,6 +76,25 @@ define([
 			panel.css('height', 'initial');
 		}
 
+	};
+
+	ScenarioStepWidget.prototype._processModificators = function() {
+		if(this.images().length > 0) {
+			this.modificators.push(new Modificator('with-image'));
+		}
+		if(this.output().length > 0) {
+			this.modificators.push(new Modificator('with-output'));
+		}
+
+
+
+		if(this.duration()) {
+			var dur = new Modificator('time');
+			dur.setText(this.duration())
+				.setTitle('Duration: ' + this.duration())
+			;
+			this.modificators.push(dur);
+		}
 	};
 
 	return ScenarioStepWidget;

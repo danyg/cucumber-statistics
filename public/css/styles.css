@@ -329,25 +329,6 @@ dl.description {
 	opacity: .9;
 }
 
-.with-image {
-	background-image: url('image.gif');
-	background-position: 99% .3em;
-	background-repeat: no-repeat;
-	background-origin: padding-box;
-}
-
-.with-output {
-	background-image: url('information.png');
-	background-position: 99% .3em;
-	background-repeat: no-repeat;
-	background-origin: padding-box;
-}
-
-.with-output.with-image {
-	background-image: url('information.png'), url('image.gif');
-	background-position: 97% .3em, 99% .3em;
-}
-
 .output {
 	background: #222;
 	color: #eee;
@@ -529,6 +510,7 @@ dl.context-menu-container dd.context-menu-submenu:hover > dl {
 	display: -webkit-flex;
 	display: flex;
 	flex-flow:row;
+
 	min-height: 50px;
 	width:100%;
 
@@ -540,12 +522,10 @@ dl.context-menu-container dd.context-menu-submenu:hover > dl {
 }
 
 .time-graph .execution {
-	font-size:22px;
 	flex: 1;
 	-webkit-flex: 1;
 	text-align: center;
-	min-width: 6em;
-	max-width: 8em;
+	min-width: 9em;
 
 	display: -webkit-box;
 	display: -moz-box;
@@ -559,8 +539,11 @@ dl.context-menu-container dd.context-menu-submenu:hover > dl {
 	box-sizing: border;
 }
 
+.time-graph .execution .build-id {
+	font-size: 1.4em;
+}
 .time-graph .execution .date {
-	font-size: 11px;
+	font-size: .8em;
 }
 
 .copy-clipboard {
@@ -740,6 +723,7 @@ dd:last-child .scenario.expandable.expanded { margin-bottom: 0px; }
 	0% {color: orange;}
 }
 
+.modificator,
 .modificators .modificator {
 	display: inline-block;
 	border-radius: 8px;
@@ -752,9 +736,27 @@ dd:last-child .scenario.expandable.expanded { margin-bottom: 0px; }
 	text-shadow: 1px 1px black;
 }
 
-.modificator.time:before {
+.modificator.old:before,
+.modificator.new:before,
+.modificator.brand-new:before,
+.modificator.with-output:before,
+.modificator.with-image:before,
+.modificator.time:before,
+.modificator.clon:before,
+.modificator.user:before,
+
+.modificator.auto-recidivist:before,
+.modificator.recidivist:before,
+
+.modificator.icon:before {
 	font-family: FontAwesome;
 	font-weight: normal;
+	padding: 0px 2px 0px 3px;
+
+	content: "\f187";
+}
+
+.modificator.time:before {
 	content: '\f017';
 	padding-right: 5px;
 }
@@ -763,54 +765,35 @@ dd:last-child .scenario.expandable.expanded { margin-bottom: 0px; }
 	min-width: 4em;
     text-align: right;
 }
+
 .modificator.new {background: orange;}
-.modificator.new:before {
-	font-family: FontAwesome;
-	font-weight: normal;
-	content: "\f12a";
-	padding: 0px 2px 0px 3px;
-}
+.modificator.new:before {content: "\f12a";}
 .modificator.new:after {content: "NEW!";}
 
 .modificator.old {background: SaddleBrown;}
-.modificator.old:before {
-	font-family: FontAwesome;
-	font-weight: normal;
-	content: "\f187";
-	padding: 0px 2px 0px 3px;
-}
+.modificator.old:before {content: "\f187";}
 .modificator.old:after {content: "OLD";}
 
 .modificator.brand-new {background: orange;}
-.modificator.brand-new:before {
-	font-family: FontAwesome;
-	font-weight: normal;
-	content: "\f12a";
-	padding: 0px 2px 0px 3px;
-}
+.modificator.brand-new:before {content: "\f12a";}
 .modificator.brand-new:after {content: "BRAND NEW!";}
 
+.modificator.with-output {background: CadetBlue;}
+.modificator.with-output:before {content: "\f0f6";}
+
+.modificator.with-image { background: DarkOliveGreen; }
+.modificator.with-image:before {content: "\f03e";}
+
 .modificator.clon {background: FireBrick;}
-.modificator.clon:before {
-	font-family: FontAwesome;
-	font-weight: normal;
-	content: "\f0c5";
-	padding: 0px 2px 0px 3px;
-}
+.modificator.clon:before {content: "\f0c5";}
 .modificator.clon:after {content: "CLON";}
 
 .modificator.auto-recidivist,
 .modificator.recidivist { background: orange; }
 .modificator.auto-recidivist:before,
-.modificator.recidivist:before {
-	font-family: FontAwesome;
-	font-weight: normal;
-	content: "\f071";
-}
+.modificator.recidivist:before {content: "\f071";}
 
 .modificator.user:before {
-	font-family: FontAwesome;
-	font-weight: normal;
 	content: "\f007";
 	padding-right: 5px;
 }
