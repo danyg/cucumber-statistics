@@ -119,6 +119,29 @@ define([
 	ContainerWidget.prototype.compositionComplete = function() {
 		this._isLoading(false);
 		this._ready = true;
+
+		if(this.scenarios() !== null && this._settings.method !== 'getMostTimeConsuming') {
+			var CLON = 1000000,
+				OLD = -10000,
+				NEW = 1000,
+				RECIDIVIST = 500
+			;
+			var getScore = function(item) {
+				var s = (item._widget.is('clon') ? CLON : 0) +
+						(item._widget.is('old') ? OLD : 0) +
+						(item._widget.is('new') ? NEW : 0) +
+						(item._widget.is('auto-recidivist') ? RECIDIVIST : 0) +
+						(item._widget.is('recidivist') ? RECIDIVIST : 0) +
+						item.stability*-100
+				;
+				return s;
+			}
+
+			this.scenarios.sort((function(a,b){
+				return getScore(b) - getScore(a);
+			}).bind(this));
+		}
+
 		this.trigger('ready');
 	};
 

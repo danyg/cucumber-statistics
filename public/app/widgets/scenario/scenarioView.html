@@ -88,7 +88,7 @@
 				<dd><strong>Skipped: </strong><span data-bind="text: scenario().skipped"></span> times</li>
 			</dl>
 
-			<!-- ko widget: { kind: 'timeGraph', results: results } --><!-- /ko -->
+			<!-- ko widget: { kind: 'timeGraph', maxDuration: scenario().maxDuration, results: results } --><!-- /ko -->
 
 			<dl class="itemised-list steps-container" data-bind="foreach: { data: steps, as: 'step' }">
 				<!-- ko widget: { kind: 'scenarioStep', step: step } -->

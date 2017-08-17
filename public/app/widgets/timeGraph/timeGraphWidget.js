@@ -27,7 +27,16 @@ define([
 	}
 
 	TimeGraph.prototype.activate = function(settings) {
+
 		this.results(ko.unwrap(settings.results));
+
+		this.results()
+			.forEach(function(r){
+				r.relDuration = isNaN(r.duration) ? 0 :
+					parseInt((r.duration * 100) / settings.maxDuration, 10)
+				;
+			})
+		;
 	};
 
 	TimeGraph.prototype.attached = function(view) {

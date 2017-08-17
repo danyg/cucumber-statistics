@@ -226,6 +226,21 @@ define([
 
 	ScenarioWidget.prototype._processModificators = function() {
 		var scenario = this.scenario();
+
+		if(this.nightlyId()) {
+			nightliesService.getNightlyById(this.nightlyId())
+				.then((function(nightly){
+					var lastResult = scenario.results[scenario.results.length-1];
+					if(lastResult.buildId !== nightly.lastBuildId) {
+						this.modificators.push('old');
+
+						this.modificators.remove('new');
+						this.modificators.remove('brand-new');
+					}
+				}).bind(this))
+			;
+		}
+
 		if(!!scenario.results && scenario.results[scenario.results.length-1].status === 'failed') {
 			// current is failed
 			if(scenario.results.length > 1) {
@@ -249,16 +264,10 @@ define([
 			this.modificators.push('clon');
 		}
 
-		if(this.nightlyId()) {
-			nightliesService.getNightlyById(this.nightlyId())
-				.then((function(nightly){
-					var lastResult = scenario.results[scenario.results.length-1];
-					if(lastResult.buildId !== nightly.lastBuildId) {
-						this.modificators.push('old');
-					}
-				}).bind(this))
-			;
-		}
+	};
+
+	ScenarioWidget.prototype.is = function(mod) {
+		return this.modificators.indexOf(mod) !== -1;
 	};
 
 	ScenarioWidget.prototype.attached = function(view) {

@@ -17,15 +17,17 @@ Searchable.processDoc = function(doc) {
 	doc.failed = 0;
 	doc.skipped = 0;
 	doc.lastStatus = 'unknown';
+	doc.maxDuration = 0;
 
 	doc.results = doc.results.sort(function(a , b) {
-		return parseInt(a.buildId, 10) > parseInt(b.buildId, 10);
+		return parseInt(a.buildId, 10) - parseInt(b.buildId, 10);
 	});
 
 	doc.timeAvg = 0;
 	let avgedItems = 0;
 
 	doc.results.forEach(function(item, index) {
+		doc.maxDuration = doc.maxDuration < item.duration ? item.duration : doc.maxDuration;
 		doc.passed += (item.status === 'passed' ? 1 : 0);
 		doc.failed += (item.status === 'failed' ? 1 : 0);
 		doc.skipped += (item.status === 'skipped' ? 1 : 0);
@@ -51,7 +53,6 @@ Searchable.sortByMoreFailed = function(a, b) {
 Searchable.sortByTime = function(a, b) {
 	return b.timeAvg - a.timeAvg;
 }
-
 
 Searchable.prototype.getAll = function(cbk) {
 	this.model.find().toArray(
