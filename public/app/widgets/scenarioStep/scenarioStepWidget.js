@@ -47,7 +47,7 @@ define([
 		this.id(step.id);
 		this.keyword(step.keyword);
 		this.name(step.name);
-		this.duration(!isNaN(step.duration) ? utils.cucumberTimeToHuman(step.duration,true) : false);
+		this.duration(utils.cucumberTimeToHuman(step.duration, false));
 		if(!!step.extraInfo) {
 			this.output(step.extraInfo.html || '');
 			this.images(step.extraInfo.imgs || []);
