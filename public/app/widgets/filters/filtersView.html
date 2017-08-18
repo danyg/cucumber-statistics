@@ -1,13 +1,52 @@
 <div class="tag-filters" data-testid="filters_container">
-	<input data-bind="value: $widget.filterFilter, valueUpdate:'keyup'" placeholder="Filter Tags">
-
-	<dl class="tags-list" data-bind="foreach: {data: $widget.tags, as: 'tag'}, visible: $widget.filterActivated">
-		<dd data-bind="attr: {rel: tag.substr(1)}">
-			<label class="checkbox" data-bind="attr: {title: tag, for: 'checkbox_' + tag.substr(1) + '_in'}">
-				<input type="checkbox" class="filter-checkbox include-checkbox" data-bind="testId: ['tagFilter', 'filterIn', tag], checkedValue: tag, checked: $widget.includedTags, attr: {id: 'checkbox_' + tag.substr(1) + '_in'}" />
-				<input type="checkbox" class="filter-checkbox exclude-checkbox" data-bind="testId: ['tagFilter', 'filterOut', tag], checkedValue: tag, checked: $widget.excludedTags" />
-				<span data-bind="text: tag"></span>
-			</label>
+	<dl class="filters">
+		<dd class="filter">
+			<span class="in-amount">100</span>
+			<dl class="filter-tags">
+				<dd class="filter-tag tag-excludes">
+					<span class="tag-action"></span>
+					<span class="tag-name">@Quarantine</span>
+				</dd>
+			</dl>
+			<span class="out-amount">50</span>
+		</dd>
+		<dd class="filter">
+			<span class="in-amount">50</span>
+			<dl class="filter-tags">
+				<dd class="filter-tag tag-includes">
+					<span class="tag-action"></span>
+					<span class="tag-name">@HappyPath</span>
+				</dd>
+				<dd class="filter-tag tag-includes">
+					<span class="tag-action"></span>
+					<span class="tag-name">@HappyPath</span>
+				</dd>
+			</dl>
+			<span class="out-amount">10</span>
+		</dd>
+		<dd class="filter">
+			<span class="in-amount">10</span>
+			<dl class="filter-tags">
+				<dd class="filter-tag tag-includes">
+					<span class="tag-action"></span>
+					<span class="tag-name">@HappyPath</span>
+				</dd>
+			</dl>
+			<span class="out-amount">1</span>
 		</dd>
 	</dl>
+	<div class="tags-menu">
+
+		<input data-bind="value: $widget.filterFilter, valueUpdate:'keyup'" placeholder="Filter Tags">
+
+		<dl class="tags-list" data-bind="foreach: {data: $widget.tags, as: 'tag'}, visible: $widget.filterActivated">
+			<dd data-bind="attr: {rel: tag.substr(1)}">
+				<label class="checkbox" data-bind="attr: {title: tag, for: 'checkbox_' + tag.substr(1) + '_in'}">
+					<input type="checkbox" class="filter-checkbox include-checkbox" data-bind="testId: ['tagFilter', 'filterIn', tag], checkedValue: tag, checked: $widget.includedTags, attr: {id: 'checkbox_' + tag.substr(1) + '_in'}" />
+					<input type="checkbox" class="filter-checkbox exclude-checkbox" data-bind="testId: ['tagFilter', 'filterOut', tag], checkedValue: tag, checked: $widget.excludedTags" />
+					<span data-bind="text: tag"></span>
+				</label>
+			</dd>
+		</dl>
+	</div>
 </div>
