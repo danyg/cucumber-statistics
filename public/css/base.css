@@ -1,0 +1,115 @@
+* {
+	margin: 0;
+	padding: 0;
+
+	transition: opacity 150ms,
+		height 400ms,
+		background-color 150ms,
+		margin 300ms,
+		padding 0ms,
+		width 300ms,
+		height 300ms
+	;
+}
+
+html, body {
+	height: 100%;
+	margin: 0;
+	padding: 0;
+}
+
+h1, h2, h3, h4, h5, h6 {
+	padding: 12px 6px;
+}
+
+.clearfix:after {
+	visibility: hidden;
+	display: block;
+	font-size: 0;
+	content: " ";
+	clear: both;
+	height: 0;
+}
+.clearfix { display: inline-block; }
+/* start commented backslash hack \*/
+* html .clearfix { height: 1%; }
+.clearfix { display: block; }
+/* close commented backslash hack */
+
+dl li {
+	list-style: outside disc;
+	margin-left: 1.5em;
+}
+
+label.checkbox {
+	line-height: 2em;
+}
+label.checkbox input[type="checkbox"] {
+	top: 2px;
+	position: relative;
+}
+
+button {
+	border-radius: 12px;
+	border: solid 2px #222;
+	padding: 10px;
+	font-weight: bold;
+	margin: 0px 0px 5px;
+	cursor: pointer;
+	background: #ddd;
+}
+
+button:hover {
+	background: #ccc;
+}
+
+button:active {
+	background: #bbb;
+}
+button:focus {outline:0;}
+
+button[disabled] {
+	cursor: not-allowed;
+	opacity: .7;
+}
+
+.hidden {
+	opacity: 0 !important;
+	height: 0px !important;
+	width: 0px !important;
+	overflow: hidden !important;
+	padding: 0px !important;
+	margin: 0px !important;
+	border: 0px !important;
+	min-height: 0px !important;
+	min-width: 0px !important;
+}
+
+.hidden.no-trans{
+	transition: none !important;
+}
+
+.not-important {
+	opacity: .8;
+}
+.important {
+	opacity: .9;
+}
+
+.output {
+	background: #222;
+	color: #eee;
+	padding: .5em;
+	overflow: auto;
+	max-height: 20em;
+}
+
+.red    {background: FireBrick !important;}
+.green  {background: DarkGreen !important;}
+.blue   {background: blue !important;}
+.coral  {background: coral !important;}
+.lime   {background: Lime !important;}
+.cyan   {background: CornflowerBlue !important;}
+.gold   {background: GoldenRod !important;}
+.violet {background: DarkViolet !important;}
+.indigo {background: Indigo !important;}

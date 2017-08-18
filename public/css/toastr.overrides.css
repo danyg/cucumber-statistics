@@ -1,0 +1,15 @@
+.toastr-warning,
+.warning {
+	background: linear-gradient(to bottom, #f9c667 0%,#f79621 100%);
+	color: #222;
+}
+
+.toastr-error,
+.error{
+	background: linear-gradient(to bottom, #ffa095 0%,#fc7878 100%);
+	color: #222;
+}
+
+.toast-top-right {
+	top: 3em;
+}

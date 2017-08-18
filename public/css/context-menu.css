@@ -1,0 +1,69 @@
+#contextMenu {
+
+}
+#contextMenu .context-menu-blockout{
+	position: fixed;
+	top:0;
+	left:0;
+	width: 100%;
+	height: 100%;
+	z-index: 20000;
+}
+
+dl.context-menu-container {
+	list-style: none;
+	background: #ddd;
+	color: #222;
+	padding: 0;
+
+	position: absolute;
+
+	width: 200px;
+}
+
+dl.context-menu-container dd {
+	padding: .5em .5em .3em .5em;
+	cursor: pointer;
+	line-height: 1.2em;
+}
+dl.context-menu-container dd:hover {
+	background: rgba(0,0,0,.2);
+}
+
+dl.context-menu-container dd .name {
+	display: inline-block;
+	max-width: 95%;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	overflow: hidden;
+	line-height: 1.2em;
+}
+
+dl.context-menu-container /*dd:hover*/ {
+}
+
+dl.context-menu-container dd.context-menu-submenu {
+	position: relative;
+}
+dl.context-menu-container dd.context-menu-submenu:after {
+	display: inline-block;
+	float: right;
+	content: '>';
+}
+
+dl.context-menu-container dd.context-menu-submenu > dl {
+	display: none;
+}
+
+dl.context-menu-container dd.context-menu-submenu:hover > dl {
+	display: inherit;
+	left: 100%;
+	top: 0;
+}
+
+.context-menu-rtl dl.context-menu-container dd.context-menu-submenu:hover > dl {
+	display: inherit;
+	left: inherit;
+	right: 100%;
+	top: 0;
+}
