@@ -1,10 +1,9 @@
 {
   "name": "cucumber-statistics",
-  "version": "0.0.10",
+  "version": "0.0.11",
   "description": "A cucumber standalone tests based statistics server.",
   "main": "main.js",
   "scripts": {
-    "install": "cd public && bower install && cd ..",
     "test": "node ./.scripts/test.js",
     "toTest": "node ./.scripts/toTest.js",
     "testServer": "cd acceptanceTests && node testServer && cd ..",
@@ -30,6 +29,7 @@
     "body-parser": "~1.14.1",
     "commander": "^2.11.0",
     "connect-gzip-static": "git+https://github.com/danyg/connect-gzip-static.git",
+    "durandal": "^2.2.0",
     "express": "~4.13.3",
     "express-logger": "0.0.3",
     "knockout-sortablejs": "^0.1.0",
@@ -39,6 +39,7 @@
     "q": "~1.4.1",
     "require-css": "^0.1.10",
     "sanitize-filename": "~1.5.3",
+    "sortablejs": "^1.6.0",
     "toastr": "^2.1.2",
     "ws": "^3.1.0"
   }

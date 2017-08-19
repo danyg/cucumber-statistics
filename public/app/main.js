@@ -2,24 +2,25 @@
 
 	'use strict';
 
-	var BCDIR = '../bower_components';
 	var VDIR = '../vendor';
 	requirejs.config({
 		baseUrl: '/app',
 		paths: {
-			durandal: BCDIR + '/Durandal/js',
-			plugins: BCDIR + '/Durandal/js/plugins',
-			transitions: BCDIR + '/Durandal/js/transitions',
+			durandal: VDIR + '/durandal/js',
+			plugins: VDIR + '/durandal/js/plugins',
+			transitions: VDIR + '/durandal/js/transitions',
 
-			knockout: BCDIR + '/knockout.js/knockout.debug',
-			jquery: BCDIR + '/jquery/jquery.min',
+			jquery: VDIR + '/jquery/dist/jquery.min',
 
-			text: BCDIR + '/requirejs-text/text',
+			text: VDIR + '/requirejs-text/text',
 
+			knockout: VDIR + '/knockout/build/output/knockout-latest',
+			// knockout: VDIR + '/knockout/build/output/knockout-latest.debug',
 			css: VDIR + '/require-css/css.min',
 
 			toastr: VDIR + '/toastr/build/toastr.min',
-			'knockout-sortablejs': VDIR + '/knockout-sortable/knockout-sortable'
+			'knockout-sortablejs': VDIR + '/knockout-sortablejs/knockout-sortable',
+			'Sortable': VDIR + '/sortablejs/Sortable.min'
 		}
 	});
 
