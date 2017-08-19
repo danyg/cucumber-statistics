@@ -134,19 +134,19 @@
 	font-weight: normal;
 }
 
-.tag-filters .filter .filter-tags .filter-tag.tag-excludes {
+.tag-filters .filter .filter-tags .filter-tag.tag-includes {
 	background: lightgreen linear-gradient(to bottom, #d2ff52 0%,#91e842 100%);
 	color: #222;
 }
 
-.tag-filters .filter .filter-tags .filter-tag.tag-excludes .tag-action:before {
+.tag-filters .filter .filter-tags .filter-tag.tag-includes .tag-action:before {
 	content: "\f067";
 }
 
-.tag-filters .filter .filter-tags .filter-tag.tag-includes {
+.tag-filters .filter .filter-tags .filter-tag.tag-excludes {
 	background: lightpink linear-gradient(to bottom, #a90329 0%,#8f0222 44%,#6d0019 100%);
 	color: #fff;
 }
-.tag-filters .filter .filter-tags .filter-tag.tag-includes .tag-action:before {
+.tag-filters .filter .filter-tags .filter-tag.tag-excludes .tag-action:before {
 	content: "\f068";
 }

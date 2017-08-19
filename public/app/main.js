@@ -14,8 +14,8 @@
 
 			text: VDIR + '/requirejs-text/text',
 
-			knockout: VDIR + '/knockout/build/output/knockout-latest',
-			// knockout: VDIR + '/knockout/build/output/knockout-latest.debug',
+			// knockout: VDIR + '/knockout/build/output/knockout-latest',
+			knockout: VDIR + '/knockout/build/output/knockout-latest.debug',
 			css: VDIR + '/require-css/css.min',
 
 			toastr: VDIR + '/toastr/build/toastr.min',

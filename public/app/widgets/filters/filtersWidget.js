@@ -1,12 +1,17 @@
 define([
 	'knockout',
 
-	'lib/utils'
+	'./Filter',
+
+	'lib/utils',
+	'knockout-sortablejs'
 ], function (
 	ko,
-	// sortable,
+
+	Filter,
 
 	utils
+	// ,sortable,
 ) {
 
 	'use strict';
@@ -34,6 +39,16 @@ define([
 
 		this.filterFilter.subscribe(this._filterShownTags.bind(this));
 		this._subscriptions = [];
+
+		this.filter = Filter.ROOT;
+		this.filter.add(new Filter('@Quarantine', Filter.ACTION_RMV))
+		this.filter.add(new Filter([
+			new Filter('@CreditCard', Filter.ACTION_ADD),
+			new Filter('@Invoice', Filter.ACTION_ADD)
+		]));
+		this.filter.add(new Filter('@HappyPath', Filter.ACTION_ADD));
+
+		window.FILTER = this.filter;
 	}
 
 	Filters.prototype.activate = function(settings) {

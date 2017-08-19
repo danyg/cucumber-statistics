@@ -1,40 +1,26 @@
 <div class="tag-filters" data-testid="filters_container">
-	<dl class="filters">
+	<dl class="filters" data-bind="sortable: {
+		foreach: filter.filters,
+		options: {'group': 'filters'}
+	}">
 		<dd class="filter">
-			<span class="in-amount">100</span>
-			<dl class="filter-tags">
-				<dd class="filter-tag tag-excludes">
-					<span class="tag-action"></span>
-					<span class="tag-name">@Quarantine</span>
+			<span class="in-amount" data-bind="text: $data.getInLength()"></span>
+			<dl class="filter-tags" data-bind="sortable: {
+				foreach: $data.filters,
+				options: {'group': 'filters'}
+			}">
+				<dd class="filter-tag" data-bind="css: {
+					'tag-includes': $data.action() === $data.ACTION_ADD,
+					'tag-excludes': $data.action() === $data.ACTION_RMV
+				}">
+					<span class="tag-action" data-bind="click: $data.toggleAction.bind($data)"></span>
+					<span class="tag-name" data-bind="text: $data.tag"></span>
 				</dd>
 			</dl>
-			<span class="out-amount">50</span>
-		</dd>
-		<dd class="filter">
-			<span class="in-amount">50</span>
-			<dl class="filter-tags">
-				<dd class="filter-tag tag-includes">
-					<span class="tag-action"></span>
-					<span class="tag-name">@HappyPath</span>
-				</dd>
-				<dd class="filter-tag tag-includes">
-					<span class="tag-action"></span>
-					<span class="tag-name">@HappyPath</span>
-				</dd>
-			</dl>
-			<span class="out-amount">10</span>
-		</dd>
-		<dd class="filter">
-			<span class="in-amount">10</span>
-			<dl class="filter-tags">
-				<dd class="filter-tag tag-includes">
-					<span class="tag-action"></span>
-					<span class="tag-name">@HappyPath</span>
-				</dd>
-			</dl>
-			<span class="out-amount">1</span>
+			<span class="out-amount" data-bind="text: $data.getOutLength()"></span>
 		</dd>
 	</dl>
+
 	<div class="tags-menu">
 
 		<input data-bind="value: $widget.filterFilter, valueUpdate:'keyup'" placeholder="Filter Tags">
